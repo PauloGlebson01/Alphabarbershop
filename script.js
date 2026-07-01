@@ -1684,7 +1684,7 @@ document.addEventListener("DOMContentLoaded", function () {
         qrContainer.innerHTML = "";
         try {
             new QRCode(qrContainer, {
-                text: window.location.origin,
+                text: "https://alphabarbershop.vercel.app",
                 width: 256,
                 height: 256,
                 colorDark: "#2199EF",

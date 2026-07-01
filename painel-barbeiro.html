@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#2199EF">
+    <title>Painel do Barbeiro | Alpha BarberShop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="painel-barbeiro.css">
+    <link rel="icon" type="image/png" href="assets/barber.icon.png">
+</head>
+
+<body>
+
+    <div class="painel-container">
+        <aside class="sidebar-barbeiro">
+            <div class="sidebar-header">
+                <!-- IMAGEM DINÂMICA - será preenchida pelo JavaScript -->
+                <img id="barbeiroFoto" src="assets/barber-perfil.png" alt="Logo" class="sidebar-logo">
+                <h2>Alpha BarberShop</h2>
+                <span class="barbeiro-nome" id="barbeiroNome">Carregando...</span>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item active" data-page="dashboard">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li class="nav-item" data-page="agenda">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <span>Minha Agenda</span>
+                    </li>
+                    <li class="nav-item" data-page="servicos">
+                        <i class="fa-solid fa-cut"></i>
+                        <span>Meus Serviços</span>
+                    </li>
+                    <li class="nav-item" data-page="comissoes">
+                        <i class="fa-solid fa-coins"></i>
+                        <span>Minhas Comissões</span>
+                    </li>
+                    <li class="nav-item" data-page="metas">
+                        <i class="fa-solid fa-bullseye"></i>
+                        <span>Minhas Metas</span>
+                    </li>
+                    <li class="nav-item" data-page="perfil">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Meu Perfil</span>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="btnLogout" class="btn-logout">
+                    <i class="fa-solid fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="conteudo-principal">
+            <header class="topbar-barbeiro">
+                <button id="mobileMenuBtn" class="mobile-menu-btn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="topbar-info">
+                    <span id="dataAtual"></span>
+                    <span id="horaAtual"></span>
+                </div>
+            </header>
+
+            <div class="container-fluid" id="conteudoDinamico">
+                <!-- Conteúdo será carregado dinamicamente -->
+                <div class="loading">Carregando...</div>
+            </div>
+        </main>
+    </div>
+
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg"></span>
+    </div>
+
+    <script type="module" src="painel-barbeiro.js"></script>
+
+    <script>
+        (function () {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const sidebar = document.querySelector('.sidebar-barbeiro');
+            
+            if (mobileMenuBtn && sidebar) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    sidebar.classList.toggle('mobile-open');
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && !sidebar.contains(e.target) && e.target !== mobileMenuBtn) {
+                        sidebar.classList.remove('mobile-open');
+                    }
+                });
+            }
+            
+            // Atualizar data e hora
+            function atualizarDataHora() {
+                const dataAtual = document.getElementById('dataAtual');
+                const horaAtual = document.getElementById('horaAtual');
+                
+                if (dataAtual && horaAtual) {
+                    const agora = new Date();
+                    dataAtual.textContent = agora.toLocaleDateString('pt-BR');
+                    horaAtual.textContent = agora.toLocaleTimeString('pt-BR');
+                }
+            }
+            
+            atualizarDataHora();
+            setInterval(atualizarDataHora, 1000);
+        })();
+    </script>
+</body>
+
+</html>

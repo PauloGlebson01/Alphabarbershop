@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Comanda | Alpha BarberShop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#2199EF">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="comanda.css">
+    <link rel="stylesheet" href="pre-lancamento.css">
+    <link rel="icon" type="image/png" href="assets/barber.icon.png">
+</head>
+
+<body>
+
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <div class="wrapper" id="painel">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/barber-perfil.png" alt="Logo" class="sidebar-logo"
+                    onerror="this.src='https://via.placeholder.com/40'">
+                <span class="brand-name">Alpha BarberShop</span>
+                <button class="close-sidebar-btn" id="closeSidebarBtn" aria-label="Fechar menu">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item"><a href="dashboard.html"><i class="fa-solid fa-house"></i>
+                            <span>Dashboard</span></a></li>
+                    <li class="nav-separator">Navegação</li>
+                    <li class="nav-item"><a href="agenda.html"><i class="fa-solid fa-calendar-days"></i>
+                            <span>Agenda</span></a></li>
+                    <li class="nav-item"><a href="clientes.html"><i class="fa-solid fa-users"></i>
+                            <span>Clientes</span></a></li>
+                    <li class="nav-item"><a href="servicos.html"><i class="fa-solid fa-cut"></i>
+                            <span>Serviços</span></a></li>
+                    <li class="nav-item">
+                        <a href="pacotes.html"><i class="fa-solid fa-gift"></i> <span>Pacotes</span></a>
+                    </li>
+                    <li class="nav-item"><a href="estoque.html"><i class="fa-solid fa-box-archive"></i>
+                            <span>Produtos</span></a></li>
+                    <li class="nav-item"><a href="pagamentos.html"><i class="fa-solid fa-credit-card"></i>
+                            <span>Pagamentos</span></a></li>
+                    <li class="nav-item"><a href="equipes.html"><i class="fa-solid fa-people-group"></i>
+                            <span>Equipes</span></a></li>
+                    <li class="nav-item"><a href="anamnese.html"><i class="fa-solid fa-clipboard-list"></i>
+                            <span>Anamnese</span></a></li>
+                    <li class="nav-item"><a href="aniversariantes.html"><i class="fa-solid fa-gift"></i>
+                            <span>Aniversariantes</span></a></li>
+                    <li class="nav-item"><a href="avaliacoes-clientes.html"><i class="fa-solid fa-star"></i>
+                            <span>Avaliações</span></a></li>
+                    <li class="nav-item active"><a href="comanda.html"><i class="fa-solid fa-receipt"></i>
+                            <span>Comanda</span></a></li>
+                    <li class="nav-item"><a href="fidelidade.html"><i class="fa-solid fa-star-of-life"></i>
+                            <span>Fidelidade</span></a></li>
+                    <li class="nav-separator">Desempenho</li>
+                    <li class="nav-item"><a href="margens.html"><i class="fa-solid fa-chart-line"></i>
+                            <span>Margens</span></a></li>
+                    <li class="nav-item"><a href="comissoes.html"><i class="fa-solid fa-coins"></i>
+                            <span>Comissões</span></a></li>
+                    <li class="nav-item"><a href="metas.html"><i class="fa-solid fa-bullseye"></i>
+                            <span>Metas</span></a></li>
+                    <li class="nav-separator">Treinamentos</li>
+                    <li class="nav-item"><a href="cursos.html"><i class="fa-solid fa-graduation-cap"></i>
+                            <span>Cursos & Treinamentos</span></a></li>
+                    <li class="nav-separator">Administração</li>
+                    <li class="nav-item"><a href="barbeiros.html"><i class="fa-solid fa-user-md"></i>
+                            <span>Barbeiros</span></a></li>
+                    <li class="nav-item"><a href="bloqueios.html"><i class="fa-solid fa-lock"></i>
+                            <span>Bloqueios & Agenda</span></a></li>
+                    <li class="nav-item"><a href="exportacoes.html"><i class="fa-solid fa-chart-pie"></i>
+                            <span>Exportações</span></a></li>
+                    <li class="nav-item"><a href="configuracoes.html"><i class="fa-solid fa-gear"></i>
+                            <span>Configurações</span></a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">ABS</div>
+                    <div class="user-info">
+                        <span class="user-name">Alpha BarberShop</span>
+                        <span class="user-status">Online</span>
+                    </div>
+                    <button id="logout" class="btn-logout-icon" title="Sair"><i
+                            class="fa-solid fa-right-from-bracket"></i></button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1>🧾 Comanda de Atendimento</h1>
+                    <p>Gerencie atendimentos em andamento, adicione serviços, produtos e descontos</p>
+                </div>
+                <div class="topbar-actions">
+                    <button id="btnNovaComanda" class="btn-primary"><i class="fa-solid fa-plus"></i> Nova
+                        Comanda</button>
+                    <button id="btnProgramasDesconto" class="btn-primary"><i class="fa-solid fa-gift"></i> Programas de
+                        Desconto</button>
+                </div>
+            </header>
+
+            <div class="container-fluid">
+                <div class="stats-comanda">
+                    <div class="stat-comanda-card">
+                        <div class="stat-icon bg-green"><i class="fa-solid fa-receipt"></i></div>
+                        <div class="stat-info"><span class="stat-value" id="totalComandas">0</span><span
+                                class="stat-label">Comandas Abertas</span></div>
+                    </div>
+                    <div class="stat-comanda-card">
+                        <div class="stat-icon bg-purple"><i class="fa-solid fa-coins"></i></div>
+                        <div class="stat-info"><span class="stat-value" id="faturamentoDia">R$ 0</span><span
+                                class="stat-label">Faturamento Hoje</span></div>
+                    </div>
+                    <div class="stat-comanda-card">
+                        <div class="stat-icon bg-orange"><i class="fa-solid fa-chart-line"></i></div>
+                        <div class="stat-info"><span class="stat-value" id="mediaComanda">R$ 0</span><span
+                                class="stat-label">Ticket Médio</span></div>
+                    </div>
+                    <div class="stat-comanda-card">
+                        <div class="stat-icon bg-blue"><i class="fa-solid fa-users"></i></div>
+                        <div class="stat-info"><span class="stat-value" id="clientesAtendidos">0</span><span
+                                class="stat-label">Clientes Hoje</span></div>
+                    </div>
+                </div>
+
+                <div class="filter-comanda">
+                    <div class="filter-group"><i class="fa-solid fa-calendar"></i><select id="filterStatusComanda"
+                            class="filter-select">
+                            <option value="aberta">Comandas Abertas</option>
+                            <option value="finalizada">Comandas Finalizadas</option>
+                            <option value="ausente">Comandas Ausentes</option>
+                            <option value="cancelado">Comandas Canceladas</option>
+                            <option value="todas">Todas</option>
+                        </select></div>
+                    <div class="filter-group"><i class="fa-solid fa-calendar-alt"></i><select id="filterPeriodoComanda"
+                            class="filter-select">
+                            <option value="hoje">Hoje</option>
+                            <option value="ontem">Ontem</option>
+                            <option value="semana">Esta semana</option>
+                            <option value="mes">Este mês</option>
+                            <option value="personalizado">Personalizado</option>
+                        </select></div>
+                    <div id="periodoPersonalizado" style="display: none; gap: 8px;"><input type="date"
+                            id="dataInicioPersonalizada" class="filter-select"><span>até</span><input type="date"
+                            id="dataFimPersonalizada" class="filter-select"></div>
+                    <div class="filter-group"><i class="fa-solid fa-user-md"></i><select id="filterBarbeiroComanda"
+                            class="filter-select">
+                            <option value="">Todos os barbeiros</option>
+                        </select></div>
+                    <div class="filter-group"><i class="fa-solid fa-search"></i><input type="text" id="searchComanda"
+                            placeholder="Buscar..." class="search-input"></div>
+                    <button id="btnLimparFiltrosComanda" class="btn-ghost"><i class="fa-solid fa-eraser"></i>
+                        Limpar</button>
+                </div>
+
+                <div class="comandas-grid" id="comandasGrid">
+                    <div class="loading-comandas"><i class="fa-solid fa-spinner fa-spin"></i> Carregando...</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Nova Comanda -->
+    <div id="modalComanda" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2 id="modalComandaTitle"><i class="fa-solid fa-receipt"></i> Nova Comanda</h2><button
+                    class="modal-close-comanda modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formComanda"><input type="hidden" id="comandaId">
+                    <div class="form-row">
+                        <div class="form-group"><label>Cliente *</label><select id="comandaCliente" required>
+                                <option value="">Selecione um cliente</option>
+                            </select></div>
+                        <div class="form-group"><label>Barbeiro *</label><select id="comandaBarbeiro" required>
+                                <option value="">Selecione um barbeiro</option>
+                            </select></div>
+                    </div>
+                    <div class="form-group"><label>Serviços</label>
+                        <div id="comandaServicosContainer" class="comanda-servicos-container">
+                            <div class="servico-comanda-item">
+                                <div class="servico-comanda-row"><select class="servico-comanda-select">
+                                        <option value="">Selecione um serviço</option>
+                                    </select><button type="button" class="btn-remove-servico-comanda"
+                                        style="display:none;"><i class="fa-solid fa-trash"></i></button></div>
+                            </div>
+                        </div><button type="button" id="btnAdicionarServicoComanda" class="btn-add-servico-comanda"><i
+                                class="fa-solid fa-plus"></i> Adicionar Serviço</button>
+                    </div>
+                    <div class="comanda-totais">
+                        <div class="total-row"><span>Subtotal:</span><span id="comandaSubtotal">R$ 0,00</span></div>
+                        <div class="total-row total"><span>Total:</span><span id="comandaTotal">R$ 0,00</span></div>
+                    </div>
+                    <div class="form-group"><label>Observações</label><textarea id="comandaObservacoes"
+                            rows="3"></textarea></div>
+                    <div class="form-group"><label>Forma de Pagamento</label><select id="comandaPagamento">
+                            <option value="pendente">Selecionar após finalizar</option>
+                            <option value="dinheiro">Dinheiro</option>
+                            <option value="pix">Pix</option>
+                            <option value="cartao_credito">Cartão de Crédito</option>
+                            <option value="cartao_debito">Cartão de Débito</option>
+                        </select></div>
+                    <div class="form-actions"><button type="button"
+                            class="btn-cancel-comanda btn-cancel">Cancelar</button><button type="button"
+                            id="btnSalvarComanda" class="btn-save">Salvar Comanda</button><button type="button"
+                            id="btnFinalizarComanda" class="btn-primary">Finalizar Atendimento</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detalhes -->
+    <div id="modalDetalhesComanda" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-receipt"></i> Detalhes da Comanda</h2><button
+                    class="modal-close-detalhes modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="detalhesComandaBody"></div>
+            <div class="form-actions" style="padding: 16px 24px;"><button
+                    class="btn-cancel-detalhes btn-cancel">Fechar</button><button id="btnImprimirComanda"
+                    class="btn-primary"><i class="fa-solid fa-print"></i> Imprimir</button></div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Comanda -->
+    <div id="modalEditarComanda" class="modal">
+        <div class="modal-content" style="max-width: 950px;">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-pen"></i> Editar Comanda</h2><button
+                    class="modal-close-editar modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group"><label>Cliente</label><select id="editarCliente" class="form-select"
+                            disabled></select></div>
+                    <div class="form-group"><label>Barbeiro</label><select id="editarBarbeiro" class="form-select"
+                            disabled></select></div>
+                </div>
+
+                <div class="pre-lancamento-section" id="preLancamentoSection">
+                    <div class="pre-lancamento-header">
+                        <h4><i class="fa-solid fa-cart-shopping"></i> Produtos para Próxima Visita (Pré-lançamento)</h4>
+                        <button type="button" id="btnAdicionarPreLancamento" class="btn-pre-lancamento">
+                            <i class="fa-solid fa-plus"></i> Adicionar Produto
+                        </button>
+                    </div>
+                    <div id="preLancamentoLista" class="pre-lancamento-lista">
+                        <div class="empty-pre-lancamento">
+                            <i class="fa-solid fa-info-circle"></i>
+                            <p>Nenhum produto em pré-lançamento</p>
+                            <small>Produtos adicionados aqui serão cobrados agora, mas entregues na próxima
+                                visita</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group"><label>Itens da Comanda</label>
+                    <div id="listaItensComanda" class="itens-comanda-lista"></div>
+                </div>
+                <div class="form-group"><label>Adicionar Item</label>
+                    <div class="add-item-row"><select id="tipoItemSelect" class="form-select" style="width:150px">
+                            <option value="servico">Serviço</option>
+                            <option value="produto">Produto</option>
+                        </select>
+                        <div id="servicoSelectGroup" style="flex:1"><select id="novoServicoSelect" class="form-select">
+                                <option value="">Selecione um serviço</option>
+                            </select></div>
+                        <div id="produtoSelectGroup" style="flex:1;display:none"><select id="novoProdutoSelect"
+                                class="form-select">
+                                <option value="">Selecione um produto</option>
+                            </select></div><button type="button" id="btnAdicionarItemComanda" class="btn-primary">+
+                            Adicionar</button>
+                    </div>
+                </div>
+                <div class="desconto-section">
+                    <div class="desconto-header">
+                        <h4><i class="fa-solid fa-tag"></i> Aplicar Desconto Manual</h4>
+                    </div>
+                    <div id="descontoForm" style="display:none">
+                        <div class="desconto-input-group"><input type="number" id="descontoValor" placeholder="Valor"
+                                step="0.01">
+                            <div class="desconto-tipos"><button type="button" class="desconto-tipo-btn active"
+                                    data-tipo="percentual">%</button><button type="button" class="desconto-tipo-btn"
+                                    data-tipo="fixo">R$</button></div><button type="button" id="btnConfirmarDesconto"
+                                class="btn-save">Aplicar</button>
+                        </div>
+                    </div>
+                    <div id="descontoInfo" style="display:none">
+                        <div class="desconto-info"><span><i class="fa-solid fa-tag"></i> <span
+                                    id="descontoTexto"></span></span><button type="button" id="btnRemoverDesconto"
+                                class="btn-remover-desconto">Remover</button></div>
+                    </div><button type="button" id="btnAplicarDescontoRapido" class="btn-aplicar-desconto"><i
+                            class="fa-solid fa-percent"></i> Aplicar Desconto Manual</button>
+                </div>
+
+                <div class="form-group"><label>Observações</label><textarea id="editarObservacoes" rows="3"></textarea>
+                </div>
+
+                <!-- ⭐ GORJETA - APENAS VISUALIZAÇÃO DOCUMENTAL -->
+                <div class="gorjeta-visualizacao" style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 12px; padding: 14px 16px; margin: 12px 0;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                        <span style="display: flex; align-items: center; gap: 8px; color: #f59e0b; font-weight: 600; font-size: 0.85rem;">
+                            <i class="fa-solid fa-hand-holding-heart"></i> Gorjeta
+                            <span style="font-size: 0.6rem; color: var(--text-muted); font-weight: 400; background: rgba(0,0,0,0.3); padding: 2px 8px; border-radius: 12px;">
+                                Registro documental
+                            </span>
+                        </span>
+                        <span id="gorjetaVisualizacaoValor" style="font-size: 1rem; font-weight: 700; color: #f59e0b;">
+                            R$ 0,00
+                        </span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 6px;">
+                        <span style="font-size: 0.7rem; color: var(--text-muted);">
+                            <i class="fa-solid fa-user-md"></i> Profissional:
+                        </span>
+                        <span id="gorjetaVisualizacaoProfissional" style="font-size: 0.7rem; color: var(--text-main);">
+                            Não informado
+                        </span>
+                    </div>
+                    <div style="margin-top: 6px; font-size: 0.6rem; color: var(--text-muted); border-top: 1px solid rgba(245, 158, 11, 0.1); padding-top: 6px;">
+                        <i class="fa-solid fa-info-circle"></i> A gorjeta é registrada apenas para fins documentais e não afeta o cálculo da comanda.
+                    </div>
+                </div>
+                <!-- FIM GORJETA VISUALIZAÇÃO -->
+
+                <div class="comanda-totais">
+                    <div class="total-row"><span>Subtotal:</span><span id="editarSubtotal">R$ 0,00</span></div>
+                    <div class="total-row" id="editarDescontoRow" style="display:none"><span>Desconto:</span><span
+                            id="editarDescontoValor">R$ 0,00</span></div>
+                    <div class="total-row total"><span>Total:</span><span id="editarTotal">R$ 0,00</span></div>
+                </div>
+                <div class="form-actions"><button type="button"
+                        class="btn-cancel-editar btn-cancel">Cancelar</button><button type="button"
+                        id="btnSalvarEdicaoComanda" class="btn-save">Salvar Alterações</button></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Programas de Desconto -->
+    <div id="modalProgramasDesconto" class="modal">
+        <div class="modal-content" style="max-width: 750px;">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-gift"></i> Programas de Desconto</h2><button
+                    class="modal-close-programas modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="programasDescontoGrid" class="programas-desconto-grid">
+                    <div class="loading-comandas">Carregando programas...</div>
+                </div>
+                <div class="form-group"
+                    style="margin-top:24px;padding-top:24px;border-top:1px solid var(--border-color)"><label><i
+                            class="fa-solid fa-plus-circle"></i> Criar Novo Programa</label>
+                    <div class="form-row">
+                        <div class="form-group"><input type="text" id="novoProgramaNome" placeholder="Nome"
+                                class="form-input"></div>
+                        <div class="form-group"><input type="number" id="novoProgramaDesconto" placeholder="Desconto"
+                                step="0.01" class="form-input"></div>
+                        <div class="form-group"><select id="novoProgramaTipo" class="form-select">
+                                <option value="percentual">% Percentual</option>
+                                <option value="fixo">R$ Fixo</option>
+                            </select></div>
+                    </div>
+                    <div class="form-group"><input type="text" id="novoProgramaDescricao" placeholder="Descrição"
+                            class="form-input"></div>
+                    <div class="form-row">
+                        <div class="form-group"><input type="date" id="novoProgramaDataInicio" class="form-input"></div>
+                        <div class="form-group"><input type="date" id="novoProgramaDataFim" class="form-input"></div>
+                        <div class="form-group"><select id="novoProgramaHorario" class="form-select">
+                                <option value="">Todo dia</option>
+                                <option value="manha">Manhã</option>
+                                <option value="tarde">Tarde</option>
+                                <option value="noite">Noite</option>
+                                <option value="personalizado">Personalizado</option>
+                            </select></div>
+                    </div>
+                    <div id="horarioPersonalizado" style="display:none">
+                        <div class="form-row">
+                            <div class="form-group"><label>Início</label><input type="time" id="novoProgramaHoraInicio"
+                                    class="form-input"></div>
+                            <div class="form-group"><label>Fim</label><input type="time" id="novoProgramaHoraFim"
+                                    class="form-input"></div>
+                        </div>
+                    </div>
+                    <div class="form-actions" style="margin-top:12px"><button type="button"
+                            class="btn-cancel-programas btn-cancel">Cancelar</button><button type="button"
+                            id="btnSalvarPrograma" class="btn-save">Salvar Programa</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Seleção de Produto para Pré-lançamento -->
+    <div id="modalSelecionarProdutoPreLancamento" class="modal">
+        <div class="modal-content" style="max-width: 550px;">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-cart-shopping"></i> Adicionar Produto em Pré-lançamento</h2>
+                <button class="modal-close-pre-lancamento modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-box"></i> Selecione o Produto</label>
+                    <div id="produtosPreLancamentoLista" class="pre-lancamento-produtos-list">
+                        <div class="loading-produtos">
+                            <i class="fa-solid fa-spinner fa-spin"></i> Carregando produtos...
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-note-sticky"></i> Observação (opcional)</label>
+                    <textarea id="preLancamentoObservacao" rows="2"
+                        placeholder="Ex: Produto reservado, aguardando chegada..."></textarea>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-pre-lancamento btn-cancel">Cancelar</button>
+                <button id="btnConfirmarPreLancamento" class="btn-save"><i class="fa-solid fa-check"></i> Adicionar
+                    Pré-lançamento</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Justificar Ausência - COM OPÇÃO DE LIBERAR HORÁRIO -->
+    <div id="modalJustificarAusencia" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-user-slash"></i> Marcar como Ausente</h2>
+                <button class="modal-close-ausencia modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Deseja marcar esta comanda como <strong>AUSENTE</strong>?</p>
+                
+                <div class="form-group">
+                    <label><i class="fa-solid fa-comment"></i> Motivo da ausência (opcional)</label>
+                    <textarea id="justificativaAusencia" rows="3"
+                        placeholder="Ex: Cliente não compareceu, não atendeu telefone..."></textarea>
+                </div>
+                
+                <!-- Opção para liberar horário na agenda -->
+                <div class="form-group liberar-horario-group">
+                    <label class="radio-label">
+                        <input type="radio" name="liberarHorarioAusencia" value="sim"> 
+                        <span><i class="fa-solid fa-calendar-check"></i> Liberar horário na agenda</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="liberarHorarioAusencia" value="nao" checked> 
+                        <span><i class="fa-solid fa-calendar-times"></i> Manter horário reservado</span>
+                    </label>
+                    <small class="helper-text">
+                        <i class="fa-solid fa-info-circle"></i>
+                        Ao liberar o horário, ele ficará disponível para outros clientes na agenda.
+                    </small>
+                </div>
+                
+                <p class="text-warning">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Esta ação não poderá ser desfeita automaticamente. Você poderá reativar a comanda se necessário.
+                </p>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-ausencia btn-cancel">Cancelar</button>
+                <button id="btnConfirmarAusencia" class="btn-danger">Marcar como Ausente</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Reativar Comanda Ausente -->
+    <div id="modalReativarComanda" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-rotate-left"></i> Reativar Comanda Ausente</h2>
+                <button class="modal-close-reativar modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Deseja reativar esta comanda ausente?</p>
+                <p>A comanda voltará ao status <strong>"Em andamento"</strong> e poderá ser finalizada normalmente.</p>
+                <p class="text-warning">
+                    <i class="fa-solid fa-info-circle"></i>
+                    Certifique-se de que o cliente está presente para prosseguir.
+                </p>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-reativar btn-cancel">Cancelar</button>
+                <button id="btnConfirmarReativar" class="btn-save">Reativar Comanda</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Justificar Cancelamento - COM OPÇÃO DE LIBERAR HORÁRIO -->
+    <div id="modalJustificarCancelamento" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-ban"></i> Cancelar Comanda</h2>
+                <button class="modal-close-cancelamento modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Deseja cancelar esta comanda?</p>
+                
+                <div class="form-group">
+                    <label><i class="fa-solid fa-comment"></i> Motivo do cancelamento (opcional)</label>
+                    <textarea id="justificativaCancelamento" rows="3"
+                        placeholder="Ex: Cliente desistiu, produto indisponível..."></textarea>
+                </div>
+                
+                <!-- Opção para liberar horário na agenda -->
+                <div class="form-group liberar-horario-group">
+                    <label class="radio-label">
+                        <input type="radio" name="liberarHorarioCancelamento" value="sim"> 
+                        <span><i class="fa-solid fa-calendar-check"></i> Liberar horário na agenda</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="liberarHorarioCancelamento" value="nao" checked> 
+                        <span><i class="fa-solid fa-calendar-times"></i> Manter horário reservado</span>
+                    </label>
+                    <small class="helper-text">
+                        <i class="fa-solid fa-info-circle"></i>
+                        Ao liberar o horário, ele ficará disponível para outros clientes na agenda.
+                    </small>
+                </div>
+                
+                <p class="text-warning">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Esta ação não poderá ser desfeita automaticamente. Você poderá reativar a comanda se necessário.
+                </p>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-cancelamento btn-cancel">Cancelar</button>
+                <button id="btnConfirmarCancelamento" class="btn-danger">Confirmar Cancelamento</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Reativar Comanda Cancelada -->
+    <div id="modalReativarComandaCancelada" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-rotate-left"></i> Reativar Comanda Cancelada</h2>
+                <button class="modal-close-reativar-cancelada modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Deseja reativar esta comanda cancelada?</p>
+                <p>A comanda voltará ao status <strong>"Em andamento"</strong> e poderá ser finalizada normalmente.</p>
+                <p class="text-warning">
+                    <i class="fa-solid fa-info-circle"></i>
+                    Certifique-se de que o cliente está presente para prosseguir.
+                </p>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-reativar-cancelada btn-cancel">Cancelar</button>
+                <button id="btnConfirmarReativarCancelada" class="btn-save">Reativar Comanda</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"><i class="fa-solid fa-circle-check"></i><span id="toastMsg"></span></div>
+
+    <link rel="stylesheet" href="floating-caixa.css">
+    <script type="module" src="floating-caixa.js"></script>
+
+    <!-- CONFIGURAÇÃO ÚNICA DO FIREBASE PARA PRÉ-LANÇAMENTO -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import {
+            getFirestore, collection, getDocs, addDoc, updateDoc, doc, query, where, Timestamp, deleteDoc        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+//CONFIGURAÇÕES DE DADOS
+const firebaseConfig = {
+  apiKey: "AIzaSyDytXqhW1JKVoUu_mmfgdk7pcwSKi8Htgw",
+  authDomain: "alpha-barbershop.firebaseapp.com",
+  projectId: "alpha-barbershop",
+  storageBucket: "alpha-barbershop.firebasestorage.app",
+  messagingSenderId: "266404296878",
+  appId: "1:266404296878:web:2a6a872a846226e919153f",
+  measurementId: "G-4DS4J1WGCS"
+};
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let preLancamentosAtuais = [];
+
+        const btnAdicionar = document.getElementById('btnAdicionarPreLancamento');
+        const modalPreLancamento = document.getElementById('modalSelecionarProdutoPreLancamento');
+        const produtosContainer = document.getElementById('produtosPreLancamentoLista');
+        const btnConfirmar = document.getElementById('btnConfirmarPreLancamento');
+        const observacaoInput = document.getElementById('preLancamentoObservacao');
+        const preLancamentoLista = document.getElementById('preLancamentoLista');
+
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            if (!toast) return;
+            toastMsg.textContent = msg;
+            toast.style.background = isError ? '#ef4444' : '#10b981';
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function formatarMoeda(valor) {
+            return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor || 0);
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        async function carregarProdutosFirestore() {
+            if (!produtosContainer) return;
+            produtosContainer.innerHTML = `<div class="loading-produtos"><i class="fa-solid fa-spinner fa-spin"></i> Carregando produtos do estoque...</div>`;
+            try {
+                const querySnapshot = await getDocs(collection(db, "produtos"));
+                const produtos = [];
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    if (data.nome && data.nome.trim() !== "") {
+                        produtos.push({
+                            id: doc.id,
+                            nome: data.nome,
+                            preco: data.preco || 0,
+                            quantidade: data.quantidade || 0
+                        });
+                    }
+                });
+                if (produtos.length === 0) {
+                    produtosContainer.innerHTML = `<div class="empty-produtos"><i class="fa-solid fa-box-open"></i><p>Nenhum produto cadastrado no estoque</p><small>Cadastre produtos na página de Estoque primeiro</small></div>`;
+                } else {
+                    produtosContainer.innerHTML = produtos.map(produto => `
+                        <div class="pre-lancamento-produto-item" data-id="${produto.id}" data-preco="${produto.preco}" data-nome="${escapeHtml(produto.nome)}" data-estoque="${produto.quantidade}">
+                            <div class="pre-lancamento-produto-info">
+                                <h4>${escapeHtml(produto.nome)}</h4>
+                                <p>Estoque: ${produto.quantidade || 0} unidades | Preço: ${formatarMoeda(produto.preco)}</p>
+                            </div>
+                            <div class="pre-lancamento-produto-preco">${formatarMoeda(produto.preco)}</div>
+                        </div>
+                    `).join('');
+                }
+                document.querySelectorAll('#produtosPreLancamentoLista .pre-lancamento-produto-item').forEach(item => {
+                    item.addEventListener('click', function () {
+                        document.querySelectorAll('#produtosPreLancamentoLista .pre-lancamento-produto-item').forEach(i => i.classList.remove('selected'));
+                        this.classList.add('selected');
+                    });
+                });
+            } catch (error) {
+                console.error("Erro ao carregar produtos:", error);
+                produtosContainer.innerHTML = `<div class="empty-produtos" style="color:#ef4444;"><i class="fa-solid fa-exclamation-triangle"></i><p>Erro ao carregar produtos: ${error.message}</p><button id="btnTentarNovamentePre" class="btn-ghost" style="margin-top:10px;">Tentar Novamente</button></div>`;
+                const btnTentar = document.getElementById('btnTentarNovamentePre');
+                if (btnTentar) btnTentar.onclick = () => carregarProdutosFirestore();
+            }
+        }
+
+        function renderizarPreLancamentos() {
+            if (!preLancamentoLista) return;
+            if (preLancamentosAtuais.length === 0) {
+                preLancamentoLista.innerHTML = `<div class="empty-pre-lancamento"><i class="fa-solid fa-info-circle"></i><p>Nenhum produto em pré-lançamento</p><small>Os produtos adicionados como pré-lançamentos estarão disponíveis para acompanhamento e validação.</small></div>`;
+                return;
+            }
+            preLancamentoLista.innerHTML = preLancamentosAtuais.map((item, index) => `
+                <div class="pre-lancamento-item" data-index="${index}">
+                    <div class="pre-lancamento-item-info">
+                        <h5><i class="fa-solid fa-box"></i> ${escapeHtml(item.nome)} <span class="lembrete-badge">Pré-lançamento</span></h5>
+                        ${item.observacao ? `<p><i class="fa-solid fa-comment"></i> ${escapeHtml(item.observacao)}</p>` : ''}
+                        <small>Será entregue na próxima visita</small>
+                    </div>
+                    <div class="pre-lancamento-item-valor">${formatarMoeda(item.preco)}</div>
+                    <div class="pre-lancamento-item-actions">
+                        <button class="btn-remover-pre-lancamento" data-index="${index}"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+            `).join('');
+
+            document.querySelectorAll('#preLancamentoLista .btn-remover-pre-lancamento').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const index = parseInt(btn.getAttribute('data-index'));
+                    const removido = preLancamentosAtuais.splice(index, 1)[0];
+                    showToast(`❌ "${removido.nome}" removido do pré-lançamento`);
+                    renderizarPreLancamentos();
+                    if (window.comandaEditando && window.comandaEditando.produtos) {
+                        const idx = window.comandaEditando.produtos.findIndex(p => p.produtoId === removido.id && p.isPreLancamento);
+                        if (idx !== -1) window.comandaEditando.produtos.splice(idx, 1);
+                    }
+                    if (window.recalcularTotalComDesconto) window.recalcularTotalComDesconto();
+                    if (window.renderizarListaItensEdicao) window.renderizarListaItensEdicao();
+                });
+            });
+        }
+
+        async function abrirModal() {
+            const editarCliente = document.getElementById('editarCliente');
+            if (!editarCliente || !editarCliente.value) {
+                showToast('Selecione um cliente primeiro!', true);
+                return;
+            }
+            if (observacaoInput) observacaoInput.value = '';
+            if (modalPreLancamento) modalPreLancamento.classList.add('active');
+            await carregarProdutosFirestore();
+        }
+
+        function fecharModal() {
+            if (modalPreLancamento) modalPreLancamento.classList.remove('active');
+        }
+
+        async function salvarPreLancamentoNoFirebase(produtoId, produtoNome, produtoPreco, observacao, clienteId) {
+            try {
+                const lembretesQuery = query(
+                    collection(db, "lembretes_comanda"),
+                    where("clienteId", "==", clienteId),
+                    where("produtoId", "==", produtoId),
+                    where("status", "==", "pendente")
+                );
+                const existingSnapshot = await getDocs(lembretesQuery);
+
+                if (!existingSnapshot.empty) {
+                    const existingDoc = existingSnapshot.docs[0];
+                    const existingData = existingDoc.data();
+                    const novaQuantidade = (existingData.quantidade || 1) + 1;
+
+                    await updateDoc(doc(db, "lembretes_comanda", existingDoc.id), {
+                        quantidade: novaQuantidade,
+                        observacao: observacao || existingData.observacao,
+                        updatedAt: Timestamp.now()
+                    });
+                    showToast(`✅ Quantidade do produto "${produtoNome}" atualizada para ${novaQuantidade}x!`);
+                } else {
+                    await addDoc(collection(db, "lembretes_comanda"), {
+                        clienteId: clienteId,
+                        produtoId: produtoId,
+                        produtoNome: produtoNome,
+                        preco: produtoPreco,
+                        quantidade: 1,
+                        observacao: observacao,
+                        status: "pendente",
+                        dataCriacao: Timestamp.now(),
+                        createdAt: Timestamp.now(),
+                        updatedAt: Timestamp.now()
+                    });
+                    showToast(`✅ "${produtoNome}" adicionado como pré-lançamento!`);
+                }
+                return true;
+            } catch (error) {
+                console.error("Erro ao salvar pré-lançamento:", error);
+                showToast(`Erro ao salvar: ${error.message}`, true);
+                return false;
+            }
+        }
+
+        async function confirmarAdicao() {
+            const selected = document.querySelector('#produtosPreLancamentoLista .pre-lancamento-produto-item.selected');
+            if (!selected) {
+                showToast('Clique em um produto para selecioná-lo!', true);
+                return;
+            }
+
+            const produtoId = selected.getAttribute('data-id');
+            const produtoNome = selected.getAttribute('data-nome');
+            const produtoPreco = parseFloat(selected.getAttribute('data-preco'));
+            const observacao = observacaoInput ? observacaoInput.value : '';
+            const editarCliente = document.getElementById('editarCliente');
+            const clienteId = editarCliente ? editarCliente.value : null;
+
+            if (!window.comandaEditando) {
+                showToast('Erro: Nenhuma comanda aberta para edição.', true);
+                return;
+            }
+
+            const existe = preLancamentosAtuais.find(p => p.id === produtoId);
+            if (existe) {
+                showToast(`"${produtoNome}" já está na lista de pré-lançamentos!`, true);
+                return;
+            }
+
+            const salvou = await salvarPreLancamentoNoFirebase(produtoId, produtoNome, produtoPreco, observacao, clienteId);
+
+            if (salvou) {
+                window.comandaEditando.produtos.push({
+                    produtoId: produtoId,
+                    nome: produtoNome,
+                    preco: produtoPreco,
+                    quantidade: 1,
+                    isPreLancamento: true,
+                    observacaoPreLancamento: observacao
+                });
+
+                preLancamentosAtuais.push({
+                    id: produtoId,
+                    nome: produtoNome,
+                    preco: produtoPreco,
+                    observacao: observacao,
+                    dataAdicao: new Date().toISOString()
+                });
+
+                renderizarPreLancamentos();
+                if (window.recalcularTotalComDesconto) window.recalcularTotalComDesconto();
+                if (window.renderizarListaItensEdicao) window.renderizarListaItensEdicao();
+            }
+
+            fecharModal();
+        }
+
+        async function carregarPreLancamentosExistentes() {
+            const editarCliente = document.getElementById('editarCliente');
+            const clienteId = editarCliente ? editarCliente.value : null;
+            if (!clienteId) return;
+
+            try {
+                const lembretesQuery = query(
+                    collection(db, "lembretes_comanda"),
+                    where("clienteId", "==", clienteId),
+                    where("status", "==", "pendente")
+                );
+                const snapshot = await getDocs(lembretesQuery);
+
+                preLancamentosAtuais = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    preLancamentosAtuais.push({
+                        id: data.produtoId,
+                        nome: data.produtoNome,
+                        preco: data.preco || 0,
+                        observacao: data.observacao || '',
+                        lembreteId: doc.id,
+                        quantidade: data.quantidade || 1
+                    });
+                });
+
+                renderizarPreLancamentos();
+
+                if (window.comandaEditando && window.comandaEditando.produtos) {
+                    for (const item of preLancamentosAtuais) {
+                        const jaExiste = window.comandaEditando.produtos.some(p => p.produtoId === item.id && p.isPreLancamento);
+                        if (!jaExiste) {
+                            window.comandaEditando.produtos.push({
+                                produtoId: item.id,
+                                nome: item.nome,
+                                preco: item.preco,
+                                quantidade: item.quantidade || 1,
+                                isPreLancamento: true,
+                                observacaoPreLancamento: item.observacao,
+                                lembreteId: item.lembreteId
+                            });
+                        }
+                    }
+                    if (window.recalcularTotalComDesconto) window.recalcularTotalComDesconto();
+                    if (window.renderizarListaItensEdicao) window.renderizarListaItensEdicao();
+                }
+            } catch (error) {
+                console.error("Erro ao carregar pré-lançamentos existentes:", error);
+            }
+        }
+
+        function setupEventos() {
+            if (btnAdicionar) {
+                const novoBtn = btnAdicionar.cloneNode(true);
+                btnAdicionar.parentNode.replaceChild(novoBtn, btnAdicionar);
+                novoBtn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    await abrirModal();
+                });
+            }
+
+            if (btnConfirmar) {
+                const novoConfirmar = btnConfirmar.cloneNode(true);
+                btnConfirmar.parentNode.replaceChild(novoConfirmar, btnConfirmar);
+                novoConfirmar.addEventListener('click', confirmarAdicao);
+            }
+
+            document.querySelectorAll('.modal-close-pre-lancamento, .btn-cancel-pre-lancamento').forEach(btn => {
+                btn.addEventListener('click', fecharModal);
+            });
+
+            if (modalPreLancamento) {
+                modalPreLancamento.addEventListener('click', (e) => {
+                    if (e.target === modalPreLancamento) fecharModal();
+                });
+            }
+
+            const editarCliente = document.getElementById('editarCliente');
+            if (editarCliente) {
+                editarCliente.addEventListener('change', () => {
+                    carregarPreLancamentosExistentes();
+                });
+            }
+        }
+
+        function observarComandaEditando() {
+            let tentativas = 0;
+            const maxTentativas = 30;
+            const checkInterval = setInterval(() => {
+                tentativas++;
+                if (window.comandaEditando) {
+                    clearInterval(checkInterval);
+                    carregarPreLancamentosExistentes();
+                } else if (tentativas >= maxTentativas) {
+                    clearInterval(checkInterval);
+                }
+            }, 500);
+        }
+
+        function init() {
+            setupEventos();
+            observarComandaEditando();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+
+    <!-- SCRIPT DO MENU LATERAL -->
+    <script>
+        (function () {
+            function initMenu() {
+                const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+                const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('mobileOverlay');
+
+                if (!mobileMenuBtn || !sidebar) return;
+
+                function openMenu() {
+                    sidebar.classList.add('mobile-open');
+                    if (overlay) overlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeMenu() {
+                    sidebar.classList.remove('mobile-open');
+                    if (overlay) overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+
+                const newMobileBtn = mobileMenuBtn.cloneNode(true);
+                mobileMenuBtn.parentNode.replaceChild(newMobileBtn, mobileMenuBtn);
+                newMobileBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openMenu();
+                });
+
+                if (closeSidebarBtn) {
+                    const newCloseBtn = closeSidebarBtn.cloneNode(true);
+                    closeSidebarBtn.parentNode.replaceChild(newCloseBtn, closeSidebarBtn);
+                    newCloseBtn.addEventListener('click', closeMenu);
+                }
+
+                if (overlay) {
+                    const newOverlay = overlay.cloneNode(true);
+                    overlay.parentNode.replaceChild(newOverlay, overlay);
+                    newOverlay.addEventListener('click', closeMenu);
+                }
+
+                document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                    link.addEventListener('click', closeMenu);
+                });
+
+                window.addEventListener('resize', function () {
+                    if (window.innerWidth > 768) closeMenu();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initMenu);
+            } else {
+                initMenu();
+            }
+        })();
+    </script>
+
+    <!-- SCRIPT PARA COMANDA ESPECÍFICA VIA URL -->
+    <script>
+        (function () {
+            function verificarComandaEspecifica() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const comandaId = urlParams.get('id');
+                if (!comandaId) return;
+
+                let tentativas = 0;
+                const maxTentativas = 30;
+
+                const verificar = setInterval(() => {
+                    tentativas++;
+                    if (window.filtrarPorIdComanda && typeof window.filtrarPorIdComanda === 'function') {
+                        clearInterval(verificar);
+                        window.filtrarPorIdComanda(comandaId);
+                    } else if (tentativas >= maxTentativas) {
+                        clearInterval(verificar);
+                    }
+                }, 500);
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', verificarComandaEspecifica);
+            } else {
+                verificarComandaEspecifica();
+            }
+        })();
+    </script>
+
+    <!-- SCRIPT PARA BOTÃO NOVA COMANDA -->
+    <script>
+        (function () {
+            function abrirNovaComanda() {
+                const modal = document.getElementById('modalComanda');
+                if (modal) {
+                    document.getElementById('comandaId').value = '';
+                    document.getElementById('comandaCliente').value = '';
+                    document.getElementById('comandaBarbeiro').value = '';
+                    document.getElementById('comandaObservacoes').value = '';
+                    document.getElementById('comandaPagamento').value = 'pendente';
+                    document.getElementById('comandaSubtotal').textContent = 'R$ 0,00';
+                    document.getElementById('comandaTotal').textContent = 'R$ 0,00';
+
+                    const container = document.getElementById('comandaServicosContainer');
+                    if (container) {
+                        const items = container.querySelectorAll('.servico-comanda-item');
+                        for (let i = 1; i < items.length; i++) items[i].remove();
+                        const firstSelect = container.querySelector('.servico-comanda-select');
+                        if (firstSelect) firstSelect.value = '';
+                        const removeBtn = container.querySelector('.btn-remove-servico-comanda');
+                        if (removeBtn) removeBtn.style.display = 'none';
+                    }
+
+                    modal.classList.add('active');
+                }
+            }
+
+            const btn = document.getElementById('btnNovaComanda');
+            if (btn) {
+                const novoBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(novoBtn, btn);
+                novoBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    abrirNovaComanda();
+                });
+            }
+
+            document.querySelectorAll('.modal-close-comanda, .btn-cancel-comanda').forEach(btn => {
+                btn.addEventListener('click', () => document.getElementById('modalComanda')?.classList.remove('active'));
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === document.getElementById('modalComanda')) document.getElementById('modalComanda')?.classList.remove('active');
+                if (e.target === document.getElementById('modalDetalhesComanda')) document.getElementById('modalDetalhesComanda')?.classList.remove('active');
+                if (e.target === document.getElementById('modalEditarComanda')) document.getElementById('modalEditarComanda')?.classList.remove('active');
+            });
+        })();
+    </script>
+
+    <script type="module" src="comanda.js"></script>
+</body>
+
+</html>

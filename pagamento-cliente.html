@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmação de Pagamento | Alpha BarberShop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#2199EF">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="pagamento-cliente.css">
+    <link rel="icon" type="image/png" href="assets/barber.icon.png">
+</head>
+
+<body>
+    <div class="payment-container">
+        <div class="payment-card">
+            <div class="payment-header">
+                <img src="assets/barber-perfil.png" alt="Logo" class="payment-logo">
+                <h1>Alpha BarberShop</h1>
+                <p>Confirme a forma de pagamento do seu atendimento</p>
+            </div>
+
+            <div class="payment-info" id="paymentInfo">
+                <div class="info-row">
+                    <span class="label">Cliente:</span>
+                    <span class="value" id="clienteNome">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Serviços:</span>
+                    <span class="value" id="servicoNome">-</span>
+                </div>
+                <!-- Lista detalhada de serviços (visível apenas se houver múltiplos) -->
+                <div id="servicosLista" style="display: none; margin-top: 8px; margin-bottom: 8px;">
+                    <div style="background: rgba(0,0,0,0.2); border-radius: 12px; padding: 12px;">
+                        <div id="servicosDetalhes" style="font-size: 0.8rem; color: #cbd5e1;"></div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="label">Barbeiro:</span>
+                    <span class="value" id="profissionalNome">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Data:</span>
+                    <span class="value" id="agendamentoData">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Horário:</span>
+                    <span class="value" id="agendamentoHorario">-</span>
+                </div>
+                <!-- 🆕 DURAÇÃO DO SERVIÇO -->
+                <div class="info-row" id="duracaoRow" style="display: none;">
+                    <span class="label"><i class="fa-regular fa-clock"></i> Duração:</span>
+                    <span class="value" id="duracaoServico" style="color: #f59e0b;">-</span>
+                </div>
+                <div id="observacaoRow" class="info-row" style="display: none;">
+                    <span class="label"><i class="fa-solid fa-note-sticky"></i> Observação:</span>
+                    <span class="value" id="observacaoGeral">-</span>
+                </div>
+                <div class="info-row total">
+                    <span class="label">Valor Total:</span>
+                    <span class="value" id="valorTotal">R$ 0,00</span>
+                </div>
+            </div>
+
+            <div class="payment-methods">
+                <h3>Como você vai pagar no dia do atendimento?</h3>
+                <p class="metodo-subtitle">
+                    <i class="fa-solid fa-info-circle"></i> Selecione a opção e clique em "Confirmar"
+                </p>
+                <div class="methods-grid">
+                    <div class="method-card" data-method="dinheiro">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                        <span>Dinheiro</span>
+                        <small>À vista</small>
+                    </div>
+                    <div class="method-card" data-method="pix">
+                        <i class="fa-solid fa-qrcode"></i>
+                        <span>Pix</span>
+                        <small>À vista</small>
+                    </div>
+                    <div class="method-card" data-method="cartao_debito">
+                        <i class="fa-solid fa-credit-card"></i>
+                        <span>Cartão Débito</span>
+                        <small>À vista</small>
+                    </div>
+                    <div class="method-card" data-method="cartao_credito">
+                        <i class="fa-regular fa-credit-card"></i>
+                        <span>Cartão Crédito</span>
+                        <small>Parcelado</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção de parcelamento (aparece apenas se escolher cartão crédito) -->
+            <div id="parcelamentoSection" class="parcelamento-section" style="display: none;">
+                <div class="parcelamento-content">
+                    <label><i class="fa-solid fa-chart-line"></i> Número de parcelas</label>
+                    <select id="parcelasSelect" class="parcelas-select">
+                        <option value="1">1x</option>
+                    </select>
+                    <small class="parcelas-info">O valor das parcelas será calculado no momento do pagamento</small>
+                </div>
+            </div>
+
+            <!-- Mensagem de aviso -->
+            <div class="aviso-box">
+                <i class="fa-solid fa-building"></i>
+                <div>
+                    <p><strong>Pagamento no local do atendimento</strong></p>
+                    <p>O pagamento será realizado no dia do seu atendimento, diretamente na Alpha BarberShop.<br>
+                    Você está apenas confirmando qual forma de pagamento irá utilizar.</p>
+                </div>
+            </div>
+
+            <div class="payment-actions">
+                <button id="btnConfirmarPagamento" class="btn-pagar" disabled>
+                    <i class="fa-solid fa-check-circle"></i> Confirmar Forma de Pagamento
+                </button>
+                <a href="agendamento.html" class="btn-cancelar">Cancelar</a>
+            </div>
+
+            <div id="statusMessage" class="status-message"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="module" src="pagamento-cliente.js"></script>
+</body>
+
+</html>

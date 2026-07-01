@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bloqueios & Agenda | Alpha BarberShop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#2199EF">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="bloqueios.css">
+    <link rel="icon" type="image/png" href="assets/barber.icon.png">
+</head>
+
+<body>
+
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <div class="wrapper" id="painel">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/barber-perfil.png" alt="Logo" class="sidebar-logo">
+                <span class="brand-name">Alpha BarberShop</span>
+                <button class="close-sidebar-btn" id="closeSidebarBtn" aria-label="Fechar menu">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a href="dashboard.html"><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
+                    </li>
+                    <li class="nav-separator">Navegação</li>
+                    <li class="nav-item">
+                        <a href="agenda.html"><i class="fa-solid fa-calendar-days"></i> <span>Agenda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="clientes.html"><i class="fa-solid fa-users"></i> <span>Clientes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="servicos.html"><i class="fa-solid fa-cut"></i> <span>Serviços</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pacotes.html"><i class="fa-solid fa-gift"></i> <span>Pacotes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="estoque.html"><i class="fa-solid fa-box-archive"></i> <span>Produtos</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pagamentos.html"><i class="fa-solid fa-credit-card"></i> <span>Pagamentos</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="equipes.html"><i class="fa-solid fa-people-group"></i> <span>Equipes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="anamnese.html"><i class="fa-solid fa-clipboard-list"></i> <span>Anamnese</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="aniversariantes.html"><i class="fa-solid fa-gift"></i> <span>Aniversariantes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="avaliacoes-clientes.html"><i class="fa-solid fa-star"></i> <span>Avaliações</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comanda.html"><i class="fa-solid fa-receipt"></i> <span>Comanda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="fidelidade.html"><i class="fa-solid fa-star-of-life"></i> <span>Fidelidade</span></a>
+                    </li>
+                    <li class="nav-separator">Desempenho</li>
+                    <li class="nav-item">
+                        <a href="margens.html"><i class="fa-solid fa-chart-line"></i> <span>Margens</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comissoes.html"><i class="fa-solid fa-coins"></i> <span>Comissões</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="metas.html"><i class="fa-solid fa-bullseye"></i> <span>Metas Profissionais</span></a>
+                    </li>
+                    <li class="nav-separator">Treinamentos</li>
+                    <li class="nav-item">
+                        <a href="cursos.html"><i class="fa-solid fa-graduation-cap"></i> <span>Cursos & Treinamentos</span></a>
+                    </li>
+                    <li class="nav-separator">Administração</li>
+                    <li class="nav-item">
+                        <a href="barbeiros.html"><i class="fa-solid fa-user-md"></i> <span>Barbeiros</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="bloqueios.html"><i class="fa-solid fa-lock"></i> <span>Bloqueios & Agenda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="exportacoes.html"><i class="fa-solid fa-chart-pie"></i> <span>Exportações</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="configuracoes.html"><i class="fa-solid fa-gear"></i> <span>Configurações</span></a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">ABS</div>
+                    <div class="user-info">
+                        <span class="user-name">Alpha BarberShop</span>
+                        <span class="user-status">Online</span>
+                    </div>
+                    <button id="logout" class="btn-logout-icon" title="Sair">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1>🔒 Gerenciamento de Bloqueios & Agenda</h1>
+                    <p>Controle de bloqueios de horários e visualização completa da agenda</p>
+                </div>
+                <div class="topbar-actions">
+                </div>
+            </header>
+
+            <div class="container-fluid">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="bloqueios">
+                        <i class="fa-solid fa-lock"></i> Bloqueios
+                    </button>
+                    <button class="tab-btn" data-tab="agenda-visualizacao">
+                        <i class="fa-solid fa-calendar-alt"></i> Visualização de Agenda 
+                    </button>
+                </div>
+
+                <div class="tab-pane active" id="tab-bloqueios">
+                    <div class="bloqueios-container">
+                        <div class="bloqueios-header">
+                            <h2><i class="fa-solid fa-lock"></i> Bloqueios de Horários</h2>
+                            <button class="btn-bloqueio" id="btnNovoBloqueio">
+                                <i class="fa-solid fa-plus"></i> Novo Bloqueio
+                            </button>
+                        </div>
+
+                        <div class="filter-bar">
+                            <input type="text" id="searchBloqueio" placeholder="Buscar bloqueio por título ou motivo...">
+                            <select id="filterBloqueioStatus">
+                                <option value="todos">Todos os status</option>
+                                <option value="ativo">Ativos</option>
+                                <option value="expirado">Expirados</option>
+                            </select>
+                        </div>
+
+                        <div id="bloqueiosList" class="bloqueios-list">
+                            <div class="empty-state">
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+                                <p>Carregando bloqueios...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="tab-agenda-visualizacao">
+                    <div class="bloqueios-container">
+                        <div class="bloqueios-header">
+                            <h2><i class="fa-solid fa-calendar-alt"></i> Visualização de Agendamentos</h2>
+                        </div>
+
+                        <!-- CONTROLES DA AGENDA - VERSÃO OTIMIZADA -->
+                        <div class="agenda-controls">
+                            <div class="left-controls">
+                                <button class="btn-nav btn-hoje" id="btnHoje">
+                                    <i class="fa-solid fa-calendar-day"></i> Hoje
+                                </button>
+                            </div>
+                            <div class="center-controls">
+                                <span id="periodoLabel" class="periodo-label">Carregando...</span>
+                            </div>
+                            <div class="right-controls">
+                                <div class="nav-buttons-group">
+                                    <button class="btn-nav" id="btnSemanaAnterior">
+                                        <i class="fa-solid fa-chevron-left"></i> Anterior
+                                    </button>
+                                    <button class="btn-nav" id="btnProximaSemana">
+                                        Próxima <i class="fa-solid fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                                <select id="tipoVisualizacao" class="tipo-visualizacao">
+                                    <option value="semana">📅 Semana</option>
+                                    <option value="mes">📆 Mês</option>
+                                    <option value="dia">🕐 Dia</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="agendaVisualizacao" class="agenda-visualizacao-container">
+                            <div class="loading-agenda">
+                                <i class="fa-solid fa-spinner fa-spin"></i> Carregando agendamentos...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL NOVO BLOQUEIO -->
+    <div id="modalBloqueio" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle"><i class="fa-solid fa-plus"></i> Novo Bloqueio</h3>
+                <button class="modal-close modal-close-bloqueio">&times;</button>
+            </div>
+            <form id="formBloqueio">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-tag"></i> Título *</label>
+                        <input type="text" id="bloqueioTitulo" placeholder="Ex: Fechado para Reforma" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fa-regular fa-calendar"></i> Data Início *</label>
+                            <input type="date" id="bloqueioDataInicio" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-regular fa-calendar"></i> Data Fim *</label>
+                            <input type="date" id="bloqueioDataFim" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-regular fa-clock"></i> Horários Específicos (opcional)</label>
+                        <div class="horarios-checkboxes" id="bloqueioHorarios"></div>
+                        <small class="form-text"><i class="fa-regular fa-circle-check"></i> Selecione horários específicos para bloqueio. Deixe em branco para bloquear o dia todo.</small>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-circle-info"></i> Motivo</label>
+                        <textarea id="bloqueioMotivo" rows="3" placeholder="Descreva o motivo do bloqueio..."></textarea>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel btn-cancel-bloqueio">Cancelar</button>
+                    <button type="submit" class="btn-save">Salvar Bloqueio</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL EXCLUIR BLOQUEIO -->
+    <div id="modalExcluirBloqueio" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-trash"></i> Excluir Bloqueio</h3>
+                <button class="modal-close modal-close-excluir-bloqueio">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja excluir o bloqueio <strong id="excluirBloqueioTitulo"></strong>?</p>
+                <p class="text-warning">⚠️ Esta ação não poderá ser desfeita.</p>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel btn-cancel-excluir-bloqueio">Cancelar</button>
+                <button id="confirmarExcluirBloqueio" class="btn-danger">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="bloqueios.js"></script>
+    <link rel="stylesheet" href="floating-caixa.css">
+    <script type="module" src="floating-caixa.js"></script>
+
+    <script>
+        (function () {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+
+            if (!mobileMenuBtn || !sidebar) return;
+
+            function openMenu() {
+                sidebar.classList.add('mobile-open');
+                if (overlay) overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMenu() {
+                sidebar.classList.remove('mobile-open');
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            mobileMenuBtn.addEventListener('click', openMenu);
+            if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeMenu);
+            if (overlay) overlay.addEventListener('click', closeMenu);
+
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768) closeMenu();
+            });
+
+            const currentPage = window.location.pathname.split('/').pop();
+            document.querySelectorAll('.sidebar-nav .nav-item').forEach(item => {
+                const link = item.querySelector('a');
+                if (link && link.getAttribute('href') === currentPage) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

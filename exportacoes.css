@@ -1,0 +1,505 @@
+.export-section {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.export-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.section-header i {
+    font-size: 28px;
+    color: #2199EF;
+}
+
+.section-header h2 {
+    font-size: 1.3rem;
+    color: #fff;
+    margin: 0;
+    font-weight: 600;
+}
+
+.export-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+.export-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.export-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-4px);
+    border-color: rgba(33, 153, 239, 0.3);
+}
+
+.card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+.excel-icon {
+    background: linear-gradient(135deg, #1d7e3a 0%, #107c2f 100%);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(29, 126, 58, 0.3);
+}
+
+.pdf-icon {
+    background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
+}
+
+.export-card h3 {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.export-card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.date-filter {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 12px;
+    border-radius: 12px;
+    flex-wrap: wrap;
+}
+
+.date-filter input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: #fff;
+    font-size: 0.9rem;
+    min-width: 0;
+    width: auto;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.date-filter input[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+    min-height: 42px;
+}
+
+.date-filter input[type="date"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    padding: 4px;
+    margin-left: 4px;
+}
+
+.date-filter input[type="date"]::-webkit-datetime-edit-text,
+.date-filter input[type="date"]::-webkit-datetime-edit-month-field,
+.date-filter input[type="date"]::-webkit-datetime-edit-day-field,
+.date-filter input[type="date"]::-webkit-datetime-edit-year-field {
+    color: #fff;
+}
+
+.date-filter input:focus {
+    outline: none;
+    border-color: #2199EF;
+    background: rgba(33, 153, 239, 0.1);
+}
+
+.date-filter span {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.btn-excel,
+.btn-pdf {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-excel {
+    background: linear-gradient(135deg, #1d7e3a 0%, #0e5e2c 100%);
+    color: white;
+}
+
+.btn-excel:hover {
+    background: linear-gradient(135deg, #239b46 0%, #107c2f 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(29, 126, 58, 0.4);
+}
+
+.btn-pdf {
+    background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+    color: white;
+}
+
+.btn-pdf:hover {
+    background: linear-gradient(135deg, #e53939 0%, #c62828 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(211, 47, 47, 0.4);
+}
+
+.history-section {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.history-table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #fff;
+    min-width: 500px;
+}
+
+.history-table th {
+    text-align: left;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.history-table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.9rem;
+}
+
+.history-table tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.status-success {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.action-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
+}
+
+.action-btn:first-child:hover {
+    color: #10b981;
+}
+
+.action-btn:last-child:hover {
+    color: #ef4444;
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #2199EF, #1a7fcc);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 12px;
+    z-index: 9999;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+    .export-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .date-filter {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .date-filter input {
+        flex: 1 1 120px;
+        min-width: 120px;
+    }
+}
+
+@media (max-width: 768px) {
+    .export-cards {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .export-section {
+        padding: 16px;
+        margin-bottom: 20px;
+    }
+    
+    .section-header h2 {
+        font-size: 1.1rem;
+    }
+    
+    .section-header i {
+        font-size: 1.3rem;
+    }
+    
+    .export-card {
+        padding: 16px;
+    }
+    
+    .card-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+    }
+    
+    .export-card h3 {
+        font-size: 1rem;
+    }
+    
+    .export-card p {
+        font-size: 0.85rem;
+        margin-bottom: 15px;
+    }
+    
+    .date-filter {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 10px;
+    }
+    
+    .date-filter input {
+        flex: 1 1 auto;
+        min-width: 100px;
+        padding: 8px 10px;
+        font-size: 0.85rem;
+        width: auto;
+        min-height: 40px;
+    }
+    
+    .date-filter span {
+        font-size: 0.85rem;
+    }
+    
+    .btn-excel, .btn-pdf {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+    }
+    
+    .history-section {
+        padding: 16px;
+    }
+    
+    .history-table th,
+    .history-table td {
+        padding: 8px;
+        font-size: 0.75rem;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .action-btn {
+        padding: 4px 8px;
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .export-card {
+        padding: 14px;
+    }
+    
+    .card-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+    
+    .export-card h3 {
+        font-size: 0.95rem;
+    }
+    
+    .export-card p {
+        font-size: 0.8rem;
+    }
+    
+    .date-filter {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding: 12px;
+    }
+    
+    .date-filter span {
+        display: none;
+    }
+    
+    .date-filter input {
+        width: 100%;
+        min-width: 100%;
+        padding: 10px 12px;
+        font-size: 0.85rem;
+        box-sizing: border-box;
+        min-height: 44px;
+    }
+    
+    .btn-excel, .btn-pdf {
+        padding: 10px 12px;
+        font-size: 0.8rem;
+    }
+    
+    .history-table th,
+    .history-table td {
+        padding: 6px;
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .export-card {
+        padding: 12px;
+    }
+    
+    .date-filter {
+        gap: 6px;
+        padding: 10px;
+    }
+    
+    .date-filter input {
+        padding: 8px 10px;
+        font-size: 0.75rem;
+        min-height: 40px;
+    }
+    
+    .btn-excel, .btn-pdf {
+        padding: 8px 10px;
+        font-size: 0.7rem;
+    }
+    
+    .history-table th,
+    .history-table td {
+        padding: 4px;
+        font-size: 0.65rem;
+    }
+    
+    .status-badge {
+        padding: 2px 8px;
+        font-size: 0.65rem;
+    }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+    .export-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+    
+    .date-filter {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .date-filter input {
+        flex: 1;
+        min-width: 120px;
+    }
+    
+    .date-filter span {
+        display: inline-block;
+    }
+}

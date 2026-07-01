@@ -1,0 +1,879 @@
+/* Container principal */
+.container-fluid {
+    padding: 24px;
+}
+
+/* Card de filtro */
+.filter-card {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f1f5f9;
+}
+
+.filter-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.filter-group label {
+    font-weight: 600;
+    color: #475569;
+}
+
+.filter-group input {
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-family: inherit;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-primary {
+    padding: 8px 20px;
+    background: linear-gradient(135deg, #2199EF, #1a7fcc);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #1a7fcc, #0f6bb0);
+    transform: translateY(-1px);
+}
+
+.btn-ghost {
+    padding: 8px 20px;
+    background: #f1f5f9;
+    color: #475569;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-ghost:hover {
+    background: #e2e8f0;
+}
+
+/* Status Container - Layout Horizontal */
+.status-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.status-column {
+    background: #FFFFFF;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.status-header {
+    padding: 16px 20px;
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.status-header i {
+    font-size: 1rem;
+}
+
+.status-header.confirmado {
+    background: #e8f4fd;
+    color: #2199EF;
+    border-bottom: 3px solid #2199EF;
+}
+
+.status-header.concluido {
+    background: #e8f4fd;
+    color: #2199EF;
+    border-bottom: 3px solid #2199EF;
+}
+
+.status-header.cancelado {
+    background: #fef2f2;
+    color: #dc2626;
+    border-bottom: 3px solid #ef4444;
+}
+
+.status-header.ausente {
+    background: #fef3c7;
+    color: #d97706;
+    border-bottom: 3px solid #f59e0b;
+}
+
+.count-badge {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+}
+
+/* Appointment List - Layout Horizontal (Tabela) */
+.appointment-list {
+    padding: 0;
+    min-height: 200px;
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 500px;
+}
+
+/* Tabela Horizontal - Cards em Formato de Linha */
+.appointments-table {
+    width: 100%;
+    min-width: 1200px;
+    border-collapse: collapse;
+}
+
+.appointments-table thead tr {
+    background: #f1f5f9;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.appointments-table th {
+    padding: 14px 12px;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.appointments-table td {
+    padding: 16px 12px;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: middle;
+}
+
+.appointment-row {
+    transition: background 0.2s;
+}
+
+.appointment-row:hover {
+    background: #f8fafc;
+}
+
+/* Colunas específicas */
+.col-cliente {
+    min-width: 180px;
+}
+
+.cliente-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cliente-nome {
+    font-weight: 700;
+    color: #121212;
+    font-size: 0.9rem;
+}
+
+.cliente-telefone {
+    font-size: 0.7rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.cliente-telefone i {
+    font-size: 0.65rem;
+    color: #25D366;
+}
+
+.col-data-hora {
+    min-width: 140px;
+}
+
+.data-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.data {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #121212;
+}
+
+.dia-semana {
+    font-size: 0.65rem;
+    color: #f59e0b;
+    background: #fef3c7;
+    padding: 2px 8px;
+    border-radius: 12px;
+    display: inline-block;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    width: fit-content;
+}
+
+.hora {
+    font-size: 0.7rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.col-profissional {
+    min-width: 130px;
+}
+
+.profissional-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.profissional-avatar {
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #2199EF, #1a7fcc);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.profissional-nome {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #000;
+}
+
+.col-servicos {
+    min-width: 300px;
+}
+
+.servicos-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.servico-tag {
+    background: #e8f4fd;
+    color: #2199EF;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+}
+
+.servico-tag i {
+    font-size: 0.6rem;
+}
+
+.pacote-tag {
+    background: #fef3c7;
+    color: #d97706;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+}
+
+.pacote-tag i {
+    font-size: 0.65rem;
+}
+
+.servicos-detalhe {
+    margin-top: 6px;
+    font-size: 0.65rem;
+    color: #64748b;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.col-valor {
+    min-width: 110px;
+}
+
+.valor-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.valor-total {
+    font-weight: 700;
+    color: #2199EF;
+    font-size: 0.9rem;
+}
+
+.valor-desconto {
+    font-size: 0.65rem;
+    color: #10b981;
+}
+
+.valor-original {
+    font-size: 0.65rem;
+    color: #94a3b8;
+    text-decoration: line-through;
+}
+
+.col-acoes {
+    min-width: 280px;
+}
+
+.appointment-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.btn-status {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.7rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+.btn-status i {
+    font-size: 0.65rem;
+}
+
+.btn-status.concluir {
+    background: #e8f4fd;
+    color: #2199EF;
+}
+
+.btn-status.concluir:hover {
+    background: #2199EF;
+    color: #FFFFFF;
+}
+
+.btn-status.ausentar {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.btn-status.ausentar:hover {
+    background: #f59e0b;
+    color: #FFFFFF;
+}
+
+.btn-status.cancelar {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.btn-status.cancelar:hover {
+    background: #dc2626;
+    color: #FFFFFF;
+}
+
+.btn-status.lembrete-dia {
+    background: #e8f4fd;
+    color: #2199EF;
+}
+
+.btn-status.lembrete-dia:hover {
+    background: #2199EF;
+    color: #FFFFFF;
+}
+
+.btn-status.lembrete-vespera {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.btn-status.lembrete-vespera:hover {
+    background: #f59e0b;
+    color: #FFFFFF;
+}
+
+.btn-status.ver-comanda {
+    background: #2199EF;
+    color: #FFFFFF;
+    padding: 5px 20px;
+    display: inline-flex;
+    justify-content: center;
+    width: 230px;
+}
+
+.btn-status.ver-comanda:hover {
+    background: #1a7fcc;
+    transform: translateY(-1px);
+}
+
+.empty-agenda, .error-agenda {
+    text-align: center;
+    padding: 40px 20px;
+    color: #94a3b8;
+}
+
+.empty-agenda i, .error-agenda i {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+    display: block;
+}
+
+/* Toast personalizado */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: linear-gradient(135deg, #2199EF, #1a7fcc);
+    color: #FFFFFF;
+    padding: 14px 24px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 3000;
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    font-weight: 500;
+}
+
+.toast.show {
+    transform: translateX(0);
+}
+
+.toast i {
+    font-size: 1.2rem;
+}
+
+/* Modais */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: #121212;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 500px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: modalFadeIn 0.3s ease;
+}
+
+.modal-small {
+    max-width: 450px;
+}
+
+.modal-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    font-size: 1.1rem;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modal-header h2 i {
+    color: #2199EF;
+}
+
+.modal-close, .modal-close-lembrete, .modal-close-enviado {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    color: #94a3b8;
+    cursor: pointer;
+}
+
+.modal-close:hover, .modal-close-lembrete:hover, .modal-close-enviado:hover {
+    color: #ef4444;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-cancel, .btn-cancel-lembrete {
+    padding: 8px 20px;
+    background: #1e1e1e;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #94a3b8;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btn-cancel:hover, .btn-cancel-lembrete:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: #ef4444;
+    color: #ef4444;
+}
+
+.btn-save {
+    padding: 8px 24px;
+    background: linear-gradient(135deg, #2199EF, #1a7fcc);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(33, 153, 239, 0.4);
+}
+
+.text-warning {
+    color: #f59e0b;
+    font-size: 0.75rem;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.filter-select {
+    width: 100%;
+    padding: 10px 12px;
+    background: #1e1e1e;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: #FFFFFF;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+/* Scrollbar personalizada */
+.appointment-list::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.appointment-list::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 10px;
+}
+
+.appointment-list::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+.appointment-list::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ===== ESTILOS DA LISTA DE ESPERA ===== */
+.lista-espera-container {
+    margin-top: 24px;
+    background: #FFFFFF;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.lista-espera-header {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    padding: 16px 20px;
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.lista-espera-header i {
+    font-size: 1rem;
+}
+
+.badge-count {
+    background: rgba(255, 255, 255, 0.25);
+    padding: 2px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+}
+
+.status-badge-pendente {
+    display: inline-block;
+    background: #fef3c7;
+    color: #92400e;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.65rem;
+    font-weight: 600;
+}
+
+.status-badge-notificado {
+    display: inline-block;
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.65rem;
+    font-weight: 600;
+}
+
+.status-badge-removido {
+    display: inline-block;
+    background: #f1f5f9;
+    color: #64748b;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.65rem;
+    font-weight: 600;
+}
+
+/* CORREÇÃO: Textos mais claros e visíveis na lista de espera */
+.cliente-telefone-lista {
+    font-size: 0.7rem;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+}
+
+.cliente-telefone-lista i {
+    color: #25D366;
+    font-size: 0.8rem;
+}
+
+/* CORREÇÃO: Nome do cliente mais visível */
+.lista-espera-container .cliente-nome {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+/* CORREÇÃO: Células da tabela da lista de espera */
+.lista-espera-container td {
+    padding: 14px 12px;
+    vertical-align: middle;
+    color: #1e293b;
+    font-size: 0.85rem;
+}
+
+.lista-espera-container td strong {
+    color: #0f172a;
+    font-size: 0.95rem;
+}
+
+.lista-espera-container td small {
+    color: #475569;
+    font-size: 0.7rem;
+}
+
+/* CORREÇÃO: Badge de status */
+.status-badge-pendente {
+    display: inline-block;
+    background: #fef3c7;
+    color: #92400e;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.status-badge-notificado {
+    display: inline-block;
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.status-badge-removido {
+    display: inline-block;
+    background: #f1f5f9;
+    color: #64748b;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+/* CORREÇÃO: Botões da lista de espera */
+.btn-notificar {
+    background: #10b981;
+    color: #ffffff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.7rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.btn-notificar:hover {
+    background: #059669;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-remover-lista {
+    background: #ef4444;
+    color: #ffffff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.7rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.btn-remover-lista:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* CORREÇÃO: Tabela da lista de espera - cabeçalho */
+.lista-espera-container .appointments-table th {
+    background: #f1f5f9;
+    color: #1e293b;
+    font-weight: 700;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 12px 12px;
+}
+
+/* CORREÇÃO: Linhas da tabela */
+.lista-espera-container .appointment-row:hover {
+    background: #f8fafc;
+}
+
+/* CORREÇÃO: Data e hora na lista de espera */
+.lista-espera-container .data-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.lista-espera-container .data-info .data {
+    font-weight: 600;
+    color: #0f172a;
+    font-size: 0.85rem;
+}
+
+.lista-espera-container .data-info .hora {
+    font-size: 0.7rem;
+    color: #475569;
+}
+
+/* CORREÇÃO: Container vazio */
+.lista-espera-container .empty-agenda {
+    padding: 40px 20px;
+    text-align: center;
+    color: #94a3b8;
+}
+
+.lista-espera-container .empty-agenda i {
+    font-size: 2.5rem;
+    color: #cbd5e1;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.lista-espera-container .empty-agenda p {
+    color: #94a3b8;
+    font-size: 0.95rem;
+}

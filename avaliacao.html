@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2199EF">
+    <title>Avaliar Atendimento | Alpha BarberShop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="avaliacao.css">
+    <link rel="icon" type="image/png" href="assets/barber.icon.png">
+</head>
+
+<body>
+    <div class="avaliacao-container">
+        <div class="avaliacao-card">
+            <div class="avaliacao-header">
+                <img src="assets/barber-perfil.png" alt="Logo" class="logo">
+                <h1>⭐ Avalie nosso Atendimento</h1>
+                <p>Sua opinião é muito importante para nós!</p>
+            </div>
+
+            <div class="servico-info" id="servicoInfo">
+                <i class="fa-regular fa-hand-sparkles"></i>
+                <div>
+                    <h3 id="clienteNome">Carregando...</h3>
+                    <p id="servicoNome"></p>
+                </div>
+            </div>
+
+            <div class="estrelas-container">
+                <label class="estrelas-label">Como foi sua experiência?</label>
+                <div class="estrelas" id="estrelasContainer">
+                    <i class="fa-regular fa-star estrela" data-nota="1"></i>
+                    <i class="fa-regular fa-star estrela" data-nota="2"></i>
+                    <i class="fa-regular fa-star estrela" data-nota="3"></i>
+                    <i class="fa-regular fa-star estrela" data-nota="4"></i>
+                    <i class="fa-regular fa-star estrela" data-nota="5"></i>
+                </div>
+            </div>
+
+            <div class="nota-selecionada" id="notaSelecionada">
+                <i class="fa-regular fa-star"></i> Clique nas estrelas para avaliar
+            </div>
+
+            <div class="comentario-container">
+                <label for="comentario">Deixe um comentário (opcional)</label>
+                <textarea id="comentario" rows="3" placeholder="Conte-nos sobre sua experiência..."></textarea>
+            </div>
+
+            <button class="btn-enviar" id="btnEnviar">
+                <i class="fa-regular fa-paper-plane"></i> Enviar Avaliação
+            </button>
+
+            <div id="mensagem" class="mensagem"></div>
+        </div>
+    </div>
+
+    <script type="module" src="avaliacao.js"></script>
+</body>
+
+</html>

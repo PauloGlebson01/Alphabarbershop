@@ -1,0 +1,976 @@
+/* ==================== COMISSÕES STYLES ==================== */
+/* Seguindo o padrão do dashboard.css e clientes.css */
+
+.container-fluid {
+    padding: 24px;
+}
+
+/* Cards de Estatísticas */
+.stats-comissoes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-comissao-card {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-comissao-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #2199EF, #1a7fcc);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+.stat-comissao-card:hover::before {
+    transform: translateX(0);
+}
+
+.stat-comissao-card:hover {
+    transform: translateY(-3px);
+    border-color: #2199EF;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.stat-comissao-card .stat-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+    color: white !important;
+}
+
+.stat-comissao-card .stat-icon.bg-green {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.stat-comissao-card .stat-icon.bg-purple {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed) !important;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+.stat-comissao-card .stat-icon.bg-orange {
+    background: linear-gradient(135deg, #2199EF, #1a7fcc) !important;
+    box-shadow: 0 4px 15px rgba(33, 153, 239, 0.3);
+}
+
+.stat-comissao-card .stat-icon.bg-blue {
+    background: linear-gradient(135deg, #2199EF, #1a7fcc) !important;
+    box-shadow: 0 4px 15px rgba(33, 153, 239, 0.3);
+}
+
+.stat-comissao-card .stat-info {
+    flex: 1;
+}
+
+.stat-comissao-card .stat-value {
+    display: block;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #ffffff !important;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.stat-comissao-card .stat-label {
+    display: block;
+    font-size: 0.7rem;
+    color: #9ca3af !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+/* Topbar Actions */
+.topbar-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.topbar-actions .btn-primary {
+    padding: 10px 24px;
+    background: linear-gradient(135deg, #2199EF, #1a7fcc);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.topbar-actions .btn-primary i {
+    font-size: 0.9rem;
+    transition: transform 0.2s ease;
+}
+
+.topbar-actions .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(33, 153, 239, 0.4);
+    background: linear-gradient(135deg, #1a7fcc, #0f6bb0);
+}
+
+.topbar-actions .btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(33, 153, 239, 0.3);
+}
+
+/* Filtros */
+.filter-comissoes {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.filter-comissoes:hover {
+    border-color: #2199EF;
+}
+
+.filter-comissoes .filter-group {
+    flex: 1;
+    min-width: 160px;
+    position: relative;
+}
+
+.filter-comissoes .filter-group i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.filter-comissoes .search-input,
+.filter-comissoes .filter-select {
+    width: 100%;
+    padding: 12px 16px 12px 40px;
+    background: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-main);
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.filter-comissoes .search-input:focus,
+.filter-comissoes .filter-select:focus {
+    outline: none;
+    border-color: #2199EF;
+    box-shadow: 0 0 0 3px rgba(33, 153, 239, 0.1);
+    background: var(--bg-card);
+}
+
+.btn-ghost {
+    padding: 12px 24px;
+    background: var(--bg-dark);
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-ghost:hover {
+    background: rgba(33, 153, 239, 0.1);
+    border-color: #2199EF;
+    color: #2199EF;
+    transform: translateY(-1px);
+}
+
+/* Gráfico */
+.comissoes-chart-section {
+    margin-bottom: 30px;
+}
+
+.chart-card {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.chart-card h3 {
+    margin-bottom: 18px;
+    font-size: 1rem;
+    color: #fff;
+}
+
+.chart-card canvas {
+    max-width: 100%;
+    height: auto;
+    max-height: 300px;
+}
+
+/* Ranking */
+.ranking-section {
+    background: var(--bg-card);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.section-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(33, 153, 239, 0.05), transparent);
+}
+
+.section-header h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-header h3 i {
+    color: #2199EF;
+}
+
+.section-badge {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    background: var(--bg-dark);
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.ranking-container {
+    padding: 20px;
+}
+
+.ranking-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.ranking-item:last-child {
+    border-bottom: none;
+}
+
+.ranking-position {
+    width: 40px;
+    height: 40px;
+    background: var(--bg-dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+
+.ranking-position.ouro {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+}
+
+.ranking-position.prata {
+    background: linear-gradient(135deg, #94a3b8, #64748b);
+    color: white;
+}
+
+.ranking-position.bronze {
+    background: linear-gradient(135deg, #cd7f32, #b87333);
+    color: white;
+}
+
+.ranking-info {
+    flex: 1;
+}
+
+.ranking-nome {
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.ranking-meta {
+    font-size: 0.7rem;
+    color: #9ca3af;
+}
+
+.ranking-valores {
+    text-align: right;
+}
+
+.ranking-comissao {
+    font-weight: 800;
+    color: #2199EF;
+    font-size: 1rem;
+}
+
+.ranking-atendimentos {
+    font-size: 0.7rem;
+    color: #9ca3af;
+}
+
+/* Tabela de Comissões */
+.comissoes-section {
+    background: var(--bg-card);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.comissoes-table-container {
+    overflow-x: auto;
+}
+
+.comissoes-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.comissoes-table th {
+    text-align: left;
+    padding: 14px 12px;
+    background: rgba(0, 0, 0, 0.2);
+    color: #94a3b8;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.comissoes-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: #e5e7eb;
+    font-size: 0.85rem;
+}
+
+.comissoes-table tr:hover {
+    background: rgba(33, 153, 239, 0.05);
+}
+
+/* Botão de Editar Comissão */
+.btn-edit-comissao {
+    padding: 6px 12px;
+    background: rgba(33, 153, 239, 0.15);
+    border: none;
+    border-radius: 8px;
+    color: #2199EF;
+    cursor: pointer;
+    font-size: 0.7rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-edit-comissao:hover {
+    background: #2199EF;
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* Loading */
+.loading-comissoes,
+.loading-ranking,
+.loading-servicos,
+.loading-barbeiros {
+    text-align: center;
+    padding: 40px;
+    color: #94a3b8;
+}
+
+.loading-comissoes i,
+.loading-ranking i,
+.loading-servicos i,
+.loading-barbeiros i {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    display: block;
+    color: #2199EF;
+}
+
+/* Serviços e Barbeiros na Configuração */
+.servicos-comissao-lista,
+.barbeiros-comissao-lista {
+    max-height: 200px;
+    overflow-y: auto;
+    background: var(--bg-dark);
+    border-radius: 12px;
+    padding: 8px;
+}
+
+.comissao-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.comissao-item:last-child {
+    border-bottom: none;
+}
+
+.comissao-item-nome {
+    font-size: 0.85rem;
+    color: #fff;
+}
+
+.comissao-item-input {
+    width: 80px;
+    padding: 6px 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.comissao-item-input:focus {
+    outline: none;
+    border-color: #2199EF;
+}
+
+/* Preview Comissão */
+.preview-comissao {
+    padding: 12px;
+    background: var(--bg-dark);
+    border-radius: 12px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-top: 8px;
+    color: #2199EF;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(12px);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    border-radius: 28px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    animation: slideUp 0.3s ease;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(33, 153, 239, 0.05), transparent);
+}
+
+.modal-header h2 {
+    font-size: 1.2rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+}
+
+.modal-header h2 i {
+    color: #2199EF;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+.modal-close:hover {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+/* Formulário */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    letter-spacing: 0.3px;
+}
+
+.form-group label i {
+    color: #2199EF;
+    width: 18px;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-main);
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: #2199EF;
+    box-shadow: 0 0 0 3px rgba(33, 153, 239, 0.1);
+    background: var(--bg-card);
+}
+
+.form-text {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    margin-top: 4px;
+    display: block;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.btn-cancel {
+    padding: 10px 24px;
+    background: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: #ef4444;
+    color: #ef4444;
+    transform: translateY(-1px);
+}
+
+.btn-save {
+    padding: 10px 28px;
+    background: linear-gradient(135deg, #2199EF, #1a7fcc);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(33, 153, 239, 0.4);
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: linear-gradient(135deg, #2199EF, #1a7fcc);
+    color: white;
+    padding: 14px 24px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 3000;
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    font-weight: 500;
+}
+
+.toast.show {
+    transform: translateX(0);
+}
+
+.toast i {
+    font-size: 1.2rem;
+}
+
+/* Scrollbar */
+.comissoes-table-container::-webkit-scrollbar,
+.modal-content::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.comissoes-table-container::-webkit-scrollbar-track,
+.modal-content::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+    border-radius: 3px;
+}
+
+.comissoes-table-container::-webkit-scrollbar-thumb,
+.modal-content::-webkit-scrollbar-thumb {
+    background: #2199EF;
+    border-radius: 3px;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+    .stats-comissoes {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-comissoes {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .filter-comissoes {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px;
+    }
+    
+    .filter-comissoes .filter-group {
+        width: 100%;
+    }
+    
+    .btn-ghost {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+    }
+    
+    .comissoes-table th,
+    .comissoes-table td {
+        padding: 10px 8px;
+        font-size: 0.75rem;
+    }
+    
+    .ranking-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+    
+    .ranking-valores {
+        text-align: center;
+    }
+    
+    .topbar-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .topbar-actions .btn-primary {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .modal-content {
+        width: 95%;
+        border-radius: 20px;
+    }
+    
+    .modal-header {
+        padding: 16px 20px;
+    }
+    
+    .modal-body {
+        padding: 20px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    
+    .toast {
+        bottom: 20px;
+        right: 20px;
+        left: 20px;
+        transform: translateY(100px);
+    }
+    
+    .toast.show {
+        transform: translateY(0);
+    }
+    
+    .container-fluid {
+        padding-top: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stat-value {
+        font-size: 1.3rem;
+    }
+    
+    .stat-comissao-card .stat-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 1.2rem;
+    }
+    
+    .comissoes-table th,
+    .comissoes-table td {
+        padding: 8px 6px;
+        font-size: 0.7rem;
+    }
+    
+    .btn-edit-comissao {
+        padding: 4px 8px;
+        font-size: 0.65rem;
+    }
+    
+    .section-header h3 {
+        font-size: 0.9rem;
+    }
+    
+    .topbar-actions .btn-primary {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+}
+
+/* Garantir que os modais funcionem */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(12px);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    border-radius: 28px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+}
+
+.toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: linear-gradient(135deg, #2199EF, #1a7fcc);
+    color: white;
+    padding: 14px 24px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 3000;
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+}
+
+.toast.show {
+    transform: translateX(0);
+}
+
+/* Adicione ao final do arquivo comissoes.css */
+
+.comissao-lista {
+    max-height: 250px;
+    overflow-y: auto;
+    background: var(--bg-dark);
+    border-radius: 12px;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.comissao-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.comissao-item:last-child {
+    border-bottom: none;
+}
+
+.comissao-item-nome {
+    font-size: 0.85rem;
+    color: #fff;
+    font-weight: 500;
+}
+
+.comissao-item-input {
+    width: 80px;
+    padding: 6px 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.comissao-item-input:focus {
+    outline: none;
+    border-color: #2199EF;
+}
+
+.comissao-item-input::placeholder {
+    color: #64748b;
+    font-size: 0.7rem;
+}
+
+.loading-servicos,
+.loading-produtos,
+.loading-barbeiros {
+    text-align: center;
+    padding: 30px;
+    color: #94a3b8;
+}
+
+.loading-servicos i,
+.loading-produtos i,
+.loading-barbeiros i {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    display: block;
+    color: #2199EF;
+}

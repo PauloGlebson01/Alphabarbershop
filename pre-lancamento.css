@@ -1,0 +1,353 @@
+/* pré-lancamento.css - Estilos para a seção de Pré-lançamento */
+
+/* Seção de Pré-lançamento */
+.pre-lancamento-section {
+    background: linear-gradient(135deg, rgba(33, 153, 239, 0.05), transparent);
+    border: 1px solid rgba(33, 153, 239, 0.2);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 16px 0;
+    transition: all 0.3s ease;
+}
+
+.pre-lancamento-section:hover {
+    border-color: rgba(33, 153, 239, 0.4);
+    box-shadow: 0 4px 12px rgba(33, 153, 239, 0.1);
+}
+
+.pre-lancamento-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.pre-lancamento-header h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #2199EF;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pre-lancamento-header h4 i {
+    font-size: 1rem;
+}
+
+.btn-pre-lancamento {
+    padding: 6px 12px;
+    background: rgba(33, 153, 239, 0.15);
+    border: 1px dashed rgba(33, 153, 239, 0.3);
+    border-radius: 8px;
+    color: #2199EF;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-pre-lancamento:hover {
+    background: rgba(33, 153, 239, 0.25);
+    border-color: #2199EF;
+    transform: translateY(-1px);
+}
+
+/* Lista de itens em pré-lançamento */
+.pre-lancamento-lista {
+    margin-top: 12px;
+}
+
+.pre-lancamento-item {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    border-left: 3px solid #2199EF;
+}
+
+.pre-lancamento-item-info {
+    flex: 2;
+}
+
+.pre-lancamento-item-info h5 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.pre-lancamento-item-info p {
+    font-size: 0.7rem;
+    color: #94a3b8;
+}
+
+.pre-lancamento-item-valor {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #10b981;
+    min-width: 100px;
+}
+
+.pre-lancamento-item-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-remover-pre-lancamento {
+    background: rgba(239, 68, 68, 0.15);
+    border: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    cursor: pointer;
+    color: #ef4444;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.7rem;
+}
+
+.btn-remover-pre-lancamento:hover {
+    background: #ef4444;
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* Badge de lembrete */
+.lembrete-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: rgba(33, 153, 239, 0.2);
+    border-radius: 20px;
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: #2199EF;
+    margin-left: 8px;
+}
+
+/* Modal de Pré-lançamento */
+#modalPreLancamento .modal-content {
+    max-width: 550px;
+}
+
+.pre-lancamento-produtos-list {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 16px;
+}
+
+.pre-lancamento-produto-item {
+    background: var(--bg-dark);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid var(--border-color);
+}
+
+.pre-lancamento-produto-item:hover {
+    border-color: #2199EF;
+    background: rgba(33, 153, 239, 0.05);
+    transform: translateX(4px);
+}
+
+.pre-lancamento-produto-item.selected {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.pre-lancamento-produto-info h4 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.pre-lancamento-produto-info p {
+    font-size: 0.7rem;
+    color: #94a3b8;
+}
+
+.pre-lancamento-produto-preco {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #10b981;
+}
+
+.pre-lancamento-obs {
+    margin-top: 16px;
+}
+
+.pre-lancamento-obs textarea {
+    width: 100%;
+    padding: 10px;
+    background: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--text-main);
+    font-size: 0.8rem;
+    resize: vertical;
+}
+
+/* Seção de Lembretes na Comanda */
+.lembretes-section {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), transparent);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 16px 0;
+}
+
+.lembretes-section h4 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #f59e0b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.lembrete-item {
+    background: rgba(245, 158, 11, 0.1);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: #cbd5e1;
+    border-left: 3px solid #f59e0b;
+}
+
+.lembrete-item i {
+    color: #f59e0b;
+    margin-right: 8px;
+}
+
+.lembrete-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.btn-ignorar-lembrete {
+    background: none;
+    border: none;
+    color: #64748b;
+    cursor: pointer;
+    font-size: 0.7rem;
+    padding: 4px;
+}
+
+.btn-aplicar-lembrete {
+    background: none;
+    border: none;
+    color: #10b981;
+    cursor: pointer;
+    font-size: 0.7rem;
+    padding: 4px;
+}
+
+.btn-aplicar-lembrete:hover {
+    color: #059669;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .pre-lancamento-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .pre-lancamento-item-valor {
+        align-self: flex-end;
+    }
+    
+    .lembrete-item {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+}
+
+/* Adicione no final do arquivo painel-barbeiro.css */
+
+/* Card de Gorjetas - Estilo especial */
+.gorjeta-card {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.02)) !important;
+    border: 1px solid rgba(245, 158, 11, 0.2) !important;
+    transition: all 0.3s ease;
+}
+
+.gorjeta-card:hover {
+    border-color: #f59e0b !important;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px -5px rgba(245, 158, 11, 0.2);
+}
+
+.gorjeta-card .stat-icon {
+    background: rgba(245, 158, 11, 0.2) !important;
+    color: #f59e0b !important;
+}
+
+.gorjeta-card .stat-value {
+    color: #f59e0b !important;
+}
+
+.gorjeta-detalhe {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin-top: 8px;
+    font-size: 0.75rem;
+    color: #9ca3af;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.gorjeta-detalhe .valor {
+    color: #f59e0b;
+    font-weight: 600;
+}
+
+/* Animações para atualização de gorjetas */
+@keyframes gorjetaPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.gorjeta-card .stat-value {
+    transition: all 0.3s ease;
+}
+
+.gorjeta-card .stat-value.atualizando {
+    animation: gorjetaPulse 0.5s ease;
+}
+
+/* Responsividade para o card de gorjetas */
+@media (max-width: 768px) {
+    .gorjeta-detalhe {
+        flex-direction: column;
+        gap: 4px;
+        padding: 6px 10px;
+    }
+}

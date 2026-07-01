@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Aniversariantes | Alpha BarberShop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#2199EF">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="aniversariantes.css">
+    <link rel="icon" type="image/png" href="assets/barber.icon.png">
+</head>
+
+<body>
+
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <div class="wrapper" id="painel">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/barber-perfil.png" alt="Logo" class="sidebar-logo">
+                <span class="brand-name">Alpha BarberShop</span>
+                <button class="close-sidebar-btn" id="closeSidebarBtn" aria-label="Fechar menu">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a href="dashboard.html"><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
+                    </li>
+                    <li class="nav-separator">Navegação</li>
+                    <li class="nav-item">
+                        <a href="agenda.html"><i class="fa-solid fa-calendar-days"></i> <span>Agenda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="clientes.html"><i class="fa-solid fa-users"></i> <span>Clientes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="servicos.html"><i class="fa-solid fa-cut"></i> <span>Serviços</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pacotes.html"><i class="fa-solid fa-gift"></i> <span>Pacotes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="estoque.html"><i class="fa-solid fa-box-archive"></i> <span>Produtos</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pagamentos.html"><i class="fa-solid fa-credit-card"></i> <span>Pagamentos</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="equipes.html"><i class="fa-solid fa-people-group"></i> <span>Equipes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="anamnese.html"><i class="fa-solid fa-clipboard-list"></i> <span>Anamnese</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="aniversariantes.html"><i class="fa-solid fa-gift"></i> <span>Aniversariantes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="avaliacoes-clientes.html"><i class="fa-solid fa-star"></i> <span>Avaliações</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comanda.html"><i class="fa-solid fa-receipt"></i> <span>Comanda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="fidelidade.html"><i class="fa-solid fa-star-of-life"></i> <span>Fidelidade</span></a>
+                    </li>
+                    <li class="nav-separator">Desempenho</li>
+                    <li class="nav-item">
+                        <a href="margens.html"><i class="fa-solid fa-chart-line"></i> <span>Margens</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comissoes.html"><i class="fa-solid fa-coins"></i> <span>Comissões</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="metas.html"><i class="fa-solid fa-bullseye"></i> <span>Metas Profissionais</span></a>
+                    </li>
+                    <li class="nav-separator">Treinamentos</li>
+                    <li class="nav-item">
+                        <a href="cursos.html"><i class="fa-solid fa-graduation-cap"></i> <span>Cursos & Treinamentos</span></a>
+                    </li>
+                    <li class="nav-separator">Administração</li>
+                    <li class="nav-item">
+                        <a href="barbeiros.html"><i class="fa-solid fa-user-md"></i> <span>Barbeiros</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="bloqueios.html"><i class="fa-solid fa-lock"></i> <span>Bloqueios & Agenda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="exportacoes.html"><i class="fa-solid fa-chart-pie"></i> <span>Exportações</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="configuracoes.html"><i class="fa-solid fa-gear"></i> <span>Configurações</span></a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">ABS</div>
+                    <div class="user-info">
+                        <span class="user-name">Alpha BarberShop</span>
+                        <span class="user-status">Online</span>
+                    </div>
+                    <button id="logout" class="btn-logout-icon" title="Sair">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1>🎂 Aniversariantes</h1>
+                    <p>Gerencie lembretes e ofertas especiais para aniversariantes</p>
+                </div>
+                <div class="topbar-actions">
+                    <button id="btnEnviarLembretes" class="btn-primary" style="background: linear-gradient(135deg, #25D366, #128C7E);">
+                        <i class="fa-brands fa-whatsapp"></i> Enviar Lembretes
+                    </button>
+                    <button id="btnConfigOferta" class="btn-primary">
+                        <i class="fa-solid fa-gift"></i> Configurar Oferta
+                    </button>
+                </div>
+            </header>
+
+            <div class="container-fluid">
+                <!-- Cards de Estatísticas - Mesmo padrão do sistema -->
+                <div class="stats-aniversariantes">
+                    <div class="stat-aniversariante-card">
+                        <div class="stat-icon bg-pink">
+                            <i class="fa-solid fa-cake-candles"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="hojeCount">0</span>
+                            <span class="stat-label">Aniversariantes Hoje</span>
+                        </div>
+                    </div>
+                    <div class="stat-aniversariante-card">
+                        <div class="stat-icon bg-purple">
+                            <i class="fa-solid fa-calendar-week"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="semanaCount">0</span>
+                            <span class="stat-label">Próximos 7 dias</span>
+                        </div>
+                    </div>
+                    <div class="stat-aniversariante-card">
+                        <div class="stat-icon bg-orange">
+                            <i class="fa-solid fa-calendar-month"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="mesCount">0</span>
+                            <span class="stat-label">Próximos 30 dias</span>
+                        </div>
+                    </div>
+                    <div class="stat-aniversariante-card">
+                        <div class="stat-icon bg-green">
+                            <i class="fa-solid fa-envelope-open-text"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="enviadosCount">0</span>
+                            <span class="stat-label">Lembretes Enviados</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filtros - Mesmo padrão do clientes.css -->
+                <div class="filter-aniversariantes">
+                    <div class="filter-group">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="searchAniversariante" placeholder="Buscar por cliente..."
+                            class="search-input">
+                    </div>
+                    <div class="filter-group">
+                        <select id="filterPeriodo" class="filter-select">
+                            <option value="hoje">Hoje</option>
+                            <option value="semana" selected>Próximos 7 dias</option>
+                            <option value="mes">Próximos 30 dias</option>
+                            <option value="todos">Todos os aniversariantes</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <select id="filterStatus" class="filter-select">
+                            <option value="">Todos os status</option>
+                            <option value="pendente">Pendente</option>
+                            <option value="enviado">Lembrete Enviado</option>
+                            <option value="agendado">Agendado</option>
+                            <option value="utilizado">Oferta Utilizada</option>
+                        </select>
+                    </div>
+                    <button id="btnLimparFiltros" class="btn-ghost">
+                        <i class="fa-solid fa-eraser"></i> Limpar
+                    </button>
+                </div>
+
+                <!-- Lista de Aniversariantes -->
+                <div class="aniversariantes-grid" id="aniversariantesGrid">
+                    <div class="loading-aniversariantes">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Carregando aniversariantes...
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Configurar Oferta Padrão -->
+    <div id="modalOferta" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-gift"></i> Configurar Oferta de Aniversário</h2>
+                <button class="modal-close-oferta modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-tag"></i> Título da Oferta</label>
+                    <input type="text" id="ofertaTitulo" placeholder="Ex: 🎂 Feliz Aniversário!" class="form-input">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-percent"></i> Desconto (%)</label>
+                        <input type="number" id="ofertaDesconto" min="0" max="100" value="15" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-calendar-alt"></i> Validade (dias)</label>
+                        <input type="number" id="ofertaValidade" min="1" max="30" value="7" class="form-input">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-message"></i> Mensagem Personalizada</label>
+                    <textarea id="ofertaMensagem" rows="4"
+                        placeholder="Parabéns! Em seu aniversário, você ganha [DESCONTO]% de desconto em qualquer serviço. Válido por [VALIDADE] dias. Aproveite! 🎂✂️"
+                        class="form-textarea"></textarea>
+                    <small class="form-text">Use [DESCONTO] e [VALIDADE] para inserir os valores automaticamente</small>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-toggle-on"></i> Ativar oferta automática</label>
+                    <select id="ofertaAtiva" class="form-select">
+                        <option value="sim">✅ Sim - Enviar automaticamente no dia do aniversário</option>
+                        <option value="nao">⏸️ Não - Enviar apenas manualmente</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-oferta btn-cancel">Cancelar</button>
+                <button id="btnSalvarOferta" class="btn-save">Salvar Configuração</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Enviar Lembretes em Massa -->
+    <div id="modalEnviarLembretes" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2><i class="fa-brands fa-whatsapp"></i> Enviar Lembretes</h2>
+                <button class="modal-close-enviar modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-clock"></i> Antecedência</label>
+                    <select id="lembreteAntecedencia" class="form-select">
+                        <option value="0">No dia do aniversário</option>
+                        <option value="1">1 dia antes</option>
+                        <option value="2">2 dias antes</option>
+                        <option value="3" selected>3 dias antes</option>
+                        <option value="5">5 dias antes</option>
+                        <option value="7">7 dias antes</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-chart-line"></i> Serão enviados <strong id="qtdLembretes"
+                            style="color: #2199EF;">0</strong> lembretes</label>
+                </div>
+                <div class="aviso-box"
+                    style="background: rgba(33, 153, 239, 0.1); border-left: 4px solid #2199EF; padding: 12px; border-radius: 12px; margin-top: 16px;">
+                    <i class="fa-solid fa-info-circle" style="color: #2199EF;"></i>
+                    <span style="font-size: 0.8rem; margin-left: 8px;">Os lembretes serão enviados via WhatsApp para os clientes que possuem telefone cadastrado.</span>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-enviar btn-cancel">Cancelar</button>
+                <button id="btnConfirmarEnvio" class="btn-save">Enviar Lembretes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Oferta do Cliente -->
+    <div id="modalOfertaCliente" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-gift"></i> Oferta Personalizada</h2>
+                <button class="modal-close-cliente modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-user"></i> Cliente: <strong id="clienteOfertaNome"
+                            style="color: #2199EF;"></strong></label>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-percent"></i> Desconto (%)</label>
+                        <input type="number" id="clienteOfertaDesconto" min="0" max="100" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-calendar-alt"></i> Validade (dias)</label>
+                        <input type="number" id="clienteOfertaValidade" min="1" max="30" class="form-input">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-check-circle"></i> Status</label>
+                    <select id="clienteOfertaStatus" class="form-select">
+                        <option value="pendente">⏳ Pendente</option>
+                        <option value="enviado">✅ Lembrete Enviado</option>
+                        <option value="agendado">📅 Agendado</option>
+                        <option value="utilizado">🎁 Oferta Utilizada</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-cliente btn-cancel">Cancelar</button>
+                <button id="btnEnviarIndividual" class="btn-primary"
+                    style="background: linear-gradient(135deg, #25D366, #128C7E);">
+                    <i class="fa-brands fa-whatsapp"></i> Enviar Agora
+                </button>
+                <button id="btnSalvarOfertaCliente" class="btn-save">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg"></span>
+    </div>
+
+    <script type="module" src="aniversariantes.js"></script>
+    <!-- Adicionar antes do fechamento do body -->
+    <script type="module" src="floating-caixa.js"></script>
+    <!-- Adicione após os outros CSS -->
+<link rel="stylesheet" href="floating-caixa.css">
+
+    <script>
+        (function () {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+
+            if (!mobileMenuBtn || !sidebar) return;
+
+            function openMenu() {
+                sidebar.classList.add('mobile-open');
+                if (overlay) overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMenu() {
+                sidebar.classList.remove('mobile-open');
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            mobileMenuBtn.addEventListener('click', openMenu);
+            if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeMenu);
+            if (overlay) overlay.addEventListener('click', closeMenu);
+
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768) closeMenu();
+            });
+
+            const currentPage = window.location.pathname.split('/').pop();
+            document.querySelectorAll('.sidebar-nav .nav-item').forEach(item => {
+                const link = item.querySelector('a');
+                if (link && link.getAttribute('href') === currentPage) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

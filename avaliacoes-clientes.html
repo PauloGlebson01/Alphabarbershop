@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Avaliações | Alpha BarberShop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#2199EF">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="avaliacoes-clientes.css">
+    <link rel="icon" type="image/png" href="assets/barber.icon.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <div class="wrapper" id="painel">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/barber-perfil.png" alt="Logo" class="sidebar-logo">
+                <span class="brand-name">Alpha BarberShop</span>
+                <button class="close-sidebar-btn" id="closeSidebarBtn" aria-label="Fechar menu">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a href="dashboard.html"><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
+                    </li>
+                    <li class="nav-separator">Navegação</li>
+                    <li class="nav-item">
+                        <a href="agenda.html"><i class="fa-solid fa-calendar-days"></i> <span>Agenda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="clientes.html"><i class="fa-solid fa-users"></i> <span>Clientes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="servicos.html"><i class="fa-solid fa-cut"></i> <span>Serviços</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pacotes.html"><i class="fa-solid fa-gift"></i> <span>Pacotes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="estoque.html"><i class="fa-solid fa-box-archive"></i> <span>Produtos</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pagamentos.html"><i class="fa-solid fa-credit-card"></i> <span>Pagamentos</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="equipes.html"><i class="fa-solid fa-people-group"></i> <span>Equipes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="anamnese.html"><i class="fa-solid fa-clipboard-list"></i> <span>Anamnese</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="aniversariantes.html"><i class="fa-solid fa-gift"></i> <span>Aniversariantes</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="avaliacoes-clientes.html"><i class="fa-solid fa-star"></i> <span>Avaliações</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comanda.html"><i class="fa-solid fa-receipt"></i> <span>Comanda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="fidelidade.html"><i class="fa-solid fa-star-of-life"></i> <span>Fidelidade</span></a>
+                    </li>
+                    <li class="nav-separator">Desempenho</li>
+                    <li class="nav-item">
+                        <a href="margens.html"><i class="fa-solid fa-chart-line"></i> <span>Margens</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comissoes.html"><i class="fa-solid fa-coins"></i> <span>Comissões</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="metas.html"><i class="fa-solid fa-bullseye"></i> <span>Metas Profissionais</span></a>
+                    </li>
+                    <li class="nav-separator">Treinamentos</li>
+                    <li class="nav-item">
+                        <a href="cursos.html"><i class="fa-solid fa-graduation-cap"></i> <span>Cursos & Treinamentos</span></a>
+                    </li>
+                    <li class="nav-separator">Administração</li>
+                    <li class="nav-item">
+                        <a href="barbeiros.html"><i class="fa-solid fa-user-md"></i> <span>Barbeiros</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="bloqueios.html"><i class="fa-solid fa-lock"></i> <span>Bloqueios & Agenda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="exportacoes.html"><i class="fa-solid fa-chart-pie"></i> <span>Exportações</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="configuracoes.html"><i class="fa-solid fa-gear"></i> <span>Configurações</span></a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">ABS</div>
+                    <div class="user-info">
+                        <span class="user-name">Alpha BarberShop</span>
+                        <span class="user-status">Online</span>
+                    </div>
+                    <button id="logout" class="btn-logout-icon" title="Sair">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1>⭐ Avaliações dos Clientes</h1>
+                    <p>Gerencie e acompanhe as avaliações dos atendimentos</p>
+                </div>
+            </header>
+
+            <div class="container-fluid">
+                <!-- Cards de Estatísticas -->
+                <div class="stats-avaliacoes">
+                    <div class="stat-avaliacao-card">
+                        <div class="stat-icon bg-pink">
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="totalAvaliacoes">0</span>
+                            <span class="stat-label">Total de Avaliações</span>
+                        </div>
+                    </div>
+                    <div class="stat-avaliacao-card">
+                        <div class="stat-icon bg-green">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="notaMedia">0.0</span>
+                            <span class="stat-label">Nota Média</span>
+                        </div>
+                    </div>
+                    <div class="stat-avaliacao-card">
+                        <div class="stat-icon bg-purple">
+                            <i class="fa-solid fa-percent"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="taxaResposta">0%</span>
+                            <span class="stat-label">Taxa de Resposta</span>
+                        </div>
+                    </div>
+                    <div class="stat-avaliacao-card">
+                        <div class="stat-icon bg-orange">
+                            <i class="fa-solid fa-face-smile"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="avaliacoesPositivas">0%</span>
+                            <span class="stat-label">Avaliações Positivas</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráfico de Distribuição -->
+                <div class="charts-row">
+                    <div class="chart-card">
+                        <h3>📊 Distribuição de Notas</h3>
+                        <canvas id="notasChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>🏆 Avaliações por Barbeiro</h3>
+                        <canvas id="barbeirosChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Filtros -->
+                <div class="filter-avaliacoes">
+                    <div class="filter-group">
+                        <i class="fa-solid fa-calendar"></i>
+                        <select id="filterPeriodo" class="filter-select">
+                            <option value="todos">Todos os períodos</option>
+                            <option value="30">Últimos 30 dias</option>
+                            <option value="60">Últimos 60 dias</option>
+                            <option value="90">Últimos 90 dias</option>
+                            <option value="365">Último ano</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <i class="fa-solid fa-star"></i>
+                        <select id="filterNota" class="filter-select">
+                            <option value="">Todas as notas</option>
+                            <option value="5">5 estrelas ⭐⭐⭐⭐⭐</option>
+                            <option value="4">4 estrelas ⭐⭐⭐⭐</option>
+                            <option value="3">3 estrelas ⭐⭐⭐</option>
+                            <option value="2">2 estrelas ⭐⭐</option>
+                            <option value="1">1 estrela ⭐</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <i class="fa-solid fa-user-md"></i>
+                        <select id="filterBarbeiro" class="filter-select">
+                            <option value="">Todos os barbeiros</option>
+                        </select>
+                    </div>
+                    <button id="btnLimparFiltros" class="btn-ghost">
+                        <i class="fa-solid fa-eraser"></i> Limpar
+                    </button>
+                </div>
+
+                <!-- Lista de Avaliações -->
+                <div class="avaliacoes-grid" id="avaliacoesGrid">
+                    <div class="loading-avaliacoes">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Carregando avaliações...
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Visualizar Avaliação -->
+    <div id="modalVisualizarAvaliacao" class="modal">
+        <div class="modal-content" style="max-width: 550px;">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-star"></i> Detalhes da Avaliação</h2>
+                <button class="modal-close-viz modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="vizAvaliacaoBody"></div>
+            <div class="form-actions" style="padding: 16px 24px;">
+                <button class="btn-cancel-viz btn-cancel">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Responder Avaliação -->
+    <div id="modalResponderAvaliacao" class="modal">
+        <div class="modal-content" style="max-width: 550px;">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-reply"></i> Responder Avaliação</h2>
+                <button class="modal-close-resposta modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-user"></i> Cliente</label>
+                    <input type="text" id="respostaCliente" readonly class="form-input">
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-star"></i> Avaliação</label>
+                    <div id="respostaEstrelas" class="rating-display"></div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-comment"></i> Comentário do Cliente</label>
+                    <textarea id="respostaComentario" readonly rows="3" class="form-textarea"></textarea>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-reply-all"></i> Sua Resposta</label>
+                    <textarea id="respostaTexto" rows="3" class="form-textarea" placeholder="Digite sua resposta para o cliente..."></textarea>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-resposta btn-cancel">Cancelar</button>
+                <button id="btnEnviarResposta" class="btn-save">Enviar Resposta</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg"></span>
+    </div>
+
+    <script type="module" src="avaliacoes-clientes.js"></script>
+    <!-- Adicionar antes do fechamento do body -->
+<script type="module" src="floating-caixa.js"></script>
+<!-- Adicione após os outros CSS -->
+<link rel="stylesheet" href="floating-caixa.css">
+
+    <script>
+        (function () {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+
+            if (!mobileMenuBtn || !sidebar) return;
+
+            function openMenu() {
+                sidebar.classList.add('mobile-open');
+                if (overlay) overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMenu() {
+                sidebar.classList.remove('mobile-open');
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            mobileMenuBtn.addEventListener('click', openMenu);
+            if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeMenu);
+            if (overlay) overlay.addEventListener('click', closeMenu);
+
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768) closeMenu();
+            });
+
+            const currentPage = window.location.pathname.split('/').pop();
+            document.querySelectorAll('.sidebar-nav .nav-item').forEach(item => {
+                const link = item.querySelector('a');
+                if (link && link.getAttribute('href') === currentPage) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

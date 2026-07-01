@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#2199EF">
+    <title>Login Barbeiro | Alpha BarberShop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="login-barbeiro.css">
+    <link rel="icon" type="image/png" href="assets/barber.icon.png">
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <img src="assets/barber-perfil.png" alt="Logo" class="login-logo">
+                <h1>Alpha BarberShop</h1>
+                <p>Área do Barbeiro</p>
+            </div>
+
+            <form id="formLoginBarbeiro">
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="email" placeholder="seu@email.com" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="senha" placeholder="Sua senha" required>
+                    <!-- Apenas UM toggle dentro do campo de senha -->
+                    <button type="button" id="toggleSenha" class="toggle-password">
+                    </button>
+                </div>
+                <button type="submit" class="btn-login">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i> Entrar
+                </button>
+            </form>
+
+            <div id="mensagem" class="mensagem"></div>
+        </div>
+    </div>
+
+    <script type="module" src="login-barbeiro.js"></script>
+</body>
+
+</html>

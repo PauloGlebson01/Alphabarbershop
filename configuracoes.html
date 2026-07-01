@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Configurações | Alpha BarberShop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="configuracoes.css">
+    <link rel="icon" type="image/png" href="assets/barber.icon.png">
+</head>
+
+<body>
+
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <div class="wrapper" id="painel">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/barber-perfil.png" alt="Logo" class="sidebar-logo">
+                <span class="brand-name">Alpha BarberShop</span>
+                <button class="close-sidebar-btn" id="closeSidebarBtn" aria-label="Fechar menu">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a href="dashboard.html"><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
+                    </li>
+                    <li class="nav-separator">Navegação</li>
+                    <li class="nav-item">
+                        <a href="agenda.html"><i class="fa-solid fa-calendar-days"></i> <span>Agenda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="clientes.html"><i class="fa-solid fa-users"></i> <span>Clientes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="servicos.html"><i class="fa-solid fa-cut"></i> <span>Serviços</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pacotes.html"><i class="fa-solid fa-gift"></i> <span>Pacotes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="estoque.html"><i class="fa-solid fa-box-archive"></i> <span>Produtos</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pagamentos.html"><i class="fa-solid fa-credit-card"></i> <span>Pagamentos</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="equipes.html"><i class="fa-solid fa-people-group"></i> <span>Equipes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="anamnese.html"><i class="fa-solid fa-clipboard-list"></i> <span>Anamnese</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="aniversariantes.html"><i class="fa-solid fa-gift"></i> <span>Aniversariantes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="avaliacoes-clientes.html"><i class="fa-solid fa-star"></i> <span>Avaliações</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comanda.html"><i class="fa-solid fa-receipt"></i> <span>Comanda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="fidelidade.html"><i class="fa-solid fa-star-of-life"></i> <span>Fidelidade</span></a>
+                    </li>
+                    <li class="nav-separator">Desempenho</li>
+                    <li class="nav-item">
+                        <a href="margens.html"><i class="fa-solid fa-chart-line"></i> <span>Margens</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comissoes.html"><i class="fa-solid fa-coins"></i> <span>Comissões</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="metas.html"><i class="fa-solid fa-bullseye"></i> <span>Metas Profissionais</span></a>
+                    </li>
+                    <li class="nav-separator">Treinamentos</li>
+                    <li class="nav-item">
+                        <a href="cursos.html"><i class="fa-solid fa-graduation-cap"></i> <span>Cursos & Treinamentos</span></a>
+                    </li>
+                    <li class="nav-separator">Administração</li>
+                    <li class="nav-item">
+                        <a href="barbeiros.html"><i class="fa-solid fa-user-md"></i> <span>Barbeiros</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="bloqueios.html"><i class="fa-solid fa-lock"></i> <span>Bloqueios & Agenda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="exportacoes.html"><i class="fa-solid fa-chart-pie"></i> <span>Exportações</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="configuracoes.html"><i class="fa-solid fa-gear"></i> <span>Configurações</span></a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">ABS</div>
+                    <div class="user-info">
+                        <span class="user-name">Alpha BarberShop</span>
+                        <span class="user-status">Online</span>
+                    </div>
+                    <button id="logout" class="btn-logout-icon" title="Sair">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1>⚙️ Configurações do Sistema</h1>
+                    <p>Gerencie as configurações da sua barbearia, incluindo preços especiais para profissionais</p>
+                </div>
+            </header>
+
+            <div class="container-fluid">
+                <div class="config-grid">
+                    <!-- Card: Dados da Barbearia -->
+                    <div class="config-card">
+                        <div class="config-header">
+                            <i class="fa-solid fa-building"></i>
+                            <h2>Dados da Barbearia</h2>
+                        </div>
+                        <div class="config-body">
+                            <div class="form-group">
+                                <label>Nome da Barbearia</label>
+                                <input type="text" id="studioNome" placeholder="Barbearia do joão">
+                            </div>
+                            <div class="form-group">
+                                <label>Telefone</label>
+                                <input type="tel" id="studioTelefone" placeholder="(83) 99999-9999">
+                            </div>
+                            <div class="form-group">
+                                <label>E-mail</label>
+                                <input type="email" id="studioEmail" placeholder="contato@barbearia.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Endereço</label>
+                                <input type="text" id="studioEndereco" placeholder="Rua, número, bairro, cidade">
+                            </div>
+                            <button id="btnSalvarStudio" class="btn-save">Salvar Alterações</button>
+                        </div>
+                    </div>
+
+                    <!-- Card: Horário de Funcionamento -->
+                    <div class="config-card">
+                        <div class="config-header">
+                            <i class="fa-solid fa-clock"></i>
+                            <h2>Horário de Funcionamento</h2>
+                        </div>
+                        <div class="config-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Segunda - Sexta</label>
+                                    <input type="text" id="horarioSemana" placeholder="08:00 - 20:00">
+                                </div>
+                                <div class="form-group">
+                                    <label>Sábado</label>
+                                    <input type="text" id="horarioSabado" placeholder="08:00 - 20:00">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Domingo</label>
+                                <input type="text" id="horarioDomingo" placeholder="Fechado">
+                            </div>
+                            
+                            <!-- 🆕 INTERVALO DE HORÁRIOS -->
+                            <div class="form-group" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+                                <label><i class="fa-solid fa-arrows-left-right"></i> Intervalo entre horários</label>
+                                <select id="intervaloHorarios" class="form-select">
+                                    <option value="10">10 minutos (Recomendado - Mais horários)</option>
+                                    <option value="15">15 minutos</option>
+                                    <option value="20">20 minutos</option>
+                                    <option value="30">30 minutos</option>
+                                    <option value="60">60 minutos</option>
+                                </select>
+                                <small style="display:block;margin-top:8px;color:var(--text-muted);font-size:0.75rem;padding:8px 12px;background:var(--bg-dark);border-radius:8px;border-left:3px solid #2199EF;">
+                                    <i class="fa-solid fa-info-circle" style="color:#2199EF;"></i>
+                                    <span id="infoIntervalo">Com 10 minutos você terá 54 horários disponíveis por dia</span>
+                                </small>
+                            </div>
+                            
+                            <button id="btnSalvarHorario" class="btn-save">Salvar Horários</button>
+                        </div>
+                    </div>
+
+                    <!-- Card: Preços Especiais para Profissionais -->
+                    <div class="config-card config-card-full">
+                        <div class="config-header">
+                            <i class="fa-solid fa-tag"></i>
+                            <h2>Preços Especiais para Profissionais</h2>
+                        </div>
+                        <div class="config-body">
+                            <div class="sub-card">
+                                <h3><i class="fa-solid fa-gear"></i> Configurações Globais</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label><i class="fa-solid fa-percent"></i> Desconto Padrão (%)</label>
+                                        <input type="number" id="descontoPadraoProfissional" class="form-input" value="15" step="1" min="0" max="100">
+                                        <small class="form-text">Percentual aplicado automaticamente a todos os produtos</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label><i class="fa-solid fa-toggle-on"></i> Habilitar Preços Especiais</label>
+                                        <select id="habilitarPrecosEspeciais" class="form-select">
+                                            <option value="true">Sim - Profissionais têm preços especiais</option>
+                                            <option value="false">Não - Usar apenas preço normal</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label><i class="fa-solid fa-cart-shopping"></i> Permitir Revenda</label>
+                                        <select id="permitirRevenda" class="form-select">
+                                            <option value="true">Sim - Profissionais podem revender produtos</option>
+                                            <option value="false">Não - Apenas para uso próprio</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label><i class="fa-solid fa-boxes"></i> Limite de Produtos por Profissional</label>
+                                        <input type="number" id="limiteProdutosProfissional" class="form-input" value="10" min="0">
+                                        <small class="form-text">0 = sem limite</small>
+                                    </div>
+                                </div>
+                                <button id="btnSalvarConfigPrecos" class="btn-save" style="margin-top: 10px;">
+                                    <i class="fa-solid fa-save"></i> Salvar Configurações
+                                </button>
+                            </div>
+
+                            <div class="sub-card">
+                                <div class="card-header-actions">
+                                    <h3><i class="fa-solid fa-list"></i> Preços Especiais por Produto</h3>
+                                    <button id="btnAdicionarPrecoEspecial" class="btn-primary-small">
+                                        <i class="fa-solid fa-plus"></i> Adicionar Preço Especial
+                                    </button>
+                                </div>
+                                <div class="precos-especiais-tabela" id="precosEspeciaisTabela">
+                                    <div class="loading-precos">Carregando preços especiais...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card: Notificações -->
+                    <div class="config-card">
+                        <div class="config-header">
+                            <i class="fa-solid fa-bell"></i>
+                            <h2>Notificações</h2>
+                        </div>
+                        <div class="config-body">
+                            <div class="toggle-group">
+                                <label>Som para novos agendamentos</label>
+                                <label class="toggle">
+                                    <input type="checkbox" id="somNotificacao" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-group">
+                                <label>Notificação por e-mail</label>
+                                <label class="toggle">
+                                    <input type="checkbox" id="emailNotificacao">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-group">
+                                <label>Lembretes automáticos (WhatsApp)</label>
+                                <label class="toggle">
+                                    <input type="checkbox" id="whatsappLembretes" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card: Backup e Restauração -->
+                    <div class="config-card">
+                        <div class="config-header">
+                            <i class="fa-solid fa-database"></i>
+                            <h2>Backup e Restauração</h2>
+                        </div>
+                        <div class="config-body">
+                            <div class="backup-info">
+                                <p><i class="fa-solid fa-circle-info"></i> Último backup: <span id="ultimoBackup">Nunca realizado</span></p>
+                            </div>
+                            <div class="button-group">
+                                <button id="btnBackup" class="btn-primary">
+                                    <i class="fa-solid fa-download"></i> Realizar Backup
+                                </button>
+                                <button id="btnRestaurar" class="btn-ghost">
+                                    <i class="fa-solid fa-upload"></i> Restaurar Backup
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card: Segurança -->
+                    <div class="config-card">
+                        <div class="config-header">
+                            <i class="fa-solid fa-shield-alt"></i>
+                            <h2>Segurança</h2>
+                        </div>
+                        <div class="config-body">
+                            <div class="form-group">
+                                <label>Alterar Senha do Administrador</label>
+                                <input type="password" id="novaSenha" placeholder="Nova senha">
+                            </div>
+                            <div class="form-group">
+                                <label>Confirmar Senha</label>
+                                <input type="password" id="confirmarSenha" placeholder="Confirmar senha">
+                            </div>
+                            <button id="btnAlterarSenha" class="btn-save">Alterar Senha</button>
+                        </div>
+                    </div>
+
+                    <!-- Card: Aparência -->
+                    <div class="config-card">
+                        <div class="config-header">
+                            <i class="fa-solid fa-palette"></i>
+                            <h2>Aparência</h2>
+                        </div>
+                        <div class="config-body">
+                            <div class="toggle-group">
+                                <label>Modo Escuro</label>
+                                <label class="toggle">
+                                    <input type="checkbox" id="modoEscuro" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>Cor Primária</label>
+                                <input type="color" id="corPrimaria" value="#2199EF">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Adicionar/Editar Preço Especial -->
+    <div id="modalPrecoEspecial" class="modal">
+        <div class="modal-content" style="max-width: 550px;">
+            <div class="modal-header">
+                <h2 id="modalPrecoEspecialTitle"><i class="fa-solid fa-tag"></i> Adicionar Preço Especial</h2>
+                <button class="modal-close-preco modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formPrecoEspecial">
+                    <input type="hidden" id="precoEspecialId">
+                    
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-box"></i> Produto *</label>
+                        <select id="precoProduto" class="form-select" required>
+                            <option value="">Selecione um produto</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-user-md"></i> Profissional *</label>
+                        <select id="precoProfissional" class="form-select" required>
+                            <option value="">Selecione um profissional</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-percent"></i> Tipo de Desconto</label>
+                            <select id="precoTipoDesconto" class="form-select">
+                                <option value="porcentagem">Percentual (%)</option>
+                                <option value="fixo">Valor Fixo (R$)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-dollar-sign"></i> Valor do Desconto</label>
+                            <input type="number" id="precoValorDesconto" step="0.01" class="form-input" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-coins"></i> Preço Especial (R$)</label>
+                        <input type="number" id="precoEspecialValor" step="0.01" class="form-input" readonly style="background: rgba(33,153,239,0.1); font-weight: bold;">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fa-regular fa-calendar"></i> Data Início (opcional)</label>
+                            <input type="date" id="precoDataInicio" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-regular fa-calendar"></i> Data Fim (opcional)</label>
+                            <input type="date" id="precoDataFim" class="form-input">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-toggle-on"></i> Ativo</label>
+                        <select id="precoAtivo" class="form-select">
+                            <option value="true">Sim</option>
+                            <option value="false">Não</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-note-sticky"></i> Observações</label>
+                        <textarea id="precoObservacoes" rows="2" class="form-textarea" placeholder="Observações sobre este preço especial..."></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel-preco btn-cancel">Cancelar</button>
+                        <button type="submit" class="btn-save">Salvar Preço Especial</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Excluir Preço Especial -->
+    <div id="modalExcluirPreco" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-trash"></i> Excluir Preço Especial</h2>
+                <button class="modal-close-excluir-preco modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja excluir este preço especial?</p>
+                <p><strong id="excluirPrecoDescricao"></strong></p>
+                <p class="text-warning">⚠️ Esta ação não poderá ser desfeita.</p>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-excluir-preco btn-cancel">Cancelar</button>
+                <button id="confirmarExcluirPreco" class="btn-danger">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Visualizar Detalhes do Preço -->
+    <div id="modalVisualizarPreco" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-eye"></i> Detalhes do Preço Especial</h2>
+                <button class="modal-close-visualizar modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="visualizarPrecoBody">
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-visualizar btn-cancel">Fechar</button>
+                <button id="btnEditarPreco" class="btn-primary" style="display: none;">Editar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg"></span>
+    </div>
+
+    <script type="module" src="configuracoes.js"></script>
+    <script type="module" src="floating-caixa.js"></script>
+    <link rel="stylesheet" href="floating-caixa.css">
+
+    <script>
+        (function () {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+
+            if (!mobileMenuBtn || !sidebar) return;
+
+            function openMenu() {
+                sidebar.classList.add('mobile-open');
+                if (overlay) overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMenu() {
+                sidebar.classList.remove('mobile-open');
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            mobileMenuBtn.addEventListener('click', openMenu);
+            if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeMenu);
+            if (overlay) overlay.addEventListener('click', closeMenu);
+
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768) closeMenu();
+            });
+
+            const currentPage = window.location.pathname.split('/').pop();
+            document.querySelectorAll('.sidebar-nav .nav-item').forEach(item => {
+                const link = item.querySelector('a');
+                if (link && link.getAttribute('href') === currentPage) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cursos e Treinamentos | Alpha BarberShop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#2199EF">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="cursos.css">
+    <link rel="icon" type="image/png" href="assets/barber.icon.png">
+</head>
+
+<body>
+
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <div class="wrapper" id="painel">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/barber-perfil.png" alt="Logo" class="sidebar-logo">
+                <span class="brand-name">Alpha BarberShop</span>
+                <button class="close-sidebar-btn" id="closeSidebarBtn" aria-label="Fechar menu">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a href="dashboard.html"><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
+                    </li>
+                    <li class="nav-separator">Navegação</li>
+                    <li class="nav-item">
+                        <a href="agenda.html"><i class="fa-solid fa-calendar-days"></i> <span>Agenda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="clientes.html"><i class="fa-solid fa-users"></i> <span>Clientes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="servicos.html"><i class="fa-solid fa-cut"></i> <span>Serviços</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pacotes.html"><i class="fa-solid fa-gift"></i> <span>Pacotes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="estoque.html"><i class="fa-solid fa-box-archive"></i> <span>Produtos</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pagamentos.html"><i class="fa-solid fa-credit-card"></i> <span>Pagamentos</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="equipes.html"><i class="fa-solid fa-people-group"></i> <span>Equipes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="anamnese.html"><i class="fa-solid fa-clipboard-list"></i> <span>Anamnese</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="aniversariantes.html"><i class="fa-solid fa-gift"></i> <span>Aniversariantes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="avaliacoes-clientes.html"><i class="fa-solid fa-star"></i> <span>Avaliações</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comanda.html"><i class="fa-solid fa-receipt"></i> <span>Comanda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="fidelidade.html"><i class="fa-solid fa-star-of-life"></i> <span>Fidelidade</span></a>
+                    </li>
+                    <li class="nav-separator">Desempenho</li>
+                    <li class="nav-item">
+                        <a href="margens.html"><i class="fa-solid fa-chart-line"></i> <span>Margens</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comissoes.html"><i class="fa-solid fa-coins"></i> <span>Comissões</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="metas.html"><i class="fa-solid fa-bullseye"></i> <span>Metas Profissionais</span></a>
+                    </li>
+                    <li class="nav-separator">Treinamentos</li>
+                    <li class="nav-item active">
+                        <a href="cursos.html"><i class="fa-solid fa-graduation-cap"></i> <span>Cursos & Treinamentos</span></a>
+                    </li>
+                    <li class="nav-separator">Administração</li>
+                    <li class="nav-item">
+                        <a href="barbeiros.html"><i class="fa-solid fa-user-md"></i> <span>Barbeiros</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="bloqueios.html"><i class="fa-solid fa-lock"></i> <span>Bloqueios & Agenda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="exportacoes.html"><i class="fa-solid fa-chart-pie"></i> <span>Exportações</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="configuracoes.html"><i class="fa-solid fa-gear"></i> <span>Configurações</span></a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">ABS</div>
+                    <div class="user-info">
+                        <span class="user-name">Alpha BarberShop</span>
+                        <span class="user-status">Online</span>
+                    </div>
+                    <button id="logout" class="btn-logout-icon" title="Sair">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1>🎓 Cursos & Treinamentos</h1>
+                    <p>Capacite sua equipe com vídeos, ebooks e materiais exclusivos</p>
+                </div>
+                <div class="topbar-actions">
+                    <button id="btnNovoCurso" class="btn-primary">
+                        <i class="fa-solid fa-plus"></i> Novo Curso
+                    </button>
+                </div>
+            </header>
+
+            <div class="container-fluid">
+                <!-- Cards de Resumo -->
+                <div class="stats-cursos">
+                    <div class="stat-curso-card">
+                        <div class="stat-icon bg-purple">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="totalCursos">0</span>
+                            <span class="stat-label">Total de Cursos</span>
+                        </div>
+                    </div>
+                    <div class="stat-curso-card">
+                        <div class="stat-icon bg-green">
+                            <i class="fa-solid fa-video"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="totalVideos">0</span>
+                            <span class="stat-label">Vídeos</span>
+                        </div>
+                    </div>
+                    <div class="stat-curso-card">
+                        <div class="stat-icon bg-blue">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="totalEbooks">0</span>
+                            <span class="stat-label">E-books</span>
+                        </div>
+                    </div>
+                    <div class="stat-curso-card">
+                        <div class="stat-icon bg-orange">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="totalAlunos">0</span>
+                            <span class="stat-label">Alunos Matriculados</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filtros -->
+                <div class="filter-cursos">
+                    <div class="filter-group">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="searchCurso" placeholder="Buscar por curso..." class="search-input">
+                    </div>
+                    <div class="filter-group">
+                        <i class="fa-solid fa-filter"></i>
+                        <select id="filterTipo" class="filter-select">
+                            <option value="">Todos os tipos</option>
+                            <option value="video">🎬 Vídeos</option>
+                            <option value="ebook">📚 E-books</option>
+                            <option value="curso">🎓 Cursos</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <i class="fa-solid fa-tag"></i>
+                        <select id="filterCategoria" class="filter-select">
+                            <option value="">Todas as categorias</option>
+                            <option value="corte">✂️ Corte</option>
+                            <option value="barba">🪒 Barba</option>
+                            <option value="coloracao">🎨 Coloração</option>
+                            <option value="gestao">📊 Gestão</option>
+                            <option value="atendimento">💬 Atendimento</option>
+                        </select>
+                    </div>
+                    <button id="btnLimparFiltros" class="btn-ghost">
+                        <i class="fa-solid fa-eraser"></i> Limpar
+                    </button>
+                </div>
+
+                <!-- Grid de Cursos -->
+                <div class="cursos-grid" id="cursosGrid">
+                    <div class="loading-cursos">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Carregando cursos...
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Novo/Editar Curso -->
+    <div id="modalCurso" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h2 id="modalCursoTitle"><i class="fa-solid fa-plus"></i> Novo Curso</h2>
+                <button class="modal-close-curso modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formCurso">
+                    <input type="hidden" id="cursoId">
+                    
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-tag"></i> Título do Curso *</label>
+                        <input type="text" id="cursoTitulo" class="form-input" required placeholder="Ex: Técnicas Avançadas de Corte">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-layer-group"></i> Tipo *</label>
+                            <select id="cursoTipo" class="form-select" required>
+                                <option value="curso">🎓 Curso</option>
+                                <option value="video">🎬 Vídeo Aula</option>
+                                <option value="ebook">📚 E-book</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-tag"></i> Categoria</label>
+                            <select id="cursoCategoria" class="form-select">
+                                <option value="corte">✂️ Corte</option>
+                                <option value="barba">🪒 Barba</option>
+                                <option value="coloracao">🎨 Coloração</option>
+                                <option value="gestao">📊 Gestão</option>
+                                <option value="atendimento">💬 Atendimento</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-align-left"></i> Descrição</label>
+                        <textarea id="cursoDescricao" rows="3" class="form-textarea" placeholder="Descrição detalhada do curso..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-link"></i> URL do Vídeo (YouTube/Vimeo)</label>
+                        <input type="url" id="cursoUrlVideo" class="form-input" placeholder="https://www.youtube.com/watch?v=...">
+                        <small class="form-text">Para vídeos, insira o link do YouTube ou Vimeo</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-file-pdf"></i> URL do E-book / Material</label>
+                        <input type="url" id="cursoUrlEbook" class="form-input" placeholder="https://drive.google.com/...">
+                        <small class="form-text">Para e-books, insira o link de download</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-image"></i> URL da Imagem/Capa</label>
+                        <input type="url" id="cursoUrlImagem" class="form-input" placeholder="https://...">
+                        <small class="form-text">Link da imagem de capa do curso</small>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fa-regular fa-clock"></i> Duração (minutos)</label>
+                            <input type="number" id="cursoDuracao" class="form-input" placeholder="60" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-chart-line"></i> Nível</label>
+                            <select id="cursoNivel" class="form-select">
+                                <option value="iniciante">🌱 Iniciante</option>
+                                <option value="intermediario">📈 Intermediário</option>
+                                <option value="avancado">🚀 Avançado</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-star"></i> Instrutor</label>
+                        <input type="text" id="cursoInstrutor" class="form-input" placeholder="Nome do instrutor">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-dollar-sign"></i> Preço (R$)</label>
+                        <input type="number" id="cursoPreco" class="form-input" placeholder="0,00" step="0.01">
+                        <small class="form-text">Deixe em branco para conteúdo gratuito</small>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel-curso btn-cancel">Cancelar</button>
+                        <button type="submit" class="btn-save">Salvar Curso</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detalhes do Curso -->
+    <div id="modalDetalhesCurso" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h2 id="detalhesCursoTitulo"><i class="fa-solid fa-graduation-cap"></i> Detalhes do Curso</h2>
+                <button class="modal-close-detalhes modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="detalhesCursoBody">
+                <!-- Conteúdo dinâmico -->
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-detalhes btn-cancel">Fechar</button>
+                <button id="btnAssistirCurso" class="btn-primary" style="background: linear-gradient(135deg, #2199EF, #1a7fcc); display: none;">
+                    <i class="fa-solid fa-play"></i> Assistir Agora
+                </button>
+                <button id="btnDownloadEbook" class="btn-primary" style="background: linear-gradient(135deg, #10b981, #059669); display: none;">
+                    <i class="fa-solid fa-download"></i> Baixar E-book
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Matricular Aluno -->
+    <div id="modalMatricular" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-user-plus"></i> Matricular Aluno</h2>
+                <button class="modal-close-matricular modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formMatricular">
+                    <input type="hidden" id="matriculaCursoId">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-user"></i> Aluno *</label>
+                        <select id="matriculaAluno" class="form-select" required>
+                            <option value="">Selecione um aluno</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-regular fa-calendar"></i> Data de Início</label>
+                        <input type="date" id="matriculaDataInicio" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-align-left"></i> Observações</label>
+                        <textarea id="matriculaObservacoes" rows="2" class="form-textarea" placeholder="Observações..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-matricular btn-cancel">Cancelar</button>
+                <button id="btnConfirmarMatricula" class="btn-save">Matricular</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Excluir Curso -->
+    <div id="modalExcluirCurso" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-trash"></i> Excluir Curso</h2>
+                <button class="modal-close-excluir-curso modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja excluir o curso <strong id="excluirCursoNome"></strong>?</p>
+                <p class="text-warning">⚠️ Esta ação não poderá ser desfeita.</p>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-excluir-curso btn-cancel">Cancelar</button>
+                <button id="confirmarExcluirCurso" class="btn-danger">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg"></span>
+    </div>
+
+    <script type="module" src="cursos.js"></script>
+    <!-- Adicionar antes do fechamento do body -->
+<script type="module" src="floating-caixa.js"></script>
+<!-- Adicione após os outros CSS -->
+<link rel="stylesheet" href="floating-caixa.css">
+    <script>
+        (function () {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+
+            if (!mobileMenuBtn || !sidebar) return;
+
+            function openMenu() {
+                sidebar.classList.add('mobile-open');
+                if (overlay) overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMenu() {
+                sidebar.classList.remove('mobile-open');
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            mobileMenuBtn.addEventListener('click', openMenu);
+            if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeMenu);
+            if (overlay) overlay.addEventListener('click', closeMenu);
+
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768) closeMenu();
+            });
+
+            const currentPage = window.location.pathname.split('/').pop();
+            document.querySelectorAll('.sidebar-nav .nav-item').forEach(item => {
+                const link = item.querySelector('a');
+                if (link && link.getAttribute('href') === currentPage) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

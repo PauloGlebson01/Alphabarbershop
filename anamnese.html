@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#2199EF">
+    <title>Anamnese | Alpha BarberShop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="anamnese.css">
+    <link rel="icon" type="image/png" href="assets/barber.icon.png">
+</head>
+
+<body>
+
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <div class="wrapper" id="painel">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/barber-perfil.png" alt="Logo" class="sidebar-logo">
+                <span class="brand-name">Alpha BarberShop</span>
+                <button class="close-sidebar-btn" id="closeSidebarBtn" aria-label="Fechar menu">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a href="dashboard.html"><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
+                    </li>
+                    <li class="nav-separator">Navegação</li>
+                    <li class="nav-item">
+                        <a href="agenda.html"><i class="fa-solid fa-calendar-days"></i> <span>Agenda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="clientes.html"><i class="fa-solid fa-users"></i> <span>Clientes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="servicos.html"><i class="fa-solid fa-cut"></i> <span>Serviços</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pacotes.html"><i class="fa-solid fa-gift"></i> <span>Pacotes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="estoque.html"><i class="fa-solid fa-box-archive"></i> <span>Produtos</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pagamentos.html"><i class="fa-solid fa-credit-card"></i> <span>Pagamentos</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="equipes.html"><i class="fa-solid fa-people-group"></i> <span>Equipes</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="anamnese.html"><i class="fa-solid fa-clipboard-list"></i> <span>Anamnese</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="aniversariantes.html"><i class="fa-solid fa-gift"></i> <span>Aniversariantes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="avaliacoes-clientes.html"><i class="fa-solid fa-star"></i> <span>Avaliações</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comanda.html"><i class="fa-solid fa-receipt"></i> <span>Comanda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="fidelidade.html"><i class="fa-solid fa-star-of-life"></i> <span>Fidelidade</span></a>
+                    </li>
+                    <li class="nav-separator">Desempenho</li>
+                    <li class="nav-item">
+                        <a href="margens.html"><i class="fa-solid fa-chart-line"></i> <span>Margens</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comissoes.html"><i class="fa-solid fa-coins"></i> <span>Comissões</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="metas.html"><i class="fa-solid fa-bullseye"></i> <span>Metas Profissionais</span></a>
+                    </li>
+                    <li class="nav-separator">Treinamentos</li>
+                    <li class="nav-item">
+                        <a href="cursos.html"><i class="fa-solid fa-graduation-cap"></i> <span>Cursos & Treinamentos</span></a>
+                    </li>
+                    <li class="nav-separator">Administração</li>
+                    <li class="nav-item">
+                        <a href="barbeiros.html"><i class="fa-solid fa-user-md"></i> <span>Barbeiros</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="bloqueios.html"><i class="fa-solid fa-lock"></i> <span>Bloqueios & Agenda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="exportacoes.html"><i class="fa-solid fa-chart-pie"></i> <span>Exportações</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="configuracoes.html"><i class="fa-solid fa-gear"></i> <span>Configurações</span></a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">ABS</div>
+                    <div class="user-info">
+                        <span class="user-name">Alpha BarberShop</span>
+                        <span class="user-status">Online</span>
+                    </div>
+                    <button id="logout" class="btn-logout-icon" title="Sair">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1>📋 Anamnese do Cliente</h1>
+                    <p>Histórico de atendimentos, preferências e análise comportamental</p>
+                </div>
+                <div class="topbar-actions">
+                    <button id="btnNovaAnamnese" class="btn-primary">
+                        <i class="fa-solid fa-plus"></i> Nova Anamnese
+                    </button>
+                    <button id="btnProjecao" class="btn-primary" style="background: linear-gradient(135deg, #2199EF, #1a7fcc);">
+                        <i class="fa-solid fa-chart-line"></i> Projeção de Crescimento
+                    </button>
+                </div>
+            </header>
+
+            <div class="container-fluid">
+                <!-- Estatísticas -->
+                <div class="stats-anamnese">
+                    <div class="stat-anamnese-card">
+                        <div class="stat-icon bg-purple">
+                            <i class="fa-solid fa-notes-medical"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="totalAnamneses">0</span>
+                            <span class="stat-label">Anamneses Realizadas</span>
+                        </div>
+                    </div>
+                    <div class="stat-anamnese-card">
+                        <div class="stat-icon bg-green">
+                            <i class="fa-solid fa-calendar-week"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="mediaFrequencia">0</span>
+                            <span class="stat-label">Frequência Média (dias)</span>
+                        </div>
+                    </div>
+                    <div class="stat-anamnese-card">
+                        <div class="stat-icon bg-orange">
+                            <i class="fa-solid fa-ranking-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="satisfacaoMedia">0</span>
+                            <span class="stat-label">Satisfação Média</span>
+                        </div>
+                    </div>
+                    <div class="stat-anamnese-card">
+                        <div class="stat-icon bg-blue">
+                            <i class="fa-solid fa-chart-simple"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="crescimentoProjetado">0</span>
+                            <span class="stat-label">Crescimento Projetado %</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filtros -->
+                <div class="filter-anamnese">
+                    <div class="filter-group">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="searchCliente" placeholder="Buscar por cliente..." class="search-input">
+                    </div>
+                    <div class="filter-group">
+                        <select id="filterPeriodo" class="filter-select">
+                            <option value="todos">Todos os períodos</option>
+                            <option value="30">Últimos 30 dias</option>
+                            <option value="60">Últimos 60 dias</option>
+                            <option value="90">Últimos 90 dias</option>
+                            <option value="180">Últimos 6 meses</option>
+                            <option value="365">Último ano</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <select id="filterFrequencia" class="filter-select">
+                            <option value="">Todas as frequências</option>
+                            <option value="alta">Alta (15-25 dias)</option>
+                            <option value="media">Média (26-40 dias)</option>
+                            <option value="baixa">Baixa (40+ dias)</option>
+                        </select>
+                    </div>
+                    <button id="btnLimparFiltros" class="btn-ghost">
+                        <i class="fa-solid fa-eraser"></i> Limpar
+                    </button>
+                </div>
+
+                <!-- Lista de Anamneses -->
+                <div class="anamnese-grid" id="anamneseGrid">
+                    <div class="loading-anamnese">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Carregando anamneses...
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Nova/Editar Anamnese -->
+    <div id="modalAnamnese" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="modalAnamneseTitle"><i class="fa-solid fa-clipboard-list"></i> Nova Anamnese</h2>
+                <button class="modal-close-anamnese">&times;</button>
+            </div>
+            <form id="formAnamnese">
+                <input type="hidden" id="anamneseId">
+
+                <!-- Informações do Cliente -->
+                <div class="form-section">
+                    <h3><i class="fa-solid fa-user"></i> Dados do Cliente</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Cliente *</label>
+                            <select id="anamneseCliente" required>
+                                <option value="">Selecione um cliente</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Data da Avaliação *</label>
+                            <input type="date" id="anamneseData" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Informações do Atendimento -->
+                <div class="form-section">
+                    <h3><i class="fa-solid fa-cut"></i> Informações do Atendimento</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Serviço Realizado *</label>
+                            <select id="anamneseServico" required>
+                                <option value="">Selecione um serviço</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Barbeiro *</label>
+                            <select id="anamneseProfissional" required>
+                                <option value="">Selecione um barbeiro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Satisfação do Cliente *</label>
+                            <div class="rating-stars" id="ratingStars">
+                                <i class="fa-regular fa-star" data-rating="1"></i>
+                                <i class="fa-regular fa-star" data-rating="2"></i>
+                                <i class="fa-regular fa-star" data-rating="3"></i>
+                                <i class="fa-regular fa-star" data-rating="4"></i>
+                                <i class="fa-regular fa-star" data-rating="5"></i>
+                            </div>
+                            <input type="hidden" id="anamneseSatisfacao" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Valor Gasto (R$)</label>
+                            <input type="number" id="anamneseValor" step="0.01" placeholder="0,00">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hábitos e Cuidados -->
+                <div class="form-section">
+                    <h3><i class="fa-solid fa-calendar-check"></i> Hábitos e Frequência</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Frequência de Visitas</label>
+                            <select id="anamneseFrequencia">
+                                <option value="semanal">Semanal (1-2 vezes)</option>
+                                <option value="quinzenal">Quinzenal (2-3 vezes/mês)</option>
+                                <option value="mensal">Mensal (1 vez/mês)</option>
+                                <option value="bimestral">Bimestral (a cada 2 meses)</option>
+                                <option value="eventual">Eventual (sem periodicidade)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Dias desde último corte</label>
+                            <input type="number" id="anamneseDiasUltimoCorte" placeholder="dias">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Produtos que utiliza em casa</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" value="pomada"> Pomada modeladora</label>
+                            <label><input type="checkbox" value="oleo"> Óleo pós-barba</label>
+                            <label><input type="checkbox" value="shampoo"> Shampoo específico</label>
+                            <label><input type="checkbox" value="condicionador"> Condicionador</label>
+                            <label><input type="checkbox" value="finalizador"> Finalizador</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preferências de Estilo -->
+                <div class="form-section">
+                    <h3><i class="fa-solid fa-star"></i> Preferências de Estilo</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tipo de Corte Preferido</label>
+                            <select id="anamneseEstiloPreferido">
+                                <option value="degrade">Degradê</option>
+                                <option value="social">Social</option>
+                                <option value="militar">Militar</option>
+                                <option value="moicano">Moicano</option>
+                                <option value="under cut">Under Cut</option>
+                                <option value="cacheado">Cacheado</option>
+                                <option value="barba">Barba destacada</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Usa barba?</label>
+                            <select id="anamneseUsaBarba">
+                                <option value="sim">Sim</option>
+                                <option value="nao">Não</option>
+                                <option value="as_vezes">Às vezes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Produtos de interesse</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" value="kit_cabelo"> Kit cabelo completo</label>
+                            <label><input type="checkbox" value="kit_barba"> Kit barba</label>
+                            <label><input type="checkbox" value="perfume"> Perfume importado</label>
+                            <label><input type="checkbox" value="acessorios"> Acessórios (pentes, escovas e etc)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Observações -->
+                <div class="form-section">
+                    <h3><i class="fa-solid fa-notes-medical"></i> Observações Clínicas</h3>
+                    <div class="form-group">
+                        <textarea id="anamneseObservacoes" rows="3"
+                            placeholder="Observações sobre o cliente, recomendações, cuidados específicos..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel-anamnese">Cancelar</button>
+                    <button type="submit" class="btn-save">Salvar Anamnese</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Projeção de Crescimento -->
+    <div id="modalProjecao" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-chart-line"></i> Projeção de Crescimento</h2>
+                <button class="modal-close-projecao">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="projecao-container">
+                    <!-- Seletor de Período -->
+                    <div class="projecao-header">
+                        <div class="periodo-selector">
+                            <button class="periodo-btn active" data-periodo="6">6 meses</button>
+                            <button class="periodo-btn" data-periodo="12">12 meses</button>
+                            <button class="periodo-btn" data-periodo="24">24 meses</button>
+                        </div>
+                    </div>
+
+                    <!-- Cards de Projeção -->
+                    <div class="projecao-cards">
+                        <div class="projecao-card">
+                            <div class="projecao-icon bg-orange">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <div class="projecao-info">
+                                <span class="projecao-label">Clientes Projetados</span>
+                                <span class="projecao-valor" id="projClientes">0</span>
+                                <span class="projecao-variacao" id="varClientes">+0%</span>
+                            </div>
+                        </div>
+                        <div class="projecao-card">
+                            <div class="projecao-icon bg-green">
+                                <i class="fa-solid fa-dollar-sign"></i>
+                            </div>
+                            <div class="projecao-info">
+                                <span class="projecao-label">Faturamento Projetado</span>
+                                <span class="projecao-valor" id="projFaturamento">R$ 0</span>
+                                <span class="projecao-variacao" id="varFaturamento">+0%</span>
+                            </div>
+                        </div>
+                        <div class="projecao-card">
+                            <div class="projecao-icon bg-purple">
+                                <i class="fa-solid fa-ticket"></i>
+                            </div>
+                            <div class="projecao-info">
+                                <span class="projecao-label">Ticket Médio Projetado</span>
+                                <span class="projecao-valor" id="projTicket">R$ 0</span>
+                                <span class="projecao-variacao" id="varTicket">+0%</span>
+                            </div>
+                        </div>
+                        <div class="projecao-card">
+                            <div class="projecao-icon bg-blue">
+                                <i class="fa-solid fa-arrow-trend-up"></i>
+                            </div>
+                            <div class="projecao-info">
+                                <span class="projecao-label">Crescimento Anual</span>
+                                <span class="projecao-valor" id="projCrescimento">0%</span>
+                                <span class="projecao-variacao" id="varCrescimento">Meta</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gráficos -->
+                    <div class="projecao-charts">
+                        <div class="chart-container">
+                            <h3>📈 Projeção de Clientes</h3>
+                            <canvas id="projecaoClientesChart" width="400" height="200"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>💰 Projeção de Faturamento</h3>
+                            <canvas id="projecaoFaturamentoChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Recomendações -->
+                    <div class="projecao-recomendacoes">
+                        <h3><i class="fa-solid fa-lightbulb"></i> Recomendações para o Crescimento</h3>
+                        <div class="recomendacoes-lista" id="recomendacoesLista">
+                            <div class="recomendacao-item">
+                                <i class="fa-regular fa-clock"></i>
+                                <span>Programa de fidelidade com descontos progressivos</span>
+                            </div>
+                            <div class="recomendacao-item">
+                                <i class="fa-regular fa-message"></i>
+                                <span>Lembretes automáticos via WhatsApp</span>
+                            </div>
+                            <div class="recomendacao-item">
+                                <i class="fa-regular fa-gem"></i>
+                                <span>Planos de assinatura mensal (corte + barba fixo)</span>
+                            </div>
+                            <div class="recomendacao-item">
+                                <i class="fa-solid fa-chart-simple"></i>
+                                <span>Aumento do ticket médio com combos promocionais</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detalhes da Anamnese -->
+    <div id="modalDetalhes" class="modal">
+        <div class="modal-content modal-medium">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-file-lines"></i> Detalhes da Anamnese</h2>
+                <button class="modal-close-detalhes">&times;</button>
+            </div>
+            <div class="modal-body" id="detalhesBody"></div>
+        </div>
+    </div>
+
+    <!-- Modal Excluir Anamnese - Padronizado -->
+    <div id="modalExcluir" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-trash" style="color: #ef4444;"></i> Excluir Anamnese</h2>
+                <button class="modal-close-excluir">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-main); line-height: 1.5;">
+                    Tem certeza que deseja excluir a anamnese do cliente 
+                    <strong style="color: #2199EF;" id="excluirNome"></strong>?
+                </p>
+                <div class="text-warning">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span>Esta ação não poderá ser desfeita. Todos os dados da anamnese serão permanentemente removidos.</span>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-excluir">Cancelar</button>
+                <button id="confirmarExcluir" class="btn-danger">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg"></span>
+    </div>
+
+    <!-- Adicionar antes do fechamento do body -->
+    <script type="module" src="floating-caixa.js"></script>
+    <!-- Adicione após os outros CSS -->
+    <link rel="stylesheet" href="floating-caixa.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="anamnese.js"></script>
+
+    <script>
+        (function () {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+
+            if (!mobileMenuBtn || !sidebar) return;
+
+            function openMenu() {
+                sidebar.classList.add('mobile-open');
+                if (overlay) overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMenu() {
+                sidebar.classList.remove('mobile-open');
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            mobileMenuBtn.addEventListener('click', openMenu);
+            if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeMenu);
+            if (overlay) overlay.addEventListener('click', closeMenu);
+
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768) closeMenu();
+            });
+
+            const currentPage = window.location.pathname.split('/').pop();
+            document.querySelectorAll('.sidebar-nav .nav-item').forEach(item => {
+                const link = item.querySelector('a');
+                if (link && link.getAttribute('href') === currentPage) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

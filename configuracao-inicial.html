@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#2199EF">
+    <title>Configuração Inicial | Alpha BarberShop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="login.css">
+    <link rel="icon" type="image/png" href="assets/barber.icon.png">
+    <style>
+        .setup-container {
+            max-width: 550px;
+        }
+        .setup-container h1 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        .setup-container p {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+        }
+        .password-strength {
+            margin-top: 8px;
+            font-size: 0.7rem;
+        }
+        .strength-weak { color: #ef4444; }
+        .strength-medium { color: #f59e0b; }
+        .strength-strong { color: #10b981; }
+        .info-box {
+            background: rgba(33, 153, 239, 0.1);
+            border-left: 3px solid #2199EF;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 0.8rem;
+        }
+        .info-box i {
+            color: #2199EF;
+            margin-right: 8px;
+        }
+        .success-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid #10b981;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .success-box i {
+            font-size: 2rem;
+            color: #10b981;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .success-box p {
+            margin-bottom: 10px;
+            color: #10b981;
+        }
+        .btn-secondary {
+            background: linear-gradient(135deg, #475569, #334155);
+            margin-top: 10px;
+        }
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #334155, #1e293b);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        @media (max-width: 480px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container setup-container">
+        <div class="logo-area">
+            <img src="assets/barber-perfil.png" alt="Logo">
+            <h1>🚀 Configuração Inicial</h1>
+            <p>Crie sua conta de administrador</p>
+        </div>
+
+        <div class="info-box">
+            <i class="fa-solid fa-info-circle"></i>
+            Esta é a configuração inicial do sistema. Crie suas credenciais de acesso para começar a gerenciar sua barbearia.<br>
+            <small style="display: block; margin-top: 8px;">✅ Todas as configurações serão salvas automaticamente!</small>
+        </div>
+
+        <form id="setupForm">
+            <div class="form-row">
+                <div class="input-group">
+                    <label><i class="fa-solid fa-envelope"></i> E-mail do Administrador *</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="adminEmail" required placeholder="admin@barbearia.com" autocomplete="email">
+                    </div>
+                </div>
+
+                
+                <div class="input-group">
+                    <label><i class="fa-solid fa-store"></i> Nome da Barbearia *</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-store"></i>
+                        <input type="text" id="barbeariaNome" required placeholder="Ex: Barbearia do joão">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="input-group">
+                    <label><i class="fa-solid fa-check-circle"></i> Confirmar Senha *</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-check-circle"></i>
+                        <input type="password" id="confirmarSenha" required placeholder="Digite a senha novamente">
+                    </div>
+                </div>
+               
+                <div class="input-group">
+                    <label><i class="fa-solid fa-lock"></i> Senha *</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="adminSenha" required placeholder="Mínimo 6 caracteres">
+                    </div>
+                    <div id="senhaStrength" class="password-strength"></div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="input-group">
+                    <label><i class="fa-brands fa-whatsapp"></i> Telefone/WhatsApp</label>
+                    <div class="input-wrapper">
+                        <i class="fa-brands fa-whatsapp"></i>
+                        <input type="tel" id="barbeariaTelefone" placeholder="(83) 99999-9999">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label><i class="fa-solid fa-location-dot"></i> Endereço da Barbearia</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <input type="text" id="barbeariaEndereco" placeholder="Rua, número, bairro, cidade">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login" id="btnSetup">
+                <i class="fa-solid fa-user-plus"></i> Criar Conta Administrativa
+            </button>
+
+            <div id="setupErro" class="error-msg"></div>
+        </form>
+
+        <div class="login-footer">
+            <p>© 2026 Alpha BarberShop | SOFTCLICK by SoftPower</p>
+        </div>
+    </div>
+
+    <script type="module" src="configuracao-inicial.js"></script>
+</body>
+
+</html>

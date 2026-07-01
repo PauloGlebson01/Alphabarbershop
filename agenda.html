@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Agenda | Alpha BarberShop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#2199EF">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="agenda.css">
+    <link rel="icon" type="image/png" href="assets/barber.icon.png">
+</head>
+
+<body>
+
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <div class="wrapper" id="painel">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/barber-perfil.png" alt="Logo" class="sidebar-logo">
+                <span class="brand-name">Alpha BarberShop</span>
+                <button class="close-sidebar-btn" id="closeSidebarBtn" aria-label="Fechar menu">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a href="dashboard.html"><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
+                    </li>
+                    <li class="nav-separator">Navegação</li>
+                    <li class="nav-item active">
+                        <a href="agenda.html"><i class="fa-solid fa-calendar-days"></i> <span>Agenda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="clientes.html"><i class="fa-solid fa-users"></i> <span>Clientes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="servicos.html"><i class="fa-solid fa-cut"></i> <span>Serviços</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pacotes.html"><i class="fa-solid fa-gift"></i> <span>Pacotes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="estoque.html"><i class="fa-solid fa-box-archive"></i> <span>Produtos</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pagamentos.html"><i class="fa-solid fa-credit-card"></i> <span>Pagamentos</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="equipes.html"><i class="fa-solid fa-people-group"></i> <span>Equipes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="anamnese.html"><i class="fa-solid fa-clipboard-list"></i> <span>Anamnese</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="aniversariantes.html"><i class="fa-solid fa-gift"></i> <span>Aniversariantes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="avaliacoes-clientes.html"><i class="fa-solid fa-star"></i> <span>Avaliações</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comanda.html"><i class="fa-solid fa-receipt"></i> <span>Comanda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="fidelidade.html"><i class="fa-solid fa-star-of-life"></i> <span>Fidelidade</span></a>
+                    </li>
+                    <li class="nav-separator">Desempenho</li>
+                    <li class="nav-item">
+                        <a href="margens.html"><i class="fa-solid fa-chart-line"></i> <span>Margens</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comissoes.html"><i class="fa-solid fa-coins"></i> <span>Comissões</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="metas.html"><i class="fa-solid fa-bullseye"></i> <span>Metas Profissionais</span></a>
+                    </li>
+                    <li class="nav-separator">Treinamentos</li>
+                    <li class="nav-item">
+                        <a href="cursos.html"><i class="fa-solid fa-graduation-cap"></i> <span>Cursos & Treinamentos</span></a>
+                    </li>
+                    <li class="nav-separator">Administração</li>
+                    <li class="nav-item">
+                        <a href="barbeiros.html"><i class="fa-solid fa-user-md"></i> <span>Barbeiros</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="bloqueios.html"><i class="fa-solid fa-lock"></i> <span>Bloqueios & Agenda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="exportacoes.html"><i class="fa-solid fa-chart-pie"></i> <span>Exportações</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="configuracoes.html"><i class="fa-solid fa-gear"></i> <span>Configurações</span></a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">ABS</div>
+                    <div class="user-info">
+                        <span class="user-name">Alpha BarberShop</span>
+                        <span class="user-status">Online</span>
+                    </div>
+                    <button id="logout" class="btn-logout-icon" title="Sair">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1>📅 Agenda de Atendimentos</h1>
+                    <p>Gerencie todos os agendamentos da barbearia</p>
+                </div>
+                <div class="topbar-actions">
+                    <button id="btnSincronizarComandas" class="btn-primary"
+                        style="background: linear-gradient(135deg, #2199EF, #1a7fcc);">
+                        <i class="fa-solid fa-sync"></i> Sincronizar Comandas
+                    </button>
+                </div>
+            </header>
+
+            <div class="container-fluid">
+                <section class="filter-card">
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label><i class="fa-solid fa-filter"></i> Período:</label>
+                            <input type="date" id="dataInicio">
+                            <span>até</span>
+                            <input type="date" id="dataFim">
+                        </div>
+                        <div class="filter-buttons">
+                            <button id="btnFiltrarPeriodo" class="btn-primary">Filtrar</button>
+                            <button id="btnLimparPeriodo" class="btn-ghost">Limpar</button>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="status-container">
+                    <section class="status-column">
+                        <h3 class="status-header confirmado">
+                            <i class="fa-regular fa-calendar-check"></i> Confirmados
+                            <span id="countConfirmado" class="count-badge">0</span>
+                        </h3>
+                        <div id="confirmados" class="appointment-list"></div>
+                    </section>
+
+                    <section class="status-column">
+                        <h3 class="status-header concluido">
+                            <i class="fa-regular fa-circle-check"></i> Realizados
+                            <span id="countConcluido" class="count-badge">0</span>
+                        </h3>
+                        <div id="concluidos" class="appointment-list"></div>
+                    </section>
+
+                    <section class="status-column">
+                        <h3 class="status-header ausente">
+                            <i class="fa-regular fa-clock"></i> Ausentes
+                            <span id="countAusente" class="count-badge">0</span>
+                        </h3>
+                        <div id="ausentes" class="appointment-list"></div>
+                    </section>
+
+                    <section class="status-column">
+                        <h3 class="status-header cancelado">
+                            <i class="fa-regular fa-circle-xmark"></i> Cancelados
+                            <span id="countCancelado" class="count-badge">0</span>
+                        </h3>
+                        <div id="cancelados" class="appointment-list"></div>
+                    </section>
+                </div>
+
+                <!-- LISTA DE ESPERA -->
+                <div class="lista-espera-container">
+                    <h3 class="lista-espera-header">
+                        <i class="fa-solid fa-clock"></i> Lista de Espera
+                        <span id="countListaEspera" class="badge-count">0</span>
+                    </h3>
+                    <div id="listaEsperaContainer" class="appointment-list"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="notificacao" class="notification" style="display:none;">
+        <i class="fa-solid fa-bell"></i>
+        <span>Novo agendamento recebido!</span>
+    </div>
+
+    <div id="toast" class="toast" style="display: none;">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg"></span>
+    </div>
+
+    <audio id="notificationSound" src="assets/Alerta-agendamento.mp3" preload="auto"></audio>
+
+    <script type="module" src="agenda.js"></script>
+    <script type="module" src="floating-caixa.js"></script>
+    <link rel="stylesheet" href="floating-caixa.css">
+
+    <!-- Modal de Confirmação de Envio de Lembrete -->
+    <div id="modalConfirmarLembrete" class="modal" style="display: none;">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-bell"></i> Enviar Lembrete</h2>
+                <button class="modal-close-lembrete modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Deseja enviar um lembrete para o cliente?</p>
+                <div class="form-group" style="margin: 16px 0;">
+                    <label><i class="fa-regular fa-calendar"></i> Tipo de Lembrete:</label>
+                    <select id="tipoLembreteSelect" class="filter-select" style="margin-top: 8px;">
+                        <option value="dia">📅 Lembrete do dia (hoje)</option>
+                        <option value="vespera">🌙 Lembrete de véspera (amanhã)</option>
+                    </select>
+                </div>
+                <p class="text-warning" style="font-size: 0.8rem;">
+                    <i class="fa-solid fa-info-circle"></i>
+                    O WhatsApp será aberto com a mensagem pronta. Basta enviar!
+                </p>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-lembrete btn-cancel">Cancelar</button>
+                <button id="btnConfirmarLembrete" class="btn-save">
+                    <i class="fa-brands fa-whatsapp"></i> Enviar Lembrete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação de Lembrete Enviado -->
+    <div id="modalLembreteEnviado" class="modal" style="display: none;">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-circle-check"></i> Lembrete Enviado</h2>
+                <button class="modal-close-enviado modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="lembreteMensagemStatus">✅ Lembrete enviado com sucesso!</p>
+                <p class="text-warning" style="font-size: 0.75rem; margin-top: 12px;">
+                    <i class="fa-solid fa-robot"></i>
+                    Esta é uma mensagem automática. O cliente receberá em seu WhatsApp.
+                </p>
+            </div>
+            <div class="form-actions">
+                <button class="btn-close-enviado btn-primary">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+
+            if (!mobileMenuBtn || !sidebar) return;
+
+            function openMenu() {
+                sidebar.classList.add('mobile-open');
+                if (overlay) overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMenu() {
+                sidebar.classList.remove('mobile-open');
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            mobileMenuBtn.addEventListener('click', openMenu);
+
+            if (closeSidebarBtn) {
+                closeSidebarBtn.addEventListener('click', closeMenu);
+            }
+
+            if (overlay) {
+                overlay.addEventListener('click', closeMenu);
+            }
+
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768) {
+                    closeMenu();
+                }
+            });
+
+            const currentPage = window.location.pathname.split('/').pop();
+            document.querySelectorAll('.sidebar-nav .nav-item').forEach(item => {
+                const link = item.querySelector('a');
+                if (link && link.getAttribute('href') === currentPage) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

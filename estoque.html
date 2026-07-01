@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Produtos | Alpha BarberShop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#2199EF">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="estoque.css">
+    <link rel="icon" type="image/png" href="assets/barber.icon.png">
+</head>
+
+<body>
+
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <div class="wrapper" id="painel">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/barber-perfil.png" alt="Logo" class="sidebar-logo">
+                <span class="brand-name">Alpha BarberShop</span>
+                <button class="close-sidebar-btn" id="closeSidebarBtn" aria-label="Fechar menu">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a href="dashboard.html"><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
+                    </li>
+                    <li class="nav-separator">Navegação</li>
+                    <li class="nav-item">
+                        <a href="agenda.html"><i class="fa-solid fa-calendar-days"></i> <span>Agenda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="clientes.html"><i class="fa-solid fa-users"></i> <span>Clientes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="servicos.html"><i class="fa-solid fa-cut"></i> <span>Serviços</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pacotes.html"><i class="fa-solid fa-gift"></i> <span>Pacotes</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="estoque.html"><i class="fa-solid fa-box-archive"></i> <span>Produtos</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pagamentos.html"><i class="fa-solid fa-credit-card"></i> <span>Pagamentos</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="equipes.html"><i class="fa-solid fa-people-group"></i> <span>Equipes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="anamnese.html"><i class="fa-solid fa-clipboard-list"></i> <span>Anamnese</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="aniversariantes.html"><i class="fa-solid fa-gift"></i> <span>Aniversariantes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="avaliacoes-clientes.html"><i class="fa-solid fa-star"></i> <span>Avaliações</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comanda.html"><i class="fa-solid fa-receipt"></i> <span>Comanda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="fidelidade.html"><i class="fa-solid fa-star-of-life"></i> <span>Fidelidade</span></a>
+                    </li>
+                    <li class="nav-separator">Desempenho</li>
+                    <li class="nav-item">
+                        <a href="margens.html"><i class="fa-solid fa-chart-line"></i> <span>Margens</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comissoes.html"><i class="fa-solid fa-coins"></i> <span>Comissões</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="metas.html"><i class="fa-solid fa-bullseye"></i> <span>Metas Profissionais</span></a>
+                    </li>
+                    <li class="nav-separator">Treinamentos</li>
+                    <li class="nav-item">
+                        <a href="cursos.html"><i class="fa-solid fa-graduation-cap"></i> <span>Cursos & Treinamentos</span></a>
+                    </li>
+                    <li class="nav-separator">Administração</li>
+                    <li class="nav-item">
+                        <a href="barbeiros.html"><i class="fa-solid fa-user-md"></i> <span>Barbeiros</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="bloqueios.html"><i class="fa-solid fa-lock"></i> <span>Bloqueios & Agenda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="exportacoes.html"><i class="fa-solid fa-chart-pie"></i> <span>Exportações</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="configuracoes.html"><i class="fa-solid fa-gear"></i> <span>Configurações</span></a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">ABS</div>
+                    <div class="user-info">
+                        <span class="user-name">Alpha BarberShop</span>
+                        <span class="user-status">Online</span>
+                    </div>
+                    <button id="logout" class="btn-logout-icon" title="Sair">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1>💈 Controle de Estoque</h1>
+                    <p>Gerencie produtos, acessórios e insumos da barbearia</p>
+                </div>
+                <div class="topbar-actions">
+                    <button id="btnMovimentacao" class="btn-primary" style="background: linear-gradient(135deg, #2199EF, #1a7fcc);">
+                        <i class="fa-solid fa-arrows-spin"></i> Movimentação
+                    </button>
+                    <button id="btnNovoProduto" class="btn-primary">
+                        <i class="fa-solid fa-plus"></i> Novo Produto
+                    </button>
+                </div>
+            </header>
+
+            <div class="container-fluid">
+                <div class="stats-estoque">
+                    <div class="stat-estoque-card">
+                        <div class="stat-icon bg-blue">
+                            <i class="fa-solid fa-boxes-stacked"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="totalProdutos">0</span>
+                            <span class="stat-label">Total de Produtos</span>
+                        </div>
+                    </div>
+                    <div class="stat-estoque-card">
+                        <div class="stat-icon bg-green">
+                            <i class="fa-solid fa-cubes"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="totalUnidades">0</span>
+                            <span class="stat-label">Unidades em Estoque</span>
+                        </div>
+                    </div>
+                    <div class="stat-estoque-card">
+                        <div class="stat-icon bg-orange">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="estoqueBaixo">0</span>
+                            <span class="stat-label">Estoque Baixo</span>
+                        </div>
+                    </div>
+                    <div class="stat-estoque-card">
+                        <div class="stat-icon bg-red">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="estoqueEsgotado">0</span>
+                            <span class="stat-label">Esgotados</span>
+                        </div>
+                    </div>
+                    <div class="stat-estoque-card">
+                        <div class="stat-icon bg-purple">
+                            <i class="fa-solid fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="valorTotalEstoque">R$ 0,00</span>
+                            <span class="stat-label">Valor Total</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-estoque">
+                    <div class="filter-group">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="searchEstoque" placeholder="Buscar por nome, SKU ou categoria..."
+                            class="search-input">
+                    </div>
+                    <div class="filter-group">
+                        <select id="filterCategoria" class="filter-select">
+                            <option value="">Todas as Categorias</option>
+                            <option value="Pomadas">💈 Pomadas & Cerinhas</option>
+                            <option value="Óleos">🧴 Óleos & Pós-Barba</option>
+                            <option value="Shampoos">🧴 Shampoos & Condicionadores</option>
+                            <option value="Acessórios">🪒 Acessórios</option>
+                            <option value="Kits">🎁 Kits Presentes</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <select id="filterStatus" class="filter-select">
+                            <option value="">Todos os Status</option>
+                            <option value="normal">Normal</option>
+                            <option value="baixo">Estoque Baixo</option>
+                            <option value="esgotado">Esgotado</option>
+                        </select>
+                    </div>
+                    <button id="btnLimparFiltros" class="btn-ghost">
+                        <i class="fa-solid fa-eraser"></i> Limpar
+                    </button>
+                </div>
+
+                <div class="estoque-grid" id="estoqueGrid">
+                    <div class="loading-estoque">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Carregando produtos...
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="modalProduto" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle"><i class="fa-solid fa-plus"></i> Novo Produto</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="formProduto">
+                <input type="hidden" id="produtoId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-tag"></i> Nome do Produto *</label>
+                        <input type="text" id="produtoNome" required placeholder="Ex: Pomada Modeladora">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-layer-group"></i> Categoria *</label>
+                        <select id="produtoCategoria" required>
+                            <option value="">Selecione</option>
+                            <option value="Pomadas">💈 Pomadas & Cerinhas</option>
+                            <option value="Óleos">🧴 Óleos & Pós-Barba</option>
+                            <option value="Shampoos">🧴 Shampoos & Condicionadores</option>
+                            <option value="Acessórios">🪒 Acessórios</option>
+                            <option value="Kits">🎁 Kits Presentes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-barcode"></i> SKU / Código</label>
+                        <input type="text" id="produtoSku" placeholder="Ex: POM-001">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-industry"></i> Marca / Fornecedor</label>
+                        <input type="text" id="produtoMarca" placeholder="Ex: L'Óreal Barber, Vult">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-cubes"></i> Quantidade em Estoque *</label>
+                        <input type="number" id="produtoQuantidade" required min="0" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-dollar-sign"></i> Preço de Custo *</label>
+                        <input type="number" id="produtoCusto" required min="0" step="0.01" placeholder="0,00">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-money-bill-wave"></i> Preço de Venda *</label>
+                        <input type="number" id="produtoPreco" required min="0" step="0.01" placeholder="0,00">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-align-left"></i> Descrição</label>
+                    <textarea id="produtoDescricao" rows="3" placeholder="Descrição detalhada do produto..."></textarea>
+                </div>
+                
+                <!-- Campo de upload de imagem -->
+                <div class="form-group">
+                    <label><i class="fa-solid fa-image"></i> Imagem do Produto</label>
+                    <input type="file" id="produtoImagemFile" accept="image/*" style="padding: 8px; background: var(--bg-dark); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main);">
+                    <small style="color: #64748b; display: block; margin-top: 4px;">
+                        Selecione uma imagem do seu computador (JPG, PNG, GIF - máximo 5MB)
+                    </small>
+                </div>
+                <div class="form-group" id="previewImagemGrupo" style="display: none;">
+                    <label><i class="fa-solid fa-eye"></i> Pré-visualização</label>
+                    <div style="width: 150px; height: 150px; border-radius: 12px; overflow: hidden; background: var(--bg-dark); border: 1px solid var(--border-color);">
+                        <img id="previewImagem" src="" alt="Preview" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <button type="button" id="btnRemoverImagem" class="btn-ghost" style="margin-top: 8px; padding: 6px 12px; font-size: 0.8rem;">
+                        <i class="fa-solid fa-trash"></i> Remover imagem
+                    </button>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fa-solid fa-triangle-exclamation"></i> Estoque Mínimo (Alerta)</label>
+                    <input type="number" id="produtoMinimo" min="0" value="5" placeholder="5">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel">Cancelar</button>
+                    <button type="submit" class="btn-save" id="btnSalvarProduto">Salvar Produto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalMovimentacao" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-arrows-spin"></i> Movimentar Estoque</h2>
+                <button class="modal-close-mov">&times;</button>
+            </div>
+            <form id="formMovimentacao">
+                <input type="hidden" id="movProdutoId">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-box"></i> Produto</label>
+                    <input type="text" id="movProdutoNome" readonly disabled
+                        style="background: rgba(255,255,255,0.05);">
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-chart-line"></i> Estoque Atual</label>
+                    <input type="text" id="movEstoqueAtual" readonly disabled
+                        style="background: rgba(255,255,255,0.05);">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-arrow-right-arrow-left"></i> Tipo *</label>
+                        <select id="movTipo" required>
+                            <option value="entrada">Entrada (Adicionar)</option>
+                            <option value="saida">Saída (Remover)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-hashtag"></i> Quantidade *</label>
+                        <input type="number" id="movQuantidade" required min="1" placeholder="Quantidade">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-comment"></i> Motivo / Observação</label>
+                    <textarea id="movObservacao" rows="2"
+                        placeholder="Ex: Compra de fornecedor, uso em atendimento..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel-mov">Cancelar</button>
+                    <button type="submit" class="btn-save">Confirmar Movimentação</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalExcluir" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-trash"></i> Excluir Produto</h2>
+                <button class="modal-close-excluir">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja excluir o produto <strong id="excluirNome"></strong>?</p>
+                <p class="text-warning">⚠️ Esta ação não poderá ser desfeita e removerá todo o histórico do produto.</p>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-excluir">Cancelar</button>
+                <button id="confirmarExcluir" class="btn-danger">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalHistorico" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-clock-rotate-left"></i> Histórico de Movimentações</h2>
+                <button class="modal-close-historico">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="historico-filtro">
+                    <div class="filter-group" style="flex: 1;">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="historicoSearch" placeholder="Buscar movimentações..."
+                            class="search-input">
+                    </div>
+                </div>
+                <div class="historico-lista" id="historicoLista">
+                    <div class="loading-historico">Carregando histórico...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg"></span>
+    </div>
+
+    <script type="module" src="estoque.js"></script>
+    <script type="module" src="floating-caixa.js"></script>
+    <link rel="stylesheet" href="floating-caixa.css">
+
+    <script>
+        (function () {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+
+            if (!mobileMenuBtn || !sidebar) return;
+
+            function openMenu() {
+                sidebar.classList.add('mobile-open');
+                if (overlay) overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMenu() {
+                sidebar.classList.remove('mobile-open');
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            mobileMenuBtn.addEventListener('click', openMenu);
+            if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeMenu);
+            if (overlay) overlay.addEventListener('click', closeMenu);
+
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768) closeMenu();
+            });
+
+            const currentPage = window.location.pathname.split('/').pop();
+            document.querySelectorAll('.sidebar-nav .nav-item').forEach(item => {
+                const link = item.querySelector('a');
+                if (link && link.getAttribute('href') === currentPage) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

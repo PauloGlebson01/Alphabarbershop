@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#2199EF">
+    <title>Horário Confirmado | Alpha BarberShop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="assets/barber.icon.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #121212 0%, #0a0a0a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .confirm-container {
+            max-width: 550px;
+            width: 100%;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .confirm-card {
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 32px;
+            padding: 40px 32px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .success-icon {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #2199EF, #1a7fcc);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            animation: pulse 0.5s ease 0.3s both;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-icon i {
+            font-size: 45px;
+            color: #FFFFFF;
+        }
+
+        h1 {
+            color: #FFFFFF;
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .info-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 24px;
+            margin: 24px 0;
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .info-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #2199EF;
+            font-weight: 600;
+            margin-bottom: 16px;
+            font-size: 1rem;
+        }
+
+        .info-title i {
+            font-size: 1.2rem;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        .info-list li:last-child {
+            border-bottom: none;
+        }
+
+        .info-list li i {
+            width: 24px;
+            color: #2199EF;
+            font-size: 1rem;
+        }
+
+        .warning-box {
+            background: rgba(33, 153, 239, 0.1);
+            border-left: 4px solid #2199EF;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .warning-box p {
+            color: #cbd5e1;
+            font-size: 0.85rem;
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .warning-box i {
+            width: 20px;
+            color: #2199EF;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary, .btn-secondary {
+            flex: 1;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2199EF, #1a7fcc);
+            color: #FFFFFF;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(33, 153, 239, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #FFFFFF;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: #FFFFFF;
+            border: none;
+        }
+
+        .whatsapp-btn:hover {
+            background: #128C7E;
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        .footer {
+            margin-top: 24px;
+            font-size: 0.7rem;
+            color: #64748b;
+            text-align: center;
+        }
+
+        @media (max-width: 480px) {
+            .confirm-card {
+                padding: 28px 20px;
+            }
+            
+            h1 {
+                font-size: 1.4rem;
+            }
+            
+            .success-icon {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .success-icon i {
+                font-size: 35px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .info-list li {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="confirm-container">
+        <div class="confirm-card">
+            <div class="success-icon">
+                <i class="fa-solid fa-check"></i>
+            </div>
+
+            <h1>✅ Horário Confirmado!</h1>
+            <p class="subtitle">Seu agendamento foi realizado com sucesso.<br>Estamos esperando por você.</p>
+
+            <div class="info-box">
+                <div class="info-title">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>Informações importantes</span>
+                </div>
+                <ul class="info-list">
+                    <li><i class="fa-regular fa-clock"></i> Chegue com 10 minutos de antecedência</li>
+                    <li><i class="fa-solid fa-file-lines"></i> Barbearia climatizada</li>
+                </ul>
+            </div>
+
+            <div class="warning-box" id="warningBox">
+                <p><i class="fa-solid fa-location-dot"></i> <strong>Atendimento Presencial</strong></p>
+                <p><i class="fa-solid fa-building"></i> Alpha BarberShop - Av. Presidente Epitácio Pessoa 5102,</p>
+                <p><i class="fa-solid fa-map-pin"></i> João Pessoa - PB, 58045-000</p>
+                <p><i class="fa-regular fa-clock"></i> Chegue com 10 minutos de antecedência</p>
+            </div>
+
+            <div class="action-buttons">
+                <a href="index.html" class="btn-primary">
+                    <i class="fa-solid fa-house"></i> Voltar ao início
+                </a>
+                <a href="agendamento.html" class="btn-secondary">
+                    <i class="fa-solid fa-calendar-plus"></i> Novo agendamento
+                </a>
+            </div>
+
+            <div class="action-buttons">
+                <a href="+5583996533486" id="whatsappBtn" class="btn-primary whatsapp-btn">
+                    <i class="fa-brands fa-whatsapp"></i> Falar no WhatsApp
+                </a>
+            </div>
+
+            <div class="footer">
+                <p>✂️ Alpha BarberShop<br>Mais que corte. Ritual do Reflexo! 💈</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const whatsappBtn = document.getElementById('whatsappBtn');
+            const whatsappNumber = '5583996533486';
+            
+            if (whatsappBtn) {
+                whatsappBtn.href = `https://wa.me/${whatsappNumber}`;
+            }
+            
+            function criarConfete() {
+                const colors = ['#2199EF', '#1a7fcc', '#0f6bb0', '#60a5fa', '#93c5fd'];
+                for (let i = 0; i < 50; i++) {
+                    const confete = document.createElement('div');
+                    confete.style.position = 'fixed';
+                    confete.style.width = '8px';
+                    confete.style.height = '8px';
+                    confete.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confete.style.borderRadius = '50%';
+                    confete.style.left = Math.random() * window.innerWidth + 'px';
+                    confete.style.top = '-10px';
+                    confete.style.opacity = '0.8';
+                    confete.style.pointerEvents = 'none';
+                    confete.style.zIndex = '9999';
+                    confete.style.animation = `fall ${2 + Math.random() * 2}s linear forwards`;
+                    document.body.appendChild(confete);
+                    
+                    setTimeout(() => confete.remove(), 3000);
+                }
+            }
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fall {
+                    0% {
+                        transform: translateY(0) rotate(0deg);
+                        opacity: 1;
+                    }
+                    100% {
+                        transform: translateY(100vh) rotate(360deg);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            criarConfete();
+        });
+    </script>
+</body>
+</html>

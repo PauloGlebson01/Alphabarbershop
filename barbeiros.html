@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Barbeiros | Alpha BarberShopp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#2199EF">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="barbeiros.css">
+    <link rel="icon" type="image/png" href="assets/barber.icon.png">
+</head>
+
+<body>
+
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <div class="wrapper" id="painel">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/barber-perfil.png" alt="Logo" class="sidebar-logo">
+                <span class="brand-name">Alpha BarberShop</span>
+                <button class="close-sidebar-btn" id="closeSidebarBtn" aria-label="Fechar menu">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a href="dashboard.html"><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
+                    </li>
+                    <li class="nav-separator">Navegação</li>
+                    <li class="nav-item">
+                        <a href="agenda.html"><i class="fa-solid fa-calendar-days"></i> <span>Agenda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="clientes.html"><i class="fa-solid fa-users"></i> <span>Clientes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="servicos.html"><i class="fa-solid fa-cut"></i> <span>Serviços</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pacotes.html"><i class="fa-solid fa-gift"></i> <span>Pacotes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="estoque.html"><i class="fa-solid fa-box-archive"></i> <span>Produtos</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pagamentos.html"><i class="fa-solid fa-credit-card"></i> <span>Pagamentos</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="equipes.html"><i class="fa-solid fa-people-group"></i> <span>Equipes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="anamnese.html"><i class="fa-solid fa-clipboard-list"></i> <span>Anamnese</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="aniversariantes.html"><i class="fa-solid fa-gift"></i> <span>Aniversariantes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="avaliacoes-clientes.html"><i class="fa-solid fa-star"></i> <span>Avaliações</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comanda.html"><i class="fa-solid fa-receipt"></i> <span>Comanda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="fidelidade.html"><i class="fa-solid fa-star-of-life"></i> <span>Fidelidade</span></a>
+                    </li>
+                    <li class="nav-separator">Desempenho</li>
+                    <li class="nav-item">
+                        <a href="margens.html"><i class="fa-solid fa-chart-line"></i> <span>Margens</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comissoes.html"><i class="fa-solid fa-coins"></i> <span>Comissões</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="metas.html"><i class="fa-solid fa-bullseye"></i> <span>Metas Profissionais</span></a>
+                    </li>
+                    <li class="nav-separator">Treinamentos</li>
+                    <li class="nav-item">
+                        <a href="cursos.html"><i class="fa-solid fa-graduation-cap"></i> <span>Cursos & Treinamentos</span></a>
+                    </li>
+                    <li class="nav-separator">Administração</li>
+                    <li class="nav-item active">
+                        <a href="barbeiros.html"><i class="fa-solid fa-user-md"></i> <span>Barbeiros</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="bloqueios.html"><i class="fa-solid fa-lock"></i> <span>Bloqueios & Agenda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="exportacoes.html"><i class="fa-solid fa-chart-pie"></i> <span>Exportações</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="configuracoes.html"><i class="fa-solid fa-gear"></i> <span>Configurações</span></a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">ABS</div>
+                    <div class="user-info">
+                        <span class="user-name">Alpha BarberShop</span>
+                        <span class="user-status">Online</span>
+                    </div>
+                    <button id="logout" class="btn-logout-icon" title="Sair">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1>👨‍🦱 Equipe de Barbeiros</h1>
+                    <p>Gerencie todos os profissionais da barbearia</p>
+                </div>
+                <div class="topbar-actions">
+                    <button id="btnNovoProfissional" class="btn-primary">
+                        <i class="fa-solid fa-user-plus"></i> Novo Barbeiro
+                    </button>
+                </div>
+            </header>
+
+            <div class="container-fluid">
+                <!-- Cards de Resumo -->
+                <div class="stats-profissionais">
+                    <div class="stat-profissional-card">
+                        <div class="stat-icon bg-purple">
+                            <i class="fa-solid fa-user-md"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="totalProfissionais">0</span>
+                            <span class="stat-label">Total de Barbeiros</span>
+                        </div>
+                    </div>
+                    <div class="stat-profissional-card">
+                        <div class="stat-icon bg-green">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="profissionaisAtivos">0</span>
+                            <span class="stat-label">Barbeiros Ativos</span>
+                        </div>
+                    </div>
+                    <div class="stat-profissional-card">
+                        <div class="stat-icon bg-orange">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="totalAtendimentos">0</span>
+                            <span class="stat-label">Atendimentos no Mês</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Informativo de Limite -->
+                <div class="alert-info" style="background: rgba(33, 153, 239, 0.08); border-left: 4px solid #2199EF; border-radius: 12px; padding: 12px 16px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                    <i class="fa-solid fa-info-circle" style="font-size: 1.2rem; color: #2199EF;"></i>
+                    <div style="flex: 1;">
+                        <strong style="color: #2199EF;">📊 Informação sobre limite de profissionais</strong>
+                        <p style="margin: 4px 0 0 0; font-size: 0.8rem; color: var(--text-muted);">
+                            Seu plano atual permite cadastrar até <strong id="limiteMaximoInfo">3</strong> barbeiros.
+                            <span id="limiteStatusInfo" style="color: #10b981; display: inline-block; margin-left: 8px;"></span>
+                        </p>
+                    </div>
+                    <button id="btnVerPlanos" class="btn-ghost" style="padding: 6px 12px; font-size: 0.75rem;">
+                        <i class="fa-solid fa-chart-line"></i> Ver Planos
+                    </button>
+                </div>
+
+                <!-- Filtros -->
+                <div class="filter-profissionais">
+                    <div class="filter-group">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="searchProfissional" placeholder="Buscar por nome, e-mail ou especialidade..." class="search-input">
+                    </div>
+                    <button id="btnLimparFiltros" class="btn-ghost">
+                        <i class="fa-solid fa-eraser"></i> Limpar
+                    </button>
+                </div>
+
+                <!-- Lista de Barbeiros -->
+                <div class="profissionais-grid" id="profissionaisGrid">
+                    <div class="loading-profissionais">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Carregando barbeiros...
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Novo/Editar Barbeiro -->
+    <div id="modalProfissional" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle"><i class="fa-solid fa-user-plus"></i> Novo Barbeiro</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="formProfissional">
+                <input type="hidden" id="profissionalId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-user"></i> Nome Completo *</label>
+                        <input type="text" id="profissionalNome" required placeholder="Ex: João Silva">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-envelope"></i> E-mail *</label>
+                        <input type="email" id="profissionalEmail" required placeholder="joao@barbearia.com">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-phone"></i> Telefone</label>
+                        <input type="tel" id="profissionalTelefone" placeholder="(83) 99999-9999">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-cut"></i> Especialidade</label>
+                        <select id="profissionalEspecialidade">
+                            <option value="">Selecione</option>
+                            <option value="Corte">✂️ Especialista em Corte</option>
+                            <option value="Barba">🪒 Especialista em Barba</option>
+                            <option value="Completo">💈 Completo (Corte + Barba)</option>
+                            <option value="Coloracao">🎨 Coloração</option>
+                            <option value="Geral">✂️ Geral</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-percent"></i> Comissão por Serviço (R$)</label>
+                        <input type="number" id="profissionalComissao" step="0.01" min="0" value="0" placeholder="0,00">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-regular fa-clock"></i> Horário de Trabalho</label>
+                        <input type="text" id="profissionalHorario" placeholder="08:00 - 18:00">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-lock"></i> Senha (para login)</label>
+                    <input type="password" id="profissionalSenha" class="form-input" placeholder="********">
+                    <small class="form-text">Mínimo 6 caracteres - Deixe em branco para não alterar</small>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-toggle-on"></i> Status</label>
+                    <select id="profissionalStatus">
+                        <option value="ativo">✅ Ativo</option>
+                        <option value="inativo">❌ Inativo</option>
+                        <option value="ferias">🏖️ Férias</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel">Cancelar</button>
+                    <button type="submit" class="btn-save">Salvar Barbeiro</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Excluir Barbeiro -->
+    <div id="modalExcluir" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-trash"></i> Excluir Barbeiro</h2>
+                <button class="modal-close-excluir">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja excluir o barbeiro <strong id="excluirNome"></strong>?</p>
+                <p class="text-warning">⚠️ Esta ação não poderá ser desfeita.</p>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-excluir">Cancelar</button>
+                <button id="confirmarExcluir" class="btn-danger">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Alterar Senha -->
+    <div id="modalAlterarSenha" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-key"></i> Configurar Acesso do Barbeiro</h2>
+                <button class="modal-close-senha modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formAlterarSenha">
+                    <input type="hidden" id="senhaProfissionalId">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-user"></i> Barbeiro</label>
+                        <input type="text" id="senhaProfissionalNome" readonly class="form-input" style="background: var(--bg-dark);">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-envelope"></i> E-mail *</label>
+                        <input type="email" id="novoEmail" class="form-input" placeholder="E-mail para login" required>
+                        <small class="form-text">Este e-mail será usado para acessar o sistema</small>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-lock"></i> Senha *</label>
+                        <input type="password" id="novaSenha" class="form-input" placeholder="Digite a nova senha" required minlength="6">
+                        <small class="form-text">Mínimo de 6 caracteres</small>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-lock"></i> Confirmar Senha *</label>
+                        <input type="password" id="confirmarSenha" class="form-input" placeholder="Confirme a nova senha" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel-senha btn-cancel">Cancelar</button>
+                        <button type="submit" class="btn-save">Criar / Atualizar Senha</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Limite Atingido - PADRONIZADO -->
+    <div id="modalLimiteBarbeiros" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-ban"></i> Limite Atingido</h2>
+                <button class="modal-close-limite modal-close" onclick="fecharModalLimite()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-icon" style="text-align: center; margin-bottom: 20px;">
+                    <i class="fa-solid fa-users-slash" style="font-size: 3rem; color: #ef4444; animation: pulse 0.5s ease;"></i>
+                </div>
+                
+                <div class="modal-message" style="text-align: center; margin-bottom: 20px;">
+                    <p style="color: var(--text-main); font-size: 0.9rem; line-height: 1.5; margin: 8px 0;">
+                        ⚠️ Seu plano atual permite no máximo <strong id="limiteMaximoModal" style="color: #2199EF;">3</strong> barbeiros.
+                    </p>
+                    <p style="color: var(--text-muted); font-size: 0.8rem; margin: 8px 0;">
+                        Você já atingiu o limite máximo do seu plano.
+                    </p>
+                </div>
+                
+                <div class="upgrade-section" style="background: rgba(33, 153, 239, 0.08); border-radius: 16px; padding: 18px; margin-bottom: 20px; border: 1px solid rgba(33, 153, 239, 0.15);">
+                    <h4 style="color: #2199EF; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 700;">
+                        <i class="fa-solid fa-rocket"></i> Amplie seu plano
+                    </h4>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.4;">
+                        Entre em contato com nossa equipe para conhecer planos com mais barbeiros e benefícios exclusivos.
+                    </p>
+                    <div class="contact-buttons" style="display: flex; gap: 12px; flex-wrap: wrap;">
+                        <a href="mailto:softpowersolucoesdigitais@gmail.com" class="btn-contact btn-email" style="flex: 1; padding: 10px 16px; border: none; border-radius: 10px; cursor: pointer; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; text-decoration: none; background: linear-gradient(135deg, #2199EF, #1a7fcc); color: white;">
+                            <i class="fa-solid fa-envelope"></i> Enviar E-mail
+                        </a>
+                        <a href="https://wa.me/5583981011900?text=Olá,%20gostaria%20de%20informações%20sobre%20planos%20com%20mais%20barbeiros" 
+                           target="_blank" class="btn-contact btn-whatsapp" style="flex: 1; padding: 10px 16px; border: none; border-radius: 10px; cursor: pointer; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; text-decoration: none; background: linear-gradient(135deg, #25D366, #128C7E); color: white;">
+                            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="support-email" style="text-align: center; padding-top: 16px; border-top: 1px solid var(--border-color); margin-top: 8px;">
+                    <label style="font-size: 0.7rem; color: var(--text-muted); display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 6px;">
+                        <i class="fa-solid fa-envelope" style="color: #2199EF;"></i> E-mail do suporte:
+                    </label>
+                    <p id="limiteEmailSuporte" style="color: #2199EF; font-weight: 600; font-size: 0.85rem; margin-top: 5px;">softpowersolucoesdigitais@gmail.com</p>
+                </div>
+            </div>
+            <div class="form-actions" style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-color);">
+                <button class="btn-cancel-limite btn-cancel" onclick="fecharModalLimite()" style="padding: 8px 24px; background: var(--bg-dark); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-muted); cursor: pointer; font-weight: 500; font-size: 0.85rem; transition: all 0.2s;">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg"></span>
+    </div>
+
+    <script type="module" src="barbeiros.js"></script>
+    <script type="module" src="floating-caixa.js"></script>
+    <link rel="stylesheet" href="floating-caixa.css">
+
+    <script>
+        (function () {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+
+            if (!mobileMenuBtn || !sidebar) return;
+
+            function openMenu() {
+                sidebar.classList.add('mobile-open');
+                if (overlay) overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMenu() {
+                sidebar.classList.remove('mobile-open');
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            mobileMenuBtn.addEventListener('click', openMenu);
+            if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeMenu);
+            if (overlay) overlay.addEventListener('click', closeMenu);
+
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768) closeMenu();
+            });
+
+            const currentPage = window.location.pathname.split('/').pop();
+            document.querySelectorAll('.sidebar-nav .nav-item').forEach(item => {
+                const link = item.querySelector('a');
+                if (link && link.getAttribute('href') === currentPage) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        })();
+
+        // Funções globais para o modal de limite
+        window.fecharModalLimite = function() {
+            const modal = document.getElementById('modalLimiteBarbeiros');
+            if (modal) modal.classList.remove('active');
+        };
+
+        window.mostrarModalLimite = function() {
+            console.log("📢 Abrindo modal de limite");
+            const modal = document.getElementById('modalLimiteBarbeiros');
+            if (modal) modal.classList.add('active');
+        };
+
+        // Eventos
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnVerPlanos = document.getElementById('btnVerPlanos');
+            if (btnVerPlanos) {
+                btnVerPlanos.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (typeof window.mostrarModalLimite === 'function') {
+                        window.mostrarModalLimite();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

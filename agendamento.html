@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <meta name="theme-color" content="#2199EF">
+    <title>Agendar Horário | Alpha BarberShop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <link rel="stylesheet" href="agendamento.css">
+    <link rel="icon" type="image/png" href="assets/barber.icon.png">
+</head>
+
+<body>
+    <div class="container">
+        <header class="profile">
+            <h1>✂️ Agende seu Horário</h1>
+            <p class="subtitle">Escolha os serviços, o barbeiro e o melhor horário para você.</p>
+        </header>
+
+        <form id="formAgendamento">
+            <div class="input-group">
+                <label for="nome"><i class="fa-solid fa-user"></i> Seu Nome Completo *</label>
+                <input type="text" id="nome" placeholder="Ex: João Silva" autocomplete="name" required>
+            </div>
+
+            <div class="input-group">
+                <label for="telefone"><i class="fa-brands fa-whatsapp"></i> WhatsApp para Contato *</label>
+                <input type="tel" id="telefone" placeholder="(83) 99999-9999" autocomplete="tel" required>
+                <small style="color: #64748b; display: block; margin-top: 6px;">
+                    <i class="fa-solid fa-phone"></i>
+                    Caso este contato esteja vinculado a mais de um cadastro, selecione o cadastro correspondente para a realização do agendamento.
+                </small>
+            </div>
+
+            <div class="input-group">
+                <label for="dataNascimento"><i class="fa-solid fa-cake-candles"></i> Data de Nascimento</label>
+                <div class="date-wrapper">
+                    <input type="date" id="dataNascimento">
+                </div>
+                <small style="color: #64748b; display: block; margin-top: 4px;">🎂 Informe sua data de nascimento para ganhar desconto no mês do seu aniversário!</small>
+            </div>
+
+            <!-- SEÇÃO DE MÚLTIPLOS SERVIÇOS (COM SERVIÇOS DO FIREBASE) -->
+            <div class="input-group">
+                <label><i class="fa-solid fa-list"></i> Serviços Desejados *</label>
+                <div id="servicosContainer" class="servicos-container">
+                    <div class="servico-item" data-index="0">
+                        <div class="servico-row">
+                            <select name="servico[]" class="servico-select" required>
+                                <option value="">Carregando serviços...</option>
+                            </select>
+                            <button type="button" class="btn-remover-servico" data-index="0" style="display: none;">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" id="btnAdicionarServico" class="btn-add-servico">
+                    <i class="fa-solid fa-plus"></i> Adicionar outro serviço
+                </button>
+                <div class="total-servicos">
+                    <span>💰 Total: </span>
+                    <strong id="valorTotalServicos">R$ 0,00</strong>
+                </div>
+
+                <!-- Informações do Pacote com Desconto -->
+                <div id="infoPacote" style="display: none;" class="info-pacote">
+                    <div class="pacote-desconto-info">
+                        <div class="desconto-header">
+                            <i class="fa-solid fa-tag"></i>
+                            <span>Pacote Aplicado</span>
+                        </div>
+                        <div class="desconto-detalhes">
+                            <div class="pacote-nome-display">
+                                <strong id="pacoteNomeDisplay"></strong>
+                            </div>
+                            <div class="precos-container">
+                                <span class="preco-original-display" id="precoOriginalDisplay"></span>
+                                <span class="preco-desconto-display" id="precoDescontoDisplay"></span>
+                                <span class="desconto-badge-display" id="descontoBadgeDisplay"></span>
+                            </div>
+                            <div class="economia-display">
+                                <i class="fa-solid fa-circle-check"></i>
+                                Você economiza <strong id="economiaValorDisplay">R$ 0,00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Observação Geral -->
+            <div class="input-group">
+                <label for="observacaoGeral"><i class="fa-solid fa-note-sticky"></i> Observação (opcional)</label>
+                <textarea id="observacaoGeral" rows="3"
+                    placeholder="Alguma informação adicional? Ex: Trago foto de referência, tenho alergia a algum produto, horário preferencial..."></textarea>
+            </div>
+
+            <div class="input-group">
+                <label for="profissional"><i class="fa-solid fa-user-nurse"></i> Escolha o Barbeiro</label>
+                <select id="profissional" required>
+                    <option value="">Carregando especialistas...</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="data"><i class="fa-solid fa-calendar-day"></i> Data do Atendimento</label>
+                <div class="date-wrapper">
+                    <input type="date" id="data" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-solid fa-clock"></i> Horários Disponíveis</label>
+                <div id="horarios" class="horarios">
+                    <div class="aviso-campos">
+                        <i class="fa-regular fa-calendar-circle-plus"></i>
+                        <p>Preencha todos os campos para ver os horários disponíveis</p>
+                    </div>
+                </div>
+                <input type="hidden" id="horario" required>
+            </div>
+
+            <button type="submit" class="btn-primary">
+                <i class="fa-solid fa-check-circle"></i> Confirmar Agendamento
+            </button>
+        </form>
+
+        <div id="loading" class="loading" style="display:none;">
+            <i class="fa-solid fa-spinner fa-spin"></i> Processando agendamento...
+        </div>
+        <div id="mensagem"></div>
+        <footer>🔒 Agendamento seguro · Horários atualizados em tempo real</footer>
+    </div>
+
+    <!-- MODAL PARA SELEÇÃO DE CLIENTE QUANDO HÁ MÚLTIPLOS CADASTROS -->
+    <div id="modalSelecionarCliente" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fa-solid fa-users"></i>
+                <h3>Múltiplos cadastros encontrados</h3>
+            </div>
+            <div class="modal-body">
+                <p>Este número de WhatsApp está vinculado a mais de um cliente. Selecione qual deseja usar para este agendamento:</p>
+                <div id="listaClientesModal" class="lista-clientes-modal">
+                    <!-- Clientes serão listados aqui dinamicamente -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnFecharModal" class="btn-secundario">
+                    <i class="fa-solid fa-times"></i> Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PARA LISTA DE ESPERA -->
+    <div id="modalListaEspera" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 450px;">
+            <div class="modal-header" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                <i class="fa-solid fa-clock" style="font-size: 1.8rem;"></i>
+                <h3 style="color: white;">Lista de Espera</h3>
+            </div>
+            <div class="modal-body">
+                <p style="font-weight: 600; color: #0f172a;">Não há horários disponíveis para o dia selecionado.</p>
+                <p>Deseja entrar na <strong style="color: #f59e0b;">lista de espera</strong>?</p>
+                <div style="background: #f8fafc; padding: 14px; border-radius: 14px; margin: 12px 0; border-left: 4px solid #f59e0b;">
+                    <p style="font-size: 0.85rem; margin: 4px 0;">
+                        📅 <strong>Data:</strong> <span id="listaDataDisplay"></span>
+                    </p>
+                    <p style="font-size: 0.85rem; margin: 4px 0;">
+                        👨‍🦱 <strong>Barbeiro:</strong> <span id="listaProfissionalDisplay"></span>
+                    </p>
+                    <p style="font-size: 0.85rem; margin: 4px 0;">
+                        ✂️ <strong>Serviços:</strong> <span id="listaServicosDisplay"></span>
+                    </p>
+                    <p style="font-size: 0.85rem; margin: 4px 0;">
+                        👤 <strong>Cliente:</strong> <span id="listaClienteDisplay"></span>
+                    </p>
+                </div>
+                <div style="background: #fef3c7; padding: 12px; border-radius: 12px; margin: 12px 0;">
+                    <p style="font-size: 0.8rem; color: #92400e; margin: 0;">
+                        <i class="fa-solid fa-info-circle"></i>
+                        Você receberá um <strong>aviso automático no WhatsApp</strong> quando uma vaga for liberada.
+                    </p>
+                </div>
+                <p style="font-size: 0.7rem; color: #64748b; margin: 8px 0 0 0;">
+                    ⏱️ Você tem <strong>10 minutos</strong> para confirmar a vaga após ser notificado.
+                </p>
+            </div>
+            <div class="modal-footer" style="display: flex; gap: 12px; justify-content: flex-end; padding: 16px 24px; border-top: 1px solid #e2e8f0;">
+                <button type="button" id="btnCancelarLista" class="btn-secundario">
+                    <i class="fa-solid fa-times"></i> Cancelar
+                </button>
+                <button type="button" id="btnConfirmarLista" class="btn-primary" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                    <i class="fa-solid fa-check"></i> Entrar na Lista
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CONFIRMAÇÃO DE ENTRADA NA LISTA -->
+    <div id="modalListaConfirmada" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header" style="background: linear-gradient(135deg, #10b981, #059669);">
+                <i class="fa-solid fa-circle-check" style="font-size: 1.8rem;"></i>
+                <h3 style="color: white;">Lista de Espera Confirmada!</h3>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; padding: 16px 0;">
+                    <i class="fa-solid fa-clock" style="font-size: 3rem; color: #10b981;"></i>
+                    <h3 style="margin: 12px 0 8px 0; color: #0f172a;">Você está na fila!</h3>
+                    <p style="color: #475569; font-size: 0.9rem;">
+                        Assim que uma vaga for liberada, você receberá um aviso no WhatsApp.
+                    </p>
+                </div>
+                <div style="background: #f8fafc; padding: 12px; border-radius: 12px; margin: 12px 0;">
+                    <p style="font-size: 0.8rem; color: #475569; margin: 0;">
+                        <i class="fa-solid fa-lightbulb" style="color: #f59e0b;"></i>
+                        <strong>Dica:</strong> Fique atento ao WhatsApp. Você terá 10 minutos para confirmar a vaga.
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer" style="display: flex; justify-content: center; padding: 16px 24px; border-top: 1px solid #e2e8f0;">
+                <button type="button" id="btnFecharListaConfirmada" class="btn-primary" style="background: linear-gradient(135deg, #10b981, #059669);">
+                    <i class="fa-solid fa-check"></i> Entendi
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="agendamento.js"></script>
+</body>
+
+</html>

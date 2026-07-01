@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="theme-color" content="#2199EF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <title>Alpha BarberShop</title>
+
+  <meta name="description" content="SOFTCLICK - Gestão e Agenda Inteligente | Alpha BarberShop">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="icon" type="image/png" href="assets/barber.icon.png">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+
+<body class="dark">
+
+  <div class="container">
+
+    <header class="header">
+      <button id="themeToggle" class="theme-toggle" aria-label="Alternar tema">
+        🌙
+      </button>
+
+      <button id="shareBtn" class="share-btn">
+        <i class="fa-solid fa-share-nodes"></i>
+        Compartilhar
+      </button>
+    </header>
+
+    <section class="profile">
+      <div class="logo">
+        <img src="assets/barber-perfil.png" alt="Foto de Perfil">
+      </div>
+
+      <h1>Alpha BarberShop</h1>
+
+      <p class="subtitle">
+        💈 Mais que corte. Ritual do Reflexo.
+      </p>
+    </section>
+
+    <section class="primary-action">
+      <a href="agendamento.html" target="_blank" class="btn-primary">
+        <i class="fa-solid fa-calendar-check"></i>
+        Agendar Horário
+      </a>
+    </section>
+
+    <section class="quick-actions">
+      <a href="#" id="servicosBtn" class="quick-card">
+        <i class="fa-solid fa-cut"></i>
+        <span>Serviços</span>
+      </a>
+
+      <a href="#" id="produtosBtn" class="quick-card">
+        <i class="fa-solid fa-box"></i>
+        <span>Produtos</span>
+      </a>
+
+      <a href="#" id="profissionaisBtn" class="quick-card">
+        <i class="fa-solid fa-users"></i>
+        <span>Profissionais</span>
+      </a>
+
+      <a href="#" id="pacotesBtn" class="quick-card">
+        <i class="fa-solid fa-gift"></i>
+        <span>Pacotes</span>
+      </a>
+
+      <a href="#" id="cursosBtn" class="quick-card">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>Cursos</span>
+      </a>
+
+      <a href="tel:+5583986617303" class="quick-card">
+        <i class="fa-solid fa-phone"></i>
+        <span>Ligar</span>
+      </a>
+    </section>
+
+    <section class="social">
+      <a href="https://www.instagram.com/alphabarbershoppb" target="_blank" aria-label="Instagram">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+
+      <a href="https://wa.me/5583996533486" target="_blank" aria-label="WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+      </a>
+
+      <a href="https://share.google/Z1SXmfb1GbjOOr4D5" target="_blank" aria-label="location">
+        <i class="fa-solid fa-location-dot"></i>
+      </a>
+    </section>
+
+    <footer class="footer">
+      © 2026 Alhpa BarberShop | SOFTCLICK by SoftPower
+    </footer>
+  </div>
+
+  <!-- Modal de Serviços -->
+  <div id="servicosModal" class="servicos-modal">
+    <div class="servicos-modal-content">
+      <div class="servicos-modal-header">
+        <h2><i class="fa-solid fa-cut"></i> Nossos serviços</h2>
+        <button class="servicos-modal-close">&times;</button>
+      </div>
+      <div class="servicos-modal-body">
+        <div id="servicosLista" class="servicos-lista">
+          <div class="loading-servicos">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <p>Carregando serviços...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Detalhe do Serviço -->
+  <div id="servicoDetalheModal" class="servicos-modal">
+    <div class="servicos-modal-content servico-detalhe-content">
+      <div class="servicos-modal-header">
+        <h2 id="detalheServicoNome"></h2>
+        <button class="servico-detalhe-close">&times;</button>
+      </div>
+      <div class="servicos-modal-body">
+        <div class="servico-detalhe-info">
+          <div class="detalhe-row">
+            <i class="fa-regular fa-clock"></i>
+            <span>Duração: <strong id="detalheServicoDuracao"></strong></span>
+          </div>
+          <div class="detalhe-row">
+            <i class="fa-solid fa-tag"></i>
+            <span>Categoria: <strong id="detalheServicoCategoria"></strong></span>
+          </div>
+          <div class="detalhe-row">
+            <i class="fa-solid fa-dollar-sign"></i>
+            <span>Preço: <strong id="detalheServicoPreco"></strong></span>
+          </div>
+        </div>
+        <div class="servico-detalhe-descricao">
+          <h4>Descrição</h4>
+          <p id="detalheServicoDescricao"></p>
+        </div>
+        <div class="servico-detalhe-actions">
+          <a href="agendamento.html" class="btn-agendar-detalhe" id="btnAgendarDetalhe">
+            <i class="fa-solid fa-calendar-check"></i> Agendar esse serviço
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Produtos -->
+  <div id="produtosModal" class="servicos-modal">
+    <div class="servicos-modal-content">
+      <div class="servicos-modal-header">
+        <h2><i class="fa-solid fa-box"></i> Nossos produtos</h2>
+        <button class="produtos-modal-close">&times;</button>
+      </div>
+      <div class="servicos-modal-body">
+        <div id="produtosLista" class="produtos-lista">
+          <div class="loading-produtos">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <p>Carregando produtos...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Detalhe do Produto -->
+  <div id="produtoDetalheModal" class="servicos-modal">
+    <div class="servicos-modal-content produto-detalhe-content">
+      <div class="servicos-modal-header">
+        <h2 id="detalheProdutoNome"></h2>
+        <button class="produto-detalhe-close">&times;</button>
+      </div>
+      <div class="servicos-modal-body">
+        <div id="detalheProdutoImagem" class="produto-detalhe-imagem" style="display: none;"></div>
+        <div class="produto-detalhe-info">
+          <div class="detalhe-row">
+            <i class="fa-solid fa-tag"></i>
+            <span>Categoria: <strong id="detalheProdutoCategoria"></strong></span>
+          </div>
+          <div class="detalhe-row">
+            <i class="fa-solid fa-dollar-sign"></i>
+            <span>Preço: <strong id="detalheProdutoPreco"></strong></span>
+          </div>
+          <div class="detalhe-row">
+            <i class="fa-solid fa-truck"></i>
+            <span>Fornecedor: <strong id="detalheProdutoFornecedor"></strong></span>
+          </div>
+        </div>
+        <div class="produto-detalhe-descricao">
+          <h4>Descrição</h4>
+          <p id="detalheProdutoDescricao"></p>
+        </div>
+        <div class="produto-detalhe-actions">
+          <a href="javascript:void(0)" id="btnComprarProduto" class="btn-agendar-detalhe">
+            <i class="fa-solid fa-cart-shopping"></i> Adicionar ao Carrinho
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Profissionais -->
+  <div id="profissionaisModal" class="servicos-modal">
+    <div class="servicos-modal-content">
+      <div class="servicos-modal-header">
+        <h2><i class="fa-solid fa-users"></i> Nossos Profissionais</h2>
+        <button class="profissionais-modal-close servicos-modal-close">&times;</button>
+      </div>
+      <div class="servicos-modal-body">
+        <div id="profissionaisLista" class="profissionais-lista">
+          <div class="loading-profissionais">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <p>Carregando profissionais...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Detalhe do Profissional -->
+  <div id="profissionalDetalheModal" class="servicos-modal">
+    <div class="servicos-modal-content profissional-detalhe-content">
+      <div class="servicos-modal-header">
+        <h2 id="detalheProfissionalNome"></h2>
+        <button class="profissional-detalhe-close servico-detalhe-close">&times;</button>
+      </div>
+      <div class="servicos-modal-body">
+        <div class="profissional-detalhe-avatar">
+          <img id="detalheProfissionalFoto" src="" alt="Foto do profissional">
+        </div>
+        <div class="profissional-detalhe-info">
+          <div class="detalhe-row">
+            <i class="fa-solid fa-briefcase"></i>
+            <span>Especialidade: <strong id="detalheProfissionalEspecialidade"></strong></span>
+          </div>
+          <div class="detalhe-row">
+            <i class="fa-solid fa-calendar-alt"></i>
+            <span>Experiência: <strong id="detalheProfissionalExperiencia"></strong></span>
+          </div>
+        </div>
+        <div class="profissional-detalhe-descricao">
+          <h4>Sobre</h4>
+          <p id="detalheProfissionalDescricao"></p>
+        </div>
+        <div class="profissional-detalhe-actions">
+          <button id="btnAgendarProfissional" class="btn-agendar-detalhe">
+            <i class="fa-solid fa-calendar-check"></i> Agendar com este profissional
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Pacotes -->
+  <div id="pacotesModal" class="servicos-modal">
+    <div class="servicos-modal-content">
+      <div class="servicos-modal-header">
+        <h2><i class="fa-solid fa-gift"></i> Pacotes Especiais</h2>
+        <button class="pacotes-modal-close servicos-modal-close">&times;</button>
+      </div>
+      <div class="servicos-modal-body">
+        <div id="pacotesLista" class="pacotes-lista">
+          <div class="loading-pacotes">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <p>Carregando pacotes...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Detalhe do Pacote -->
+  <div id="pacoteDetalheModal" class="servicos-modal">
+    <div class="servicos-modal-content pacote-detalhe-content">
+      <div class="servicos-modal-header">
+        <h2 id="detalhePacoteNome"></h2>
+        <button class="pacote-detalhe-close servico-detalhe-close">&times;</button>
+      </div>
+      <div class="servicos-modal-body">
+        <div class="pacote-detalhe-imagem">
+          <img id="detalhePacoteImagem" src="" alt="Imagem do pacote">
+        </div>
+        <div class="pacote-detalhe-info">
+          <div class="detalhe-row">
+            <i class="fa-solid fa-tag"></i>
+            <span>Status: <strong id="detalhePacoteStatus"></strong></span>
+          </div>
+          <div class="detalhe-row">
+            <i class="fa-solid fa-scissors"></i>
+            <span>Serviços inclusos: <strong id="detalhePacoteServicos"></strong></span>
+          </div>
+          <div class="detalhe-row">
+            <i class="fa-solid fa-dollar-sign"></i>
+            <span>Preço original: <strong id="detalhePacotePrecoOriginal"></strong></span>
+          </div>
+          <div class="detalhe-row">
+            <i class="fa-solid fa-tag"></i>
+            <span>Preço promocional: <strong id="detalhePacotePreco"></strong></span>
+          </div>
+          <div class="detalhe-row" id="detalhePacoteDescontoRow">
+            <i class="fa-solid fa-percent"></i>
+            <span>Desconto: <strong id="detalhePacoteDesconto"></strong></span>
+          </div>
+        </div>
+        <div class="pacote-detalhe-descricao">
+          <h4>Descrição</h4>
+          <p id="detalhePacoteDescricao"></p>
+        </div>
+        <div class="pacote-detalhe-actions">
+          <button id="btnComprarPacote" class="btn-agendar-detalhe">
+            <i class="fa-solid fa-calendar-check"></i> Agendar este pacote
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Cursos -->
+  <div id="cursosModal" class="servicos-modal">
+    <div class="servicos-modal-content" style="max-width: 700px;">
+      <div class="servicos-modal-header">
+        <h2><i class="fa-solid fa-graduation-cap"></i> Cursos e Treinamentos</h2>
+        <button class="cursos-modal-close servicos-modal-close">&times;</button>
+      </div>
+      <div class="servicos-modal-body">
+        <div id="cursosLista" class="cursos-lista">
+          <div class="loading-cursos">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <p>Carregando cursos...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Detalhe do Curso -->
+  <div id="cursoDetalheModal" class="servicos-modal">
+    <div class="servicos-modal-content curso-detalhe-content" style="max-width: 550px;">
+      <div class="servicos-modal-header">
+        <h2 id="detalheCursoTitulo"><i class="fa-solid fa-graduation-cap"></i> Curso</h2>
+        <button class="curso-detalhe-close servico-detalhe-close">&times;</button>
+      </div>
+      <div class="servicos-modal-body">
+        <div id="detalheCursoConteudo">
+          <!-- Conteúdo dinâmico -->
+        </div>
+        <div class="curso-detalhe-actions" style="margin-top: 20px;">
+          <button id="btnAcessarCurso" class="btn-agendar-detalhe">
+            <i class="fa-solid fa-play"></i> Acessar Conteúdo
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Carrossel -->
+  <div id="modalCarrosselImagens" class="servicos-modal">
+    <div class="servicos-modal-content carrossel-content">
+      <div class="servicos-modal-header">
+        <h2 id="carrosselTitulo"><i class="fa-solid fa-images"></i> Galeria de Imagens</h2>
+        <button class="modal-carrossel-close">&times;</button>
+      </div>
+      <div class="servicos-modal-body carrossel-body">
+        <div class="carrossel-container">
+          <button class="carrossel-nav carrossel-prev" id="carrosselPrev">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <div class="carrossel-slides-container">
+            <div class="carrossel-slides" id="carrosselSlides"></div>
+          </div>
+          <button class="carrossel-nav carrossel-next" id="carrosselNext">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+        <div class="carrossel-indicators" id="carrosselIndicators"></div>
+        <div class="carrossel-counter" id="carrosselCounter">Imagem 1 de 1</div>
+        <div class="form-actions" style="margin-top: 20px; justify-content: center;">
+          <button id="fecharCarrossel" class="btn-cancel" style="padding: 10px 30px;">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Fullscreen -->
+  <div id="modalFullscreen" class="fullscreen-modal">
+    <div class="fullscreen-content">
+      <button class="fullscreen-close" id="fullscreenClose">&times;</button>
+      <button class="fullscreen-nav fullscreen-prev" id="fullscreenPrev">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <img id="fullscreenImage" src="" alt="Imagem em tela cheia">
+      <button class="fullscreen-nav fullscreen-next" id="fullscreenNext">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+      <div class="fullscreen-counter" id="fullscreenCounter">Imagem 1 de 1</div>
+    </div>
+  </div>
+
+  <!-- Modal do Carrinho -->
+  <div id="modalCarrinho" class="carrinho-modal">
+    <div class="carrinho-modal-content">
+      <div class="carrinho-modal-header">
+        <h2><i class="fa-solid fa-cart-shopping"></i> Meu Carrinho</h2>
+        <button class="carrinho-modal-close" onclick="fecharModalCarrinho()">&times;</button>
+      </div>
+      <div class="carrinho-modal-body">
+        <div id="carrinhoItens" class="carrinho-itens"></div>
+        <div id="carrinhoEmptyMessage" class="carrinho-empty" style="display: none;">
+          <i class="fa-regular fa-cart-shopping"></i>
+          <p>Seu carrinho está vazio!</p>
+          <span>Adicione produtos para continuar</span>
+        </div>
+      </div>
+      <div class="carrinho-modal-footer">
+        <div class="carrinho-resumo">
+          <div class="resumo-linha">
+            <span>Subtotal:</span>
+            <span id="carrinhoSubtotal">R$ 0,00</span>
+          </div>
+          <div class="resumo-linha total">
+            <span>Total:</span>
+            <span id="carrinhoTotal">R$ 0,00</span>
+          </div>
+        </div>
+        <div class="carrinho-actions">
+          <button class="btn-secondary" onclick="limparCarrinho()">
+            <i class="fa-solid fa-trash-can"></i> Limpar
+          </button>
+          <button class="btn-primary" id="btnFinalizarCompra" onclick="finalizarCompra()">
+            <i class="fa-brands fa-whatsapp"></i> Finalizar Pedido
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast do Carrinho -->
+  <div id="carrinhoToast" class="carrinho-toast">
+    <i id="carrinhoToastIcon" class="fa-solid fa-circle-check"></i>
+    <span id="carrinhoToastMsg"></span>
+  </div>
+
+  <!-- Modal Compartilhar -->
+  <div id="shareModal" class="share-modal">
+    <div class="share-content">
+      <h3>Compartilhar Cartão</h3>
+      <div class="qr-box">
+        <div id="qrcode"></div>
+        <div class="qr-logo-overlay">
+          <img src="assets/barber-perfil.png" alt="Logo">
+        </div>
+      </div>
+      <button id="copyLinkBtn" class="share-action">📋 Copiar link</button>
+      <button id="shareLinkBtn" class="share-action">🔗 Compartilhar</button>
+      <button id="closeShare" class="close-share">Fechar</button>
+    </div>
+  </div>
+
+  <!-- Modal Dados do Comprador -->
+  <div id="modalDadosComprador" class="servicos-modal">
+    <div class="servicos-modal-content" style="max-width: 450px;">
+      <div class="servicos-modal-header">
+        <h2><i class="fa-solid fa-user"></i> Identifique-se</h2>
+        <button class="modal-dados-close servicos-modal-close">&times;</button>
+      </div>
+      <div class="servicos-modal-body">
+        <form id="formDadosComprador">
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label style="display: block; margin-bottom: 6px; color: #94a3b8;"><i class="fa-solid fa-user"></i> Nome
+              Completo *</label>
+            <input type="text" id="compradorNome" required placeholder="Ex: João Silva"
+              style="width: 100%; padding: 12px; background: #1e1e1e; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #FFFFFF; transition: all 0.2s;">
+          </div>
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label style="display: block; margin-bottom: 6px; color: #94a3b8;"><i class="fa-brands fa-whatsapp"></i>
+              WhatsApp *</label>
+            <input type="tel" id="compradorTelefone" required placeholder="(83) 99999-9999"
+              style="width: 100%; padding: 12px; background: #1e1e1e; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #FFFFFF; transition: all 0.2s;">
+          </div>
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label style="display: block; margin-bottom: 6px; color: #94a3b8;"><i class="fa-solid fa-envelope"></i>
+              E-mail</label>
+            <input type="email" id="compradorEmail" placeholder="seu@email.com"
+              style="width: 100%; padding: 12px; background: #1e1e1e; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #FFFFFF; transition: all 0.2s;">
+          </div>
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label style="display: block; margin-bottom: 6px; color: #94a3b8;"><i class="fa-solid fa-note-sticky"></i>
+              Observação (opcional)</label>
+            <textarea id="compradorObs" rows="2" placeholder="Alguma informação adicional?"
+              style="width: 100%; padding: 12px; background: #1e1e1e; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #FFFFFF; resize: vertical; font-family: inherit;"></textarea>
+          </div>
+          <div class="form-actions"
+            style="display: flex; gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);">
+            <button type="button" class="btn-cancel-dados"
+              style="flex: 1; padding: 12px; background: #1e1e1e; border: none; border-radius: 12px; color: #FFFFFF; cursor: pointer; font-weight: 500;">Cancelar</button>
+            <button type="submit" class="btn-primary"
+              style="flex: 2; padding: 12px; background: linear-gradient(135deg, #2199EF, #1a7fcc); border: none; border-radius: 12px; color: #FFFFFF; cursor: pointer; font-weight: 600;">
+              <i class="fa-solid fa-check-circle"></i> Confirmar Compra
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="script.js"></script>
+</body>
+
+</html>

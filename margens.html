@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Margens de Lucro | Alpha BarberShop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#2199EF">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="margens.css">
+    <link rel="icon" type="image/png" href="assets/barber.icon.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <div class="wrapper" id="painel">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/barber-perfil.png" alt="Logo" class="sidebar-logo">
+                <span class="brand-name">Alpha BarberShopa</span>
+                <button class="close-sidebar-btn" id="closeSidebarBtn" aria-label="Fechar menu">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a href="dashboard.html"><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
+                    </li>
+                    <li class="nav-separator">Navegação</li>
+                    <li class="nav-item">
+                        <a href="agenda.html"><i class="fa-solid fa-calendar-days"></i> <span>Agenda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="clientes.html"><i class="fa-solid fa-users"></i> <span>Clientes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="servicos.html"><i class="fa-solid fa-cut"></i> <span>Serviços</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pacotes.html"><i class="fa-solid fa-gift"></i> <span>Pacotes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="estoque.html"><i class="fa-solid fa-box-archive"></i> <span>Produtos</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pagamentos.html"><i class="fa-solid fa-credit-card"></i> <span>Pagamentos</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="equipes.html"><i class="fa-solid fa-people-group"></i> <span>Equipes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="anamnese.html"><i class="fa-solid fa-clipboard-list"></i> <span>Anamnese</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="aniversariantes.html"><i class="fa-solid fa-gift"></i> <span>Aniversariantes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="avaliacoes-clientes.html"><i class="fa-solid fa-star"></i> <span>Avaliações</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comanda.html"><i class="fa-solid fa-receipt"></i> <span>Comanda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="fidelidade.html"><i class="fa-solid fa-star-of-life"></i> <span>Fidelidade</span></a>
+                    </li>
+                    <li class="nav-separator">Desempenho</li>
+                    <li class="nav-item active">
+                        <a href="margens.html"><i class="fa-solid fa-chart-line"></i> <span>Margens</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comissoes.html"><i class="fa-solid fa-coins"></i> <span>Comissões</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="metas.html"><i class="fa-solid fa-bullseye"></i> <span>Metas Profissionais</span></a>
+                    </li>
+                    <li class="nav-separator">Treinamentos</li>
+                    <li class="nav-item">
+                        <a href="cursos.html"><i class="fa-solid fa-graduation-cap"></i> <span>Cursos & Treinamentos</span></a>
+                    </li>
+                    <li class="nav-separator">Administração</li>
+                    <li class="nav-item">
+                        <a href="barbeiros.html"><i class="fa-solid fa-user-md"></i> <span>Barbeiros</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="bloqueios.html"><i class="fa-solid fa-lock"></i> <span>Bloqueios & Agenda</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="exportacoes.html"><i class="fa-solid fa-chart-pie"></i> <span>Exportações</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="configuracoes.html"><i class="fa-solid fa-gear"></i> <span>Configurações</span></a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">ABS</div>
+                    <div class="user-info">
+                        <span class="user-name">Alpha BarberShop</span>
+                        <span class="user-status">Online</span>
+                    </div>
+                    <button id="logout" class="btn-logout-icon" title="Sair">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1>💰 Margens de Lucro</h1>
+                    <p>Análise completa de rentabilidade dos serviços e produtos</p>
+                </div>
+                <div class="topbar-actions">
+                    <button id="btnConfigMargens" class="btn-primary" style="background: linear-gradient(135deg, #2199EF, #1a7fcc);">
+                        <i class="fa-solid fa-gear"></i> Configurar Metas
+                    </button>
+                </div>
+            </header>
+
+            <div class="container-fluid">
+                <!-- Cards de Resumo -->
+                <div class="stats-margens">
+                    <div class="stat-margem-card">
+                        <div class="stat-icon bg-green">
+                            <i class="fa-solid fa-chart-simple"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="margemMediaGeral">0%</span>
+                            <span class="stat-label">Margem Média Geral</span>
+                        </div>
+                    </div>
+                    <div class="stat-margem-card">
+                        <div class="stat-icon bg-purple">
+                            <i class="fa-solid fa-cut"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="margemMediaServicos">0%</span>
+                            <span class="stat-label">Margem Média Serviços</span>
+                        </div>
+                    </div>
+                    <div class="stat-margem-card">
+                        <div class="stat-icon bg-orange">
+                            <i class="fa-solid fa-box"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="margemMediaProdutos">0%</span>
+                            <span class="stat-label">Margem Média Produtos</span>
+                        </div>
+                    </div>
+                    <div class="stat-margem-card">
+                        <div class="stat-icon bg-blue">
+                            <i class="fa-solid fa-ranking-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="servicoMaiorMargem">-</span>
+                            <span class="stat-label">Maior Margem</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filtros -->
+                <div class="filter-margens">
+                    <div class="filter-group">
+                        <i class="fa-solid fa-filter"></i>
+                        <select id="filterTipo" class="filter-select">
+                            <option value="todos">Todos</option>
+                            <option value="servicos">Serviços</option>
+                            <option value="produtos">Produtos</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <select id="filterMargem" class="filter-select">
+                            <option value="">Todas as margens</option>
+                            <option value="alta">Margem Alta (>50%)</option>
+                            <option value="media">Margem Média (30-50%)</option>
+                            <option value="baixa">Margem Baixa (<30%)</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="searchMargem" placeholder="Buscar por nome..." class="search-input">
+                    </div>
+                    <button id="btnLimparFiltros" class="btn-ghost">
+                        <i class="fa-solid fa-eraser"></i> Limpar
+                    </button>
+                </div>
+
+                <!-- Gráfico de Margens -->
+                <div class="margens-chart-section">
+                    <div class="chart-card">
+                        <h3>📊 Comparativo de Margens (%)</h3>
+                        <canvas id="margensChart" style="max-height: 300px;"></canvas>
+                    </div>
+                </div>
+
+                <!-- Tabela de Serviços -->
+                <div class="margens-section">
+                    <div class="section-header">
+                        <h3><i class="fa-solid fa-cut"></i> Margens de Serviços</h3>
+                        <span class="section-badge">Clique no lápis para editar custos</span>
+                    </div>
+                    <div class="margens-table-container">
+                        <table class="margens-table" id="tabelaServicos">
+                            <thead>
+                                <tr>
+                                    <th>Serviço</th>
+                                    <th>Preço (R$)</th>
+                                    <th>Custo (R$)</th>
+                                    <th>Lucro (R$)</th>
+                                    <th>Margem (%)</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="servicosMargensBody">
+                                <tr><td colspan="7" class="loading-margens">Carregando serviços...</td</tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tabela de Produtos -->
+                <div class="margens-section">
+                    <div class="section-header">
+                        <h3><i class="fa-solid fa-box"></i> Margens de Produtos</h3>
+                        <span class="section-badge">Clique no lápis para editar custos</span>
+                    </div>
+                    <div class="margens-table-container">
+                        <table class="margens-table" id="tabelaProdutos">
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Preço (R$)</th>
+                                    <th>Custo (R$)</th>
+                                    <th>Lucro (R$)</th>
+                                    <th>Margem (%)</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="produtosMargensBody">
+                                <tr><td colspan="7" class="loading-margens">Carregando produtos...</td</tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Análise de Recomendações -->
+                <div class="recomendacoes-margens">
+                    <div class="recomendacoes-header">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <h3>Recomendações para Aumentar Margens</h3>
+                    </div>
+                    <div class="recomendacoes-lista" id="recomendacoesMargens">
+                        <div class="recomendacao-item">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                            <span>Aumente o preço dos serviços com maior demanda</span>
+                        </div>
+                        <div class="recomendacao-item">
+                            <i class="fa-solid fa-tag"></i>
+                            <span>Negocie melhores preços com fornecedores</span>
+                        </div>
+                        <div class="recomendacao-item">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <span>Crie combos para aumentar ticket médio</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Editar Custo - Serviço -->
+    <div id="modalEditarCustoServico" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-pen"></i> Editar Custo do Serviço</h2>
+                <button class="modal-close-custo modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-cut"></i> Serviço</label>
+                    <input type="text" id="editServicoNome" readonly class="form-input" style="background: var(--bg-dark);">
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-dollar-sign"></i> Preço de Venda (R$)</label>
+                    <input type="number" id="editServicoPreco" step="0.01" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-coins"></i> Custo do Serviço (R$)</label>
+                    <input type="number" id="editServicoCusto" step="0.01" class="form-input" placeholder="0,00">
+                    <small class="form-text">Inclui materiais, comissões, etc.</small>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-chart-line"></i> Margem Estimada</label>
+                    <div id="previewMargemServico" class="preview-margem">-</div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-custo btn-cancel">Cancelar</button>
+                <button id="btnSalvarCustoServico" class="btn-save">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Custo - Produto -->
+    <div id="modalEditarCustoProduto" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-pen"></i> Editar Custo do Produto</h2>
+                <button class="modal-close-custo-produto modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-box"></i> Produto</label>
+                    <input type="text" id="editProdutoNome" readonly class="form-input" style="background: var(--bg-dark);">
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-dollar-sign"></i> Preço de Venda (R$)</label>
+                    <input type="number" id="editProdutoPreco" step="0.01" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-coins"></i> Custo do Produto (R$)</label>
+                    <input type="number" id="editProdutoCusto" step="0.01" class="form-input" placeholder="0,00">
+                    <small class="form-text">Preço de compra do fornecedor</small>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-chart-line"></i> Margem Estimada</label>
+                    <div id="previewMargemProduto" class="preview-margem">-</div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-custo-produto btn-cancel">Cancelar</button>
+                <button id="btnSalvarCustoProduto" class="btn-save">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Configurações Gerais -->
+    <div id="modalConfigMargens" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-gear"></i> Configurações de Margem</h2>
+                <button class="modal-close-config modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-percent"></i> Margem Mínima Recomendada (%)</label>
+                    <input type="number" id="configMargemMinima" step="1" min="0" max="100" value="30" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-flag-checkered"></i> Meta de Margem (%)</label>
+                    <input type="number" id="configMargemMeta" step="1" min="0" max="100" value="50" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-building"></i> Custos Fixos Mensais (R$)</label>
+                    <input type="number" id="configCustosFixos" step="0.01" class="form-input" placeholder="Aluguel, água, luz, etc.">
+                    <small class="form-text">Aluguel, água, luz, salários fixos</small>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel-config btn-cancel">Cancelar</button>
+                <button id="btnSalvarConfig" class="btn-save">Salvar Configurações</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg"></span>
+    </div>
+
+    <script type="module" src="margens.js"></script>
+    <!-- Adicionar antes do fechamento do body -->
+<script type="module" src="floating-caixa.js"></script>
+<!-- Adicione após os outros CSS -->
+<link rel="stylesheet" href="floating-caixa.css">
+
+    <script>
+        (function () {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+
+            if (!mobileMenuBtn || !sidebar) return;
+
+            function openMenu() {
+                sidebar.classList.add('mobile-open');
+                if (overlay) overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMenu() {
+                sidebar.classList.remove('mobile-open');
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            mobileMenuBtn.addEventListener('click', openMenu);
+            if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeMenu);
+            if (overlay) overlay.addEventListener('click', closeMenu);
+
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768) closeMenu();
+            });
+
+            const currentPage = window.location.pathname.split('/').pop();
+            document.querySelectorAll('.sidebar-nav .nav-item').forEach(item => {
+                const link = item.querySelector('a');
+                if (link && link.getAttribute('href') === currentPage) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

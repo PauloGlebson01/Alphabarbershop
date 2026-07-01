@@ -1,0 +1,1138 @@
+/* cursos.css - Estilos para o módulo de Cursos e Treinamentos */
+
+/* ==================== CARDS DE RESUMO ==================== */
+.stats-cursos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-curso-card {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-curso-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #2199EF, #1a7fcc);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+.stat-curso-card:hover::before {
+    transform: translateX(0);
+}
+
+.stat-curso-card:hover {
+    transform: translateY(-3px);
+    border-color: #2199EF;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.stat-curso-card .stat-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.stat-curso-card .stat-icon.bg-purple {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+.stat-curso-card .stat-icon.bg-green {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.stat-curso-card .stat-icon.bg-blue {
+    background: linear-gradient(135deg, #2199EF, #1a7fcc);
+    color: white;
+    box-shadow: 0 4px 15px rgba(33, 153, 239, 0.3);
+}
+
+.stat-curso-card .stat-icon.bg-orange {
+    background: linear-gradient(135deg, #2199EF, #1a7fcc);
+    color: white;
+    box-shadow: 0 4px 15px rgba(33, 153, 239, 0.3);
+}
+
+.stat-curso-card .stat-info {
+    flex: 1;
+}
+
+.stat-curso-card .stat-value {
+    display: block;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.stat-curso-card .stat-label {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+/* ==================== FILTROS ==================== */
+.filter-cursos {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.filter-cursos:hover {
+    border-color: #2199EF;
+}
+
+.filter-group {
+    flex: 1;
+    min-width: 180px;
+    position: relative;
+}
+
+.filter-group i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.search-input,
+.filter-select {
+    width: 100%;
+    padding: 12px 16px 12px 40px;
+    background: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-main);
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.search-input:focus,
+.filter-select:focus {
+    outline: none;
+    border-color: #2199EF;
+    box-shadow: 0 0 0 3px rgba(33, 153, 239, 0.1);
+    background: var(--bg-card);
+}
+
+.btn-ghost {
+    padding: 12px 24px;
+    background: var(--bg-dark);
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-ghost:hover {
+    background: rgba(33, 153, 239, 0.1);
+    border-color: #2199EF;
+    color: #2199EF;
+    transform: translateY(-1px);
+}
+
+/* ==================== GRID DE CURSOS ==================== */
+.cursos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+}
+
+.curso-card {
+    background: var(--bg-card);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.curso-card:hover {
+    transform: translateY(-4px);
+    border-color: #2199EF;
+    box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.3);
+}
+
+.curso-imagem {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+}
+
+.curso-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.curso-card:hover .curso-imagem img {
+    transform: scale(1.05);
+}
+
+.curso-tipo-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.curso-tipo-badge.video {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.curso-tipo-badge.ebook {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.curso-tipo-badge.curso {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
+.curso-duracao-badge {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.curso-info {
+    padding: 20px;
+}
+
+.curso-info h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.curso-categoria {
+    display: inline-block;
+    padding: 4px 10px;
+    background: rgba(33, 153, 239, 0.15);
+    color: #2199EF;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.curso-descricao {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.curso-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.curso-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.curso-meta i {
+    color: #2199EF;
+}
+
+.curso-preco {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #2199EF;
+    margin-bottom: 16px;
+}
+
+.curso-preco.gratuito {
+    color: #10b981;
+}
+
+.curso-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-ver-curso {
+    flex: 2;
+    padding: 10px;
+    background: linear-gradient(135deg, #2199EF, #1a7fcc);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-ver-curso:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(33, 153, 239, 0.4);
+}
+
+.btn-matricular-curso {
+    flex: 1;
+    padding: 10px 12px;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 10px;
+    color: #10b981;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.btn-matricular-curso:hover {
+    background: #10b981;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-edit-curso {
+    padding: 10px 12px;
+    background: rgba(33, 153, 239, 0.15);
+    border: none;
+    border-radius: 10px;
+    color: #2199EF;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-edit-curso:hover {
+    background: #2199EF;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-delete-curso {
+    padding: 10px 12px;
+    background: rgba(239, 68, 68, 0.15);
+    border: none;
+    border-radius: 10px;
+    color: #ef4444;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-delete-curso:hover {
+    background: #ef4444;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* ==================== MODAL DETALHES ==================== */
+.detalhes-curso-header {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.detalhes-imagem {
+    width: 180px;
+    height: 180px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    flex-shrink: 0;
+}
+
+.detalhes-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.detalhes-info {
+    flex: 1;
+}
+
+.detalhes-info h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 12px;
+}
+
+.detalhes-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.detalhes-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.detalhes-meta i {
+    color: #2199EF;
+}
+
+.detalhes-preco {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #2199EF;
+}
+
+.detalhes-preco.gratuito {
+    color: #10b981;
+}
+
+.detalhes-descricao {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.detalhes-descricao h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+.detalhes-descricao p {
+    font-size: 0.85rem;
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+.detalhes-conteudo {
+    margin-top: 24px;
+    padding: 16px;
+    background: var(--bg-dark);
+    border-radius: 12px;
+}
+
+.detalhes-conteudo h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.detalhes-conteudo iframe {
+    width: 100%;
+    height: 300px;
+    border-radius: 12px;
+    border: none;
+}
+
+.detalhes-conteudo .ebook-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.detalhes-conteudo .ebook-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+}
+
+/* ==================== FORMULÁRIOS ==================== */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    letter-spacing: 0.3px;
+}
+
+.form-group label i {
+    color: #2199EF;
+    width: 18px;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-main);
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: #2199EF;
+    box-shadow: 0 0 0 3px rgba(33, 153, 239, 0.1);
+    background: var(--bg-card);
+}
+
+.form-textarea {
+    resize: vertical;
+    font-family: inherit;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.form-text {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+    display: block;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.btn-save {
+    padding: 10px 28px;
+    background: linear-gradient(135deg, #2199EF, #1a7fcc);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(33, 153, 239, 0.4);
+}
+
+.btn-cancel {
+    padding: 10px 24px;
+    background: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: #ef4444;
+    color: #ef4444;
+    transform: translateY(-1px);
+}
+
+.btn-danger {
+    padding: 10px 28px;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
+}
+
+/* ==================== LOADING E EMPTY ==================== */
+.loading-cursos {
+    text-align: center;
+    padding: 60px;
+    color: var(--text-muted);
+    grid-column: 1 / -1;
+}
+
+.loading-cursos i {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    display: block;
+    color: #2199EF;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.empty-cursos {
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--bg-card);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    grid-column: 1 / -1;
+}
+
+.empty-cursos i {
+    font-size: 3rem;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    display: block;
+    opacity: 0.5;
+}
+
+.empty-cursos p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.empty-cursos .btn-primary {
+    padding: 10px 24px;
+    background: linear-gradient(135deg, #2199EF, #1a7fcc);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.empty-cursos .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(33, 153, 239, 0.4);
+}
+
+/* ==================== TOAST ==================== */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: linear-gradient(135deg, #2199EF, #1a7fcc);
+    color: white;
+    padding: 14px 24px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 3000;
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    font-weight: 500;
+}
+
+.toast.show {
+    transform: translateX(0);
+}
+
+.toast i {
+    font-size: 1.2rem;
+}
+
+/* ==================== MODAIS ==================== */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(12px);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    border-radius: 24px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    animation: modalFadeIn 0.3s ease;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.modal-small {
+    max-width: 500px;
+}
+
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(33, 153, 239, 0.05), transparent);
+}
+
+.modal-header h2 {
+    font-size: 1.2rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+}
+
+.modal-header h2 i {
+    color: #2199EF;
+}
+
+.modal-close,
+.modal-close-curso,
+.modal-close-detalhes,
+.modal-close-matricular,
+.modal-close-excluir-curso {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+.modal-close:hover,
+.modal-close-curso:hover,
+.modal-close-detalhes:hover,
+.modal-close-matricular:hover,
+.modal-close-excluir-curso:hover {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.text-warning {
+    color: #f59e0b;
+    font-size: 0.85rem;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ==================== SCROLLBAR ==================== */
+.modal-content::-webkit-scrollbar,
+.cursos-grid::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.modal-content::-webkit-scrollbar-track,
+.cursos-grid::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+    border-radius: 3px;
+}
+
+.modal-content::-webkit-scrollbar-thumb,
+.cursos-grid::-webkit-scrollbar-thumb {
+    background: #2199EF;
+    border-radius: 3px;
+}
+
+/* ==================== RESPONSIVIDADE ==================== */
+@media (max-width: 1024px) {
+    .stats-cursos {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .cursos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-cursos {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .filter-cursos {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px;
+    }
+    
+    .filter-group {
+        width: 100%;
+        min-width: auto;
+    }
+    
+    .btn-ghost {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+    
+    .cursos-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .curso-actions {
+        flex-wrap: wrap;
+    }
+    
+    .btn-ver-curso,
+    .btn-matricular-curso,
+    .btn-edit-curso,
+    .btn-delete-curso {
+        flex: 1;
+        min-width: calc(50% - 6px);
+    }
+    
+    .detalhes-curso-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .detalhes-imagem {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .detalhes-meta {
+        justify-content: center;
+    }
+    
+    .detalhes-conteudo iframe {
+        height: 200px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    
+    .modal-content {
+        width: 95%;
+        border-radius: 20px;
+    }
+    
+    .modal-header {
+        padding: 16px 20px;
+    }
+    
+    .modal-header h2 {
+        font-size: 1rem;
+    }
+    
+    .modal-body {
+        padding: 20px;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .form-actions button {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .toast {
+        bottom: 20px;
+        right: 20px;
+        left: 20px;
+        transform: translateY(100px);
+    }
+    
+    .toast.show {
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .stat-value {
+        font-size: 1.3rem;
+    }
+    
+    .stat-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 1.2rem;
+    }
+    
+    .curso-info h3 {
+        font-size: 1rem;
+    }
+    
+    .curso-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .curso-preco {
+        font-size: 1rem;
+    }
+    
+    .detalhes-conteudo iframe {
+        height: 180px;
+    }
+    
+    .detalhes-info h3 {
+        font-size: 1.1rem;
+    }
+    
+    .detalhes-meta {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+}
+
+/* ==================== TEMA CLARO ==================== */
+body.light .stat-curso-card {
+    background: #ffffff;
+}
+
+body.light .filter-cursos {
+    background: #ffffff;
+}
+
+body.light .curso-card {
+    background: #ffffff;
+}
+
+body.light .curso-descricao {
+    color: #64748b;
+}
+
+body.light .detalhes-conteudo {
+    background: #f8fafc;
+}
+
+body.light .detalhes-descricao {
+    border-top-color: #e2e8f0;
+}
+
+body.light .form-input,
+body.light .form-select,
+body.light .form-textarea {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #1e293b;
+}
+
+body.light .form-input:focus,
+body.light .form-select:focus,
+body.light .form-textarea:focus {
+    background: #ffffff;
+}
+
+body.light .modal-content {
+    background: #ffffff;
+}
+
+body.light .modal-header {
+    background: linear-gradient(135deg, rgba(33, 153, 239, 0.05), transparent);
+    border-bottom-color: #e2e8f0;
+}
+
+body.light .modal-header h2 {
+    color: #1e293b;
+}
+
+body.light .btn-cancel {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #64748b;
+}
+
+body.light .btn-cancel:hover {
+    background: #fee2e2;
+    border-color: #ef4444;
+    color: #ef4444;
+}
+
+body.light .curso-categoria {
+    background: rgba(33, 153, 239, 0.1);
+}
+
+body.light .empty-cursos {
+    background: #ffffff;
+}
+
+/* Botão Novo Curso do topo - padrão modal */
+.topbar-actions .btn-primary {
+    padding: 10px 28px;
+    background: linear-gradient(135deg, #2199EF, #1a7fcc);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.topbar-actions .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(33, 153, 239, 0.4);
+    background: linear-gradient(135deg, #1a7fcc, #0f6bb0);
+}

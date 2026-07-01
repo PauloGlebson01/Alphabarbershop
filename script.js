@@ -1571,7 +1571,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const modalCloseCursos = document.querySelector(".cursos-modal-close");
     const detalheCloseCursos = document.querySelector(".curso-detalhe-close");
 
-    const currentUrl = window.location.href;
+    const currentUrl = "https://alphabarbershop.vercel.app";
 
     // Autenticação
     signInAnonymously(auth).then(() => {

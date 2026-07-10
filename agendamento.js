@@ -1,7 +1,7 @@
-// agendamento.js - Versão com divisão de turnos estilo App Barber e intervalo configurável
-// 🔥 CORREÇÃO: Agendamentos com status CONCLUIDO ou FINALIZADO NÃO liberam o horário
-// Apenas CANCELADO e AUSENTE liberam o horário
-// 🆕 Horários baseados nas configurações do admin (08:00 - 20:00)
+// agendamento.js - Versão CORRIGIDA com VERIFICAÇÃO DE HORÁRIOS LIBERADOS
+// Agendamentos com status CANCELADO ou AUSENTE ou horarioLiberado=true NÃO bloqueiam mais os horários
+// CORREÇÃO: Agendamentos CONFIRMADOS e CONCLUIDOS ocupam horário (pagamento finalizado)
+// NOVIDADE: Lista de Espera integrada com botão e modais
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { 
@@ -24,7 +24,7 @@ import {
     onAuthStateChanged 
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// CONFIGURAÇÕES DE DADOS
+//CONFIGURAÇÕES DE DADOS
 const firebaseConfig = {
   apiKey: "AIzaSyDytXqhW1JKVoUu_mmfgdk7pcwSKi8Htgw",
   authDomain: "alpha-barbershop.firebaseapp.com",
@@ -76,157 +76,18 @@ const listaClienteDisplay = document.getElementById("listaClienteDisplay");
 let clienteSelecionadoParaAgendamento = null;
 let agendamentoEmAndamento = false;
 
-// ==================== HORÁRIOS DINÂMICOS BASEADOS NAS CONFIGURAÇÕES DO ADMIN ====================
+// ==================== HORÁRIOS POR DIA DA SEMANA ====================
+const horariosSegundaQuarta = [
+    "08:20", "09:00", "09:40", "10:20", "11:00", "11:40",
+    "14:00", "14:40", "15:20", "16:00", "16:40", "17:20", "18:00", "18:40"
+];
 
-let intervaloConfigurado = 10; // padrão
-let horarioAbertura = "08:00"; // padrão
-let horarioFechamento = "20:00"; // padrão
-let horariosManha = [];
-let horariosTarde = [];
-let horariosNoite = [];
-let horariosAtendimento = [];
+const horariosQuintaSabado = [
+    "08:00", "08:40", "09:20", "10:00", "10:40",
+    "14:00", "14:40", "15:20", "16:00", "17:20", "18:00", "18:40"
+];
 
-// Função para validar formato de horário HH:MM
-function validarHorario(horario) {
-    const regex = /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/;
-    return regex.test(horario);
-}
-
-// Função para carregar as configurações de horário do Firebase
-async function carregarConfiguracoesHorarios() {
-    try {
-        const configRef = doc(db, "configuracoes", "horarios");
-        const configSnap = await getDoc(configRef);
-        
-        if (configSnap.exists()) {
-            const data = configSnap.data();
-            
-            // Carregar horário de abertura e fechamento
-            if (data.semana) {
-                // Formato esperado: "08:00 - 20:00"
-                const partes = data.semana.split('-').map(s => s.trim());
-                if (partes.length === 2) {
-                    const abertura = partes[0];
-                    const fechamento = partes[1];
-                    
-                    // Validar formato HH:MM
-                    if (validarHorario(abertura) && validarHorario(fechamento)) {
-                        horarioAbertura = abertura;
-                        horarioFechamento = fechamento;
-                        console.log(`📋 Horário de funcionamento carregado: ${horarioAbertura} - ${horarioFechamento}`);
-                    }
-                }
-            }
-            
-            // Carregar intervalo
-            if (data.intervalo) {
-                intervaloConfigurado = data.intervalo;
-                console.log(`📋 Intervalo carregado: ${intervaloConfigurado} minutos`);
-            }
-            
-            // Regenerar horários com as novas configurações
-            atualizarHorariosGlobais(intervaloConfigurado);
-            return;
-        }
-        
-        // Se não houver configuração, usar padrões
-        console.log(`📋 Usando horários padrão: ${horarioAbertura} - ${horarioFechamento}`);
-        atualizarHorariosGlobais(intervaloConfigurado);
-        
-    } catch (error) {
-        console.error("Erro ao carregar configurações de horário:", error);
-        atualizarHorariosGlobais(intervaloConfigurado);
-    }
-}
-
-// Função para gerar horários baseado nas configurações
-function gerarHorariosDinamicos(intervalo) {
-    const abertura = horarioAbertura;
-    const fechamento = horarioFechamento;
-    
-    const horarios = [];
-    const inicio = horarioParaMinutos(abertura);
-    const fim = horarioParaMinutos(fechamento);
-    
-    if (inicio >= fim) {
-        console.warn(`⚠️ Horário de abertura (${abertura}) deve ser menor que fechamento (${fechamento})`);
-        return [];
-    }
-    
-    for (let i = inicio; i < fim; i += intervalo) {
-        horarios.push(minutosParaHorario(i));
-    }
-    
-    console.log(`📋 ${horarios.length} horários gerados (${abertura} - ${fechamento}) com intervalo de ${intervalo} minutos`);
-    
-    return horarios;
-}
-
-// Função para distribuir horários por turnos
-function distribuirPorTurnos(horarios) {
-    const manha = [];
-    const tarde = [];
-    const noite = [];
-    
-    const limiteManha = horarioParaMinutos("12:00");
-    const limiteTarde = horarioParaMinutos("19:00");
-    
-    horarios.forEach(h => {
-        const minutos = horarioParaMinutos(h);
-        if (minutos < limiteManha) {
-            manha.push(h);
-        } else if (minutos < limiteTarde) {
-            tarde.push(h);
-        } else {
-            noite.push(h);
-        }
-    });
-    
-    return { manha, tarde, noite };
-}
-
-// Função para atualizar os arrays globais
-function atualizarHorariosGlobais(intervalo) {
-    const horarios = gerarHorariosDinamicos(intervalo);
-    const turnos = distribuirPorTurnos(horarios);
-    
-    horariosManha = turnos.manha;
-    horariosTarde = turnos.tarde;
-    horariosNoite = turnos.noite;
-    horariosAtendimento = horarios;
-    
-    console.log(`   🌅 Manhã (${horarioAbertura}-12:00): ${horariosManha.length} horários`);
-    console.log(`   ☀️ Tarde (12:00-19:00): ${horariosTarde.length} horários`);
-    console.log(`   🌙 Noite (19:00-${horarioFechamento}): ${horariosNoite.length} horários`);
-    
-    return horarios;
-}
-
-// Escutar mudanças nas configurações
-window.addEventListener('configuracoesHorariosAlteradas', (event) => {
-    console.log(`🔄 Configurações de horário alteradas:`, event.detail);
-    if (event.detail.abertura) horarioAbertura = event.detail.abertura;
-    if (event.detail.fechamento) horarioFechamento = event.detail.fechamento;
-    if (event.detail.intervalo) intervaloConfigurado = event.detail.intervalo;
-    
-    atualizarHorariosGlobais(intervaloConfigurado);
-    
-    // Recarregar horários se estiver na página de agendamento
-    if (typeof atualizarHorarios === 'function') {
-        setTimeout(() => atualizarHorarios(), 300);
-    }
-});
-
-// Escutar mudanças no intervalo (mantido para compatibilidade)
-window.addEventListener('intervaloAlterado', (event) => {
-    console.log(`🔄 Intervalo alterado para: ${event.detail.intervalo} minutos`);
-    intervaloConfigurado = event.detail.intervalo;
-    atualizarHorariosGlobais(intervaloConfigurado);
-    
-    if (typeof atualizarHorarios === 'function') {
-        setTimeout(() => atualizarHorarios(), 300);
-    }
-});
+const HORARIO_LIMITE = "20:00";
 
 let camposPreenchidos = { nome: false, telefone: false, profissional: false, data: false, servicos: false };
 let usuarioAutenticado = false;
@@ -293,34 +154,6 @@ function formatarData(dataStr) {
         }
     }
     return 'Data inválida';
-}
-
-function getTurno(horario) {
-    const minutos = horarioParaMinutos(horario);
-    const manhaFim = horarioParaMinutos("12:00");
-    const tardeFim = horarioParaMinutos("19:00");
-    
-    if (minutos < manhaFim) return "manha";
-    if (minutos < tardeFim) return "tarde";
-    return "noite";
-}
-
-function getNomeTurno(turno) {
-    const nomes = {
-        manha: "🌅 Manhã",
-        tarde: "☀️ Tarde",
-        noite: "🌙 Noite"
-    };
-    return nomes[turno] || turno;
-}
-
-function getCorTurno(turno) {
-    const cores = {
-        manha: { bg: '#f0fdf4', border: '#22c55e', text: '#16a34a' },
-        tarde: { bg: '#fffbeb', border: '#f59e0b', text: '#d97706' },
-        noite: { bg: '#f3e8ff', border: '#8b5cf6', text: '#7c3aed' }
-    };
-    return cores[turno] || cores.manha;
 }
 
 // ==================== FUNÇÕES DO MODAL ====================
@@ -1311,24 +1144,22 @@ function getNomeDiaSemana(dataStr) {
 function getHorariosPorDia(dataStr) {
     const diaSemana = getDiaSemana(dataStr);
     
-    // Atendimento de SEGUNDA à SÁBADO com horários dinâmicos baseados na configuração
-    if (diaSemana >= 1 && diaSemana <= 6) {
-        // Usar os horários gerados dinamicamente baseados na configuração do admin
+    if (diaSemana >= 1 && diaSemana <= 3) {
         return { 
-            horarios: horariosAtendimento,
-            descricao: `Segunda à Sábado (${horarioAbertura} - ${horarioFechamento})`,
-            turnos: {
-                manha: { horarios: horariosManha, label: "🌅 Manhã", total: horariosManha.length },
-                tarde: { horarios: horariosTarde, label: "☀️ Tarde", total: horariosTarde.length },
-                noite: { horarios: horariosNoite, label: "🌙 Noite", total: horariosNoite.length }
-            }
+            horarios: horariosSegundaQuarta,
+            descricao: "Segunda à Quarta"
+        };
+    }
+    else if (diaSemana >= 4 && diaSemana <= 6) {
+        return { 
+            horarios: horariosQuintaSabado,
+            descricao: "Quinta à Sábado"
         };
     }
     else {
         return { 
             horarios: [],
-            descricao: "Domingo - Fechado",
-            turnos: null
+            descricao: "Domingo"
         };
     }
 }
@@ -1339,7 +1170,7 @@ function getInfoAtendimentoPorDia(dataStr) {
     if (diaSemana === 0) {
         return { 
             temAtendimento: false, 
-            mensagem: "❌ Não atendemos aos domingos." 
+            mensagem: "Não atendemos aos domingos." 
         };
     }
     
@@ -1348,7 +1179,6 @@ function getInfoAtendimentoPorDia(dataStr) {
     return { 
         temAtendimento: true, 
         horarios: horariosInfo.horarios,
-        turnos: horariosInfo.turnos,
         mensagem: `Horários - ${horariosInfo.descricao}`
     };
 }
@@ -1403,6 +1233,7 @@ async function adicionarListaEspera(dados) {
     try {
         const listaRef = collection(db, "lista_espera");
         
+        // Verificar se o cliente já está na lista para este dia/profissional
         const q = query(
             listaRef,
             where("clienteId", "==", dados.clienteId || ""),
@@ -1585,14 +1416,14 @@ async function atualizarHorarios() {
         
         const snapshot = await getDocs(q);
         
-        // 🔥 CORREÇÃO: Agora TODOS os status ocupam o horário, EXCETO cancelado, ausente e horarioLiberado
-        const statusLiberados = ["cancelado", "ausente"];
+        // ✅ CORREÇÃO: Adicionar "concluido" aos status que ocupam horário
+        const statusOcupados = ["confirmado", "concluido"];
         const horariosOcupados = [];
         
         console.log(`📊 TOTAL de agendamentos encontrados: ${snapshot.size}`);
-        console.log(`📋 Status que LIBERAM o horário: ${statusLiberados.join(', ')}`);
-        console.log(`📋 TODOS OS DEMAIS status OCUPAM o horário (incluindo concluido, finalizado, confirmado, aguardando_pagamento, pendente)`);
-        console.log(`🔓 Agendamentos com horarioLiberado=true são IGNORADOS (liberam o horário)`);
+        console.log(`📋 Status considerados OCUPADOS: ${statusOcupados.join(', ')}`);
+        console.log(`📋 Status IGNORADOS (liberam horário): aguardando_pagamento, pendente, cancelado, ausente`);
+        console.log(`🔓 Agendamentos com horarioLiberado=true são IGNORADOS`);
         
         snapshot.forEach(doc => {
             const agendamento = doc.data();
@@ -1600,32 +1431,42 @@ async function atualizarHorarios() {
             const horario = agendamento.horario;
             const horarioLiberado = agendamento.horarioLiberado === true;
             
-            // 🔥 CORREÇÃO: Se horarioLiberado for true, o horário está disponível
             if (horarioLiberado) {
                 console.log(`   🟢 HORÁRIO LIBERADO (IGNORADO): ${horario} (status: ${status}, horarioLiberado: true)`);
                 return;
             }
             
-            // 🔥 CORREÇÃO: Apenas cancelado e ausente liberam o horário
+            // ✅ CORREÇÃO: cancelado e ausente NÃO ocupam horário
             if (status === "cancelado" || status === "ausente") {
                 console.log(`   🟢 IGNORADO/LIBERADO: ${horario} (status: ${status})`);
                 return;
             }
             
-            // 🔥 CORREÇÃO: TODOS OS DEMAIS status ocupam o horário
-            if (horario) {
-                horariosOcupados.push({
-                    horario: horario,
-                    duracaoTotal: agendamento.duracaoTotal || 60,
-                    status: status
-                });
-                console.log(`   🔴 OCUPADO: ${horario} (status: ${status})`);
+            // ✅ CORREÇÃO: aguardando_pagamento e pendente NÃO ocupam horário
+            if (status === "aguardando_pagamento" || status === "pendente") {
+                console.log(`   🟢 IGNORADO (pagamento pendente): ${horario} (status: ${status})`);
+                return;
+            }
+            
+            // ✅ CORREÇÃO: confirmado e concluido OCUPAM horário
+            if (statusOcupados.includes(status)) {
+                if (horario) {
+                    horariosOcupados.push({
+                        horario: horario,
+                        duracaoTotal: agendamento.duracaoTotal || 60,
+                        status: status,
+                        horarioLiberado: horarioLiberado
+                    });
+                    console.log(`   🔴 OCUPADO: ${horario} (status: ${status})`);
+                }
+            } else {
+                console.log(`   🟢 IGNORADO: ${horario} (status: ${status})`);
             }
         });
         
         console.log(`📊 Horários efetivamente ocupados: ${horariosOcupados.length}`);
         
-        const limiteMinutos = horarioParaMinutos(horarioFechamento);
+        const limiteMinutos = horarioParaMinutos(HORARIO_LIMITE);
         const horariosDisponiveis = [];
         const horariosIndisponiveis = [];
         
@@ -1673,7 +1514,7 @@ async function atualizarHorarios() {
     }
 }
 
-// ==================== RENDERIZAR HORÁRIOS COM DIVISÃO DE TURNOS (ESTILO APP BARBER) ====================
+// ==================== RENDERIZAR HORÁRIOS (CORRIGIDO COM BOTÃO LISTA DE ESPERA) ====================
 function renderizarHorarios(horariosDisponiveis = [], horariosIndisponiveis = [], infoAtendimento, duracaoTotal) {
     const nomeDia = getNomeDiaSemana(dataInput.value);
     
@@ -1681,213 +1522,67 @@ function renderizarHorarios(horariosDisponiveis = [], horariosIndisponiveis = []
     
     const duracaoFormatada = `${Math.floor(duracaoTotal / 60)}h ${duracaoTotal % 60}min`;
     
-    // HEADER PRINCIPAL - SEM INFORMAÇÃO DE INTERVALO PARA O CLIENTE
     const infoHeader = document.createElement('div');
-    infoHeader.style.cssText = `
-        background: linear-gradient(135deg, #e8f4fd, #dbeafe);
-        padding: 16px 20px;
-        border-radius: 16px;
-        margin-bottom: 20px;
-        text-align: center;
-        border-left: 4px solid #2199EF;
-        box-shadow: 0 2px 8px rgba(33, 153, 239, 0.15);
-    `;
+    infoHeader.style.cssText = `background:#e8f4fd;padding:14px 16px;border-radius:16px;margin-bottom:20px;text-align:center;border-left:4px solid #2199EF;`;
     infoHeader.innerHTML = `
         <div>
-            <h3 style="margin:0;color:#1a365d;font-size:1.1rem;">
-                📅 ${nomeDia} - Horários Disponíveis
-            </h3>
-            <p style="margin:4px 0 0;font-size:0.75rem;color:#10b981;">
+            <h3 style="margin:0;color:#2199EF;">Horários Disponíveis - ${nomeDia}</h3>
+            <p style="margin:5px 0 0;font-size:0.7rem;color:#10b981;">
                 <i class="fa-regular fa-clock"></i> Duração total: ${duracaoFormatada}
             </p>
         </div>
     `;
     horariosDiv.appendChild(infoHeader);
     
-    // Se não houver horários disponíveis
+    // ========== CORREÇÃO: BOTÃO DA LISTA DE ESPERA QUANDO NÃO HÁ HORÁRIOS ==========
     if (horariosDisponiveis.length === 0) {
         const avisoDiv = document.createElement('div');
         avisoDiv.className = 'aviso-campos';
-        avisoDiv.style.cssText = `
-            padding: 30px 20px;
-            text-align: center;
-            background: #f8fafc;
-            border-radius: 16px;
-            border: 2px dashed #e2e8f0;
-        `;
         avisoDiv.innerHTML = `
-            <i class="fa-solid fa-clock" style="font-size:2rem;color:#94a3b8;display:block;margin-bottom:12px;"></i>
-            <p style="font-weight:500;color:#475569;">Nenhum horário disponível para esta data</p>
-            <p style="font-size: 0.7rem; color: #94a3b8; margin-top: 4px;">Tente outra data ou horário</p>
+            <i class="fa-solid fa-clock"></i>
+            <p>Nenhum horário disponível para esta data</p>
+            <p style="font-size: 0.7rem; margin-top: 8px;">Tente outra data ou horário</p>
             <button id="btnEntrarListaEspera" class="btn-primary" 
-                    style="background: linear-gradient(135deg, #f59e0b, #d97706); margin-top: 16px; padding: 10px 24px; border: none; border-radius: 12px; color: white; font-weight: 600; cursor: pointer; width: 100%;">
+                    style="background: linear-gradient(135deg, #f59e0b, #d97706); margin-top: 16px; width: 100%;">
                 <i class="fa-solid fa-clock"></i> Entrar na Lista de Espera
             </button>
-            <p style="font-size: 0.65rem; color: #94a3b8; margin-top: 8px;">
+            <p style="font-size: 0.7rem; color: #64748b; margin-top: 8px;">
                 🔔 Você será avisado automaticamente quando surgir uma vaga!
             </p>
             ${horariosIndisponiveis.length > 0 ? 
-                `<p style="font-size: 0.6rem; margin-top: 8px; color:#c2410c;">⛔ Horários ocupados: ${horariosIndisponiveis.join(', ')}</p>` : ''}
+                `<p style="font-size: 0.65rem; margin-top: 8px; color:#c2410c;">Horários ocupados: ${horariosIndisponiveis.join(', ')}</p>` : ''}
         `;
         horariosDiv.appendChild(avisoDiv);
+        
+        // Adicionar evento ao botão criado dinamicamente
         adicionarEventoBotaoListaEspera();
         return;
     }
     
-    // Organiza os horários disponíveis por turno
-    const turnosAgrupados = {
-        manha: { label: '🌅 Manhã', horarios: [], total: horariosManha.length },
-        tarde: { label: '☀️ Tarde', horarios: [], total: horariosTarde.length },
-        noite: { label: '🌙 Noite', horarios: [], total: horariosNoite.length }
-    };
+    // ========== SE HOUVER HORÁRIOS DISPONÍVEIS ==========
+    const containerBotoes = document.createElement('div');
+    containerBotoes.className = 'botoes-horarios';
     
-    horariosDisponiveis.forEach(h => {
-        const turno = getTurno(h);
-        if (turno === 'manha') turnosAgrupados.manha.horarios.push(h);
-        else if (turno === 'tarde') turnosAgrupados.tarde.horarios.push(h);
-        else if (turno === 'noite') turnosAgrupados.noite.horarios.push(h);
+    horariosDisponiveis.forEach(hora => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "horario-btn";
+        btn.textContent = hora;
+        btn.title = `Duração do serviço: ${duracaoFormatada}`;
+        
+        btn.onclick = () => {
+            document.querySelectorAll(".horario-btn").forEach(b => b.classList.remove("selecionado"));
+            btn.classList.add("selecionado");
+            horarioHidden.value = hora;
+        };
+        containerBotoes.appendChild(btn);
     });
+    horariosDiv.appendChild(containerBotoes);
     
-    // Renderiza cada turno (ESTILO APP BARBER)
-    for (const [key, turno] of Object.entries(turnosAgrupados)) {
-        // Se o turno não tiver horários disponíveis, pula
-        if (turno.horarios.length === 0) continue;
-        
-        const cor = getCorTurno(key);
-        
-        // Container do turno
-        const turnoContainer = document.createElement('div');
-        turnoContainer.style.cssText = `
-            margin-bottom: 20px;
-            background: ${cor.bg};
-            border-radius: 14px;
-            padding: 16px 18px;
-            border-left: 5px solid ${cor.border};
-            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-            transition: all 0.2s;
-        `;
-        
-        // Cabeçalho do turno (estilo App Barber)
-        const headerTurno = document.createElement('div');
-        headerTurno.style.cssText = `
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid ${cor.border}40;
-        `;
-        headerTurno.innerHTML = `
-            <span style="font-weight: 700; font-size: 1rem; color: ${cor.text}; display: flex; align-items: center; gap: 8px;">
-                ${turno.label}
-            </span>
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="
-                    background: ${cor.border};
-                    color: white;
-                    padding: 2px 12px;
-                    border-radius: 20px;
-                    font-size: 0.7rem;
-                    font-weight: 600;
-                ">
-                    ${turno.horarios.length} disponíveis
-                </span>
-                <span style="
-                    background: white;
-                    color: #94a3b8;
-                    padding: 2px 10px;
-                    border-radius: 20px;
-                    font-size: 0.6rem;
-                    font-weight: 500;
-                ">
-                    ${turno.total} horários
-                </span>
-            </div>
-        `;
-        turnoContainer.appendChild(headerTurno);
-        
-        // Grade de botões (5 por linha - estilo App Barber)
-        const gridContainer = document.createElement('div');
-        gridContainer.style.cssText = `
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
-        `;
-        
-        turno.horarios.forEach(hora => {
-            const btn = document.createElement("button");
-            btn.type = "button";
-            btn.className = "horario-btn";
-            btn.textContent = hora;
-            btn.style.cssText = `
-                padding: 8px 4px;
-                border: 2px solid ${cor.border}60;
-                border-radius: 10px;
-                background: white;
-                color: ${cor.text};
-                font-weight: 600;
-                font-size: 0.8rem;
-                cursor: pointer;
-                transition: all 0.2s;
-                box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-            `;
-            btn.title = `Duração do serviço: ${duracaoFormatada}`;
-            
-            btn.onmouseenter = () => {
-                if (!btn.classList.contains('selecionado')) {
-                    btn.style.borderColor = cor.border;
-                    btn.style.transform = 'scale(1.03)';
-                    btn.style.boxShadow = `0 4px 12px ${cor.border}30`;
-                }
-            };
-            btn.onmouseleave = () => {
-                if (!btn.classList.contains('selecionado')) {
-                    btn.style.borderColor = `${cor.border}60`;
-                    btn.style.transform = 'scale(1)';
-                    btn.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)';
-                }
-            };
-            
-            btn.onclick = () => {
-                document.querySelectorAll(".horario-btn").forEach(b => {
-                    b.classList.remove("selecionado");
-                    b.style.borderColor = `${cor.border}60`;
-                    b.style.background = 'white';
-                    b.style.transform = 'scale(1)';
-                    b.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)';
-                });
-                btn.classList.add("selecionado");
-                btn.style.borderColor = cor.border;
-                btn.style.background = cor.bg;
-                btn.style.transform = 'scale(1.02)';
-                btn.style.boxShadow = `0 4px 16px ${cor.border}40`;
-                horarioHidden.value = hora;
-            };
-            
-            gridContainer.appendChild(btn);
-        });
-        
-        turnoContainer.appendChild(gridContainer);
-        horariosDiv.appendChild(turnoContainer);
-    }
-    
-    // Horários indisponíveis (rodapé)
     if (horariosIndisponiveis.length > 0) {
         const infoOcupados = document.createElement('div');
-        infoOcupados.style.cssText = `
-            margin-top: 12px;
-            padding: 10px 14px;
-            background: #fef2e8;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            color: #c2410c;
-            text-align: center;
-            border: 1px solid #fecaca;
-        `;
-        infoOcupados.innerHTML = `
-            <i class="fa-solid fa-clock" style="margin-right: 6px;"></i>
-            Horários indisponíveis: ${horariosIndisponiveis.join(', ')}
-        `;
+        infoOcupados.style.cssText = `margin-top:16px;padding:8px 12px;background:#fef2e8;border-radius:12px;font-size:0.75rem;color:#c2410c;text-align:center;`;
+        infoOcupados.innerHTML = `<i class="fa-solid fa-clock"></i> Horários indisponíveis: ${horariosIndisponiveis.join(', ')}`;
         horariosDiv.appendChild(infoOcupados);
     }
 }
@@ -1930,7 +1625,6 @@ function autenticar(tentativa = 1) {
         usuarioAutenticado = true;
         await carregarProfissionais();
         await carregarServicosFirebase();
-        await carregarConfiguracoesHorarios(); // 🆕 Carregar configurações de horário
         verificarCamposPreenchidos();
     }).catch((error) => {
         console.error(`Erro autenticação (${tentativa}/3):`, error);
@@ -1945,7 +1639,6 @@ onAuthStateChanged(auth, async (user) => {
         usuarioAutenticado = true;
         await carregarProfissionais();
         await carregarServicosFirebase();
-        await carregarConfiguracoesHorarios(); // 🆕 Carregar configurações de horário
         verificarCamposPreenchidos();
     }
 });
@@ -2075,6 +1768,7 @@ if (form) {
         
         const duracaoTotal = calcularDuracaoTotal();
         
+        // ==================== VERIFICAÇÃO DE HORÁRIO OCUPADO (CORRIGIDA) ====================
         if (data && horario && profissionalId) {
             const agendamentosRef = collection(db, "agendamentos");
             
@@ -2106,11 +1800,19 @@ if (form) {
                     continue;
                 }
                 
-                // 🔥 CORREÇÃO: Qualquer outro status ocupa o horário
-                console.log(`🔴 Horário ${horario} está OCUPADO (status: ${status})`);
-                horarioOcupado = true;
-                motivoOcupado = `status: ${status}`;
-                break;
+                if (status === "aguardando_pagamento" || status === "pendente") {
+                    console.log(`🟢 Horário ${horario} está ${status}, NÃO ocupa (pagamento pendente)`);
+                    continue;
+                }
+                
+                // ✅ CORREÇÃO: confirmado e concluido OCUPAM horário
+                const statusOcupados = ["confirmado", "concluido"];
+                if (statusOcupados.includes(status)) {
+                    horarioOcupado = true;
+                    motivoOcupado = `status: ${status}`;
+                    console.log(`🔴 Horário ${horario} está OCUPADO (${motivoOcupado})`);
+                    break;
+                }
             }
             
             if (horarioOcupado) {
@@ -2394,15 +2096,12 @@ document.addEventListener('visibilitychange', () => {
 });
 
 console.log("✅ agendamento.js carregado com sucesso!");
-console.log(`📋 Horários de atendimento: SEGUNDA à SÁBADO das ${horarioAbertura} às ${horarioFechamento}`);
-console.log(`📋 Total de horários: ${horariosAtendimento.length} (intervalo de ${intervaloConfigurado} minutos)`);
-console.log(`   🌅 Manhã (${horarioAbertura}-12:00): ${horariosManha.length} horários`);
-console.log(`   ☀️ Tarde (12:00-19:00): ${horariosTarde.length} horários`);
-console.log(`   🌙 Noite (19:00-${horarioFechamento}): ${horariosNoite.length} horários`);
+console.log("📋 Horários Segunda à Quarta:", horariosSegundaQuarta);
+console.log("📋 Horários Quinta à Sábado:", horariosQuintaSabado);
 console.log("🔒 Sistema de bloqueios integrado!");
 console.log("👨‍👦 MODAL para seleção de múltiplos clientes com mesmo telefone!");
+console.log("✅ FILTRO DE HORÁRIOS: Ignora agendamentos com status ausente/cancelado/aguardando_pagamento/pendente!");
 console.log("🔓 HORÁRIOS LIBERADOS: Agendamentos com horarioLiberado=true NÃO bloqueiam mais!");
-console.log("✅ AGENDAMENTOS FINALIZADOS/CONCLUÍDOS NÃO LIBERAM O HORÁRIO!");
-console.log("✅ Apenas CANCELADO, AUSENTE e horarioLiberado=true liberam o horário!");
+console.log("✅ APENAS agendamentos CONFIRMADOS e CONCLUIDOS (pagamento finalizado) ocupam horário!");
 console.log("⏳ LISTA DE ESPERA: Funcionalidade integrada com botão e modais!");
 console.log("🔄 Função forcarRecarregamentoHorarios() disponível para debug!");

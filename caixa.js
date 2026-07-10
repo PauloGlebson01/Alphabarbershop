@@ -305,7 +305,9 @@ function carregarMovimentacoes() {
                 });
             });
             console.log(`✅ ${movimentacoes.length} movimentações carregadas`);
-            aplicarFiltros();
+            
+            // ✅ CORREÇÃO: Aplicar filtro padrão para mostrar apenas o dia atual
+            aplicarFiltrosPadrao();
             atualizarEstatisticas();
         }, (error) => {
             console.error("Erro no listener de movimentações:", error);
@@ -321,6 +323,24 @@ function carregarMovimentacoes() {
             movimentacoesBody.innerHTML = `<tr><td colspan="9" class="loading-movimentacoes">Erro ao configurar conexão com o banco de dados.</td></tr>`;
         }
     }
+}
+
+// ✅ NOVA FUNÇÃO: Aplicar filtro padrão (apenas o dia atual)
+function aplicarFiltrosPadrao() {
+    const hoje = new Date().toISOString().split('T')[0];
+    
+    // Se não houver filtros ativos, mostrar apenas o dia atual
+    if (!filtrosAtivos.dataInicio && !filtrosAtivos.dataFim) {
+        // Definir data de início e fim como o dia atual
+        filtrosAtivos.dataInicio = hoje;
+        filtrosAtivos.dataFim = hoje;
+        
+        // Atualizar os campos de data no UI
+        if (dataInicio) dataInicio.value = hoje;
+        if (dataFim) dataFim.value = hoje;
+    }
+    
+    aplicarFiltros();
 }
 
 function aplicarFiltros() {
@@ -348,7 +368,7 @@ function renderizarMovimentacoes(movimentacoesList) {
     if (!movimentacoesBody) return;
     
     if (movimentacoesList.length === 0) {
-        movimentacoesBody.innerHTML = '<tr><td colspan="9" class="loading-movimentacoes">Nenhuma movimentação encontrada</td></tr>';
+        movimentacoesBody.innerHTML = '<tr><td colspan="9" class="loading-movimentacoes">Nenhuma movimentação encontrada para o período selecionado</td></tr>';
         return;
     }
     
@@ -2020,6 +2040,14 @@ function limparFiltros() {
     if (filterTipo) filterTipo.value = '';
     if (filterCategoria) filterCategoria.value = '';
     filtrosAtivos = { dataInicio: null, dataFim: null, tipo: null, categoria: null };
+    
+    // ✅ CORREÇÃO: Ao limpar os filtros, voltar a mostrar apenas o dia atual
+    const hoje = new Date().toISOString().split('T')[0];
+    filtrosAtivos.dataInicio = hoje;
+    filtrosAtivos.dataFim = hoje;
+    if (dataInicio) dataInicio.value = hoje;
+    if (dataFim) dataFim.value = hoje;
+    
     aplicarFiltros();
 }
 

@@ -188,7 +188,7 @@ function gerarMensagemLembrete(nomeCliente, data, horario, profissional, servico
         : 'Atendimento na barbearia';
     
     if (tipo === 'vespera') {
-        return `*🏢 ALPHA BARBERSHOP* - *LEMBRETE DE AGENDAMENTO* ⏰
+        return `*🏢 STUDIO NOGUEIRA* - *LEMBRETE DE AGENDAMENTO* ⏰
 
 Olá, *${nomeCliente}*! ✂️💈
 
@@ -208,17 +208,17 @@ ${servicosTexto}
 • Caso precise remarcar, entre em contato com antecedência
 
 📞 *Dúvidas ou alterações?*
-Entre em contato conosco: (83) 9 9653-3486
+Entre em contato conosco: (83) 9 8661-7303
 
-*Alpha BarberShop* - Mais que corte. Ritual do Reflexo. ✂️💈
+*Studio Nogueira* - Mais de 10 anos transformando estilos. ✂️💈
 
 _Esta é uma mensagem automática. Por favor, não responda._`;
     } else {
-        return `*🏢 ALPHA BARBERSHOP* - *LEMBRETE DO DIA!* 🔔
+        return `*🏢 STUDIO NOGUEIRA* - *LEMBRETE DO DIA!* 🔔
 
 Olá, *${nomeCliente}*! ✂️💈
 
-Seu agendamento é HOJE! Não se esqueça:
+ Passando para confirmar seu agendamento para hoje:
 
 📅 *Data:* ${data}
 ⏰ *Horário:* ${horario}
@@ -229,16 +229,12 @@ ${servicosTexto}
 
 💰 *Valor total:* ${formatarMoeda(valorTotal)}
 
-📍 *Endereço:* Av. Presidente Epitácio Pessoa 5102, João Pessoa - PB
-
-*Alpha BarberShop* - Mais que corte. Ritual do Reflexo! ✂️💈
-
-_Esta é uma mensagem automática. Por favor, não responda._`;
+está confirmado?`;
     }
 }
 
 function gerarMensagemConfirmacao(nomeCliente, data, horario, profissional) {
-    return `*🏢 ALPHA BARBERSHOP* - *CONFIRMAÇÃO DE AGENDAMENTO* ✅
+    return `*🏢 STUDIO NOGUEIRA* - *CONFIRMAÇÃO DE AGENDAMENTO* ✅
 
 Olá, *${nomeCliente}*!
 
@@ -250,7 +246,7 @@ Seu agendamento foi confirmado com sucesso!
 
 📱 *Você receberá um lembrete um dia antes do seu horário.*
 
-*Alpha BarberShop* - Mais que corte. Ritual do Reflexo. ✂️💈
+*Studio Nogueira* - Mais de 10 anos transformando estilos. ✂️💈
 
 _Esta é uma mensagem automática._`;
 }
@@ -298,7 +294,7 @@ async function enviarLembreteWhatsApp(agendamento, tipo = 'dia') {
         const nomeCliente = agendamento.cliente || agendamento.nome || agendamento.clienteNome || 'Cliente';
         const data = formatarData(agendamento.data);
         const horario = formatarHorario(agendamento.horario);
-        const profissional = agendamento.profissional || agendamento.barbeiroNome || 'Barbeiro Alpha BarberShop';
+        const profissional = agendamento.profissional || agendamento.barbeiroNome || 'Barbeiro Studio Nogueira';
         
         let servicos = [];
         let valorTotal = agendamento.valor || agendamento.valorTotal || 0;
@@ -1114,7 +1110,7 @@ async function concluirAgendamento(id, agendamento) {
             console.error("❌ Erro ao criar avaliação:", error);
         }
         
-        const baseUrl = "https://alphabarbershop.vercel.app";
+        const baseUrl = "https://studionogueira.vercel.app";
         const clienteEncoded = encodeURIComponent(nomeCliente);
         const servicoEncoded = encodeURIComponent(servicoNome);
         const avaliacaoUrl = `${baseUrl}/avaliacao.html?agendamentoId=${id}&cliente=${clienteEncoded}&servico=${servicoEncoded}`;
@@ -1136,7 +1132,7 @@ async function concluirAgendamento(id, agendamento) {
         if (telefone) {
             const telefoneLimpo = telefone.toString().replace(/\D/g, "");
             if (telefoneLimpo.length >= 10 && telefoneLimpo.length <= 11) {
-                const mensagem = `*🏢 ALPHA BARBERSHOP* - *ATENDIMENTO REALIZADO!* ✅\n\nOlá, *${nomeCliente}*!\n\nSeu atendimento foi *REALIZADO COM SUCESSO*! ✂️💈\n\n👨‍🦱 *Barbeiro:* ${profissionalNome}\n✂️ *Serviço:* ${servicoNome}\n💰 *Valor:* ${formatarMoeda(valorTotal)}\n\n⭐ *AVALIE NOSSO ATENDIMENTO!* ⭐\nSua opinião é muito importante para nós!\n🔗 ${avaliacaoUrl}\n\n💝 *Programa Fidelidade:* Acumule pontos e ganhe recompensas!\n\n*Alpha BarberShop* - Mais que corte. Ritual do Reflexo. ✂️💈`;
+                const mensagem = `*🏢 STUDIO NOGUEIRA* - *ATENDIMENTO REALIZADO!* ✅\n\nOlá, *${nomeCliente}*!\n\nSeu atendimento foi *REALIZADO COM SUCESSO*! ✂️💈\n\n👨‍🦱 *Barbeiro:* ${profissionalNome}\n✂️ *Serviço:* ${servicoNome}\n💰 *Valor:* ${formatarMoeda(valorTotal)}\n\n⭐ *AVALIE NOSSO ATENDIMENTO!* ⭐\nSua opinião é muito importante para nós!\n🔗 ${avaliacaoUrl}\n\n💝 *Programa Fidelidade:* Acumule pontos e ganhe recompensas!\n\n*Studio Nogueira* - Mais de 10 anos transformando estilos. ✂️💈`;
                 
                 window.open(`https://wa.me/55${telefoneLimpo}?text=${encodeURIComponent(mensagem)}`, '_blank');
                 mostrarToast(`🎉 Atendimento concluído! Link de avaliação enviado para o cliente.`, "sucesso");
@@ -1711,7 +1707,7 @@ function renderizarListaEspera() {
                     return;
                 }
                 
-                const mensagem = `🏢 ALPHA BARBERSHOP\n\nOlá, *${nome}*! 🎉\n\nUma vaga foi liberada para *${formatarData(data)}* com o barbeiro *${profissional}*!\n\n🔗 Agende agora: https://alphabarbershop.vercel.app/agendamento.html\n\n⏱️ Você tem 15 minutos para confirmar a vaga.\n\n*Alpha BarberShop* - Mais que corte. Ritual do Reflexo. ✂️💈`;
+                const mensagem = `🏢 STUDIO NOGUEIRA\n\nOlá, *${nome}*! 🎉\n\nUma vaga foi liberada para *${formatarData(data)}* com o barbeiro *${profissional}*!\n\n🔗 Agende agora: https://studionogueira.vercel.app/agendamento.html\n\n⏱️ Você tem 15 minutos para confirmar a vaga.\n\n*Studio Nogueira* - Mais de 10 anos transformando estilos. ✂️💈`;
                 
                 window.open(`https://wa.me/${telefoneLimpo}?text=${encodeURIComponent(mensagem)}`, '_blank');
                 
@@ -1824,7 +1820,7 @@ function iniciarDetectorHorariosLiberados() {
                             
                             const telefoneLimpo = limparTelefone(primeiro.telefone);
                             if (telefoneLimpo) {
-                                const mensagem = `🏢 ALPHA BARBERSHOP\n\nOlá, *${primeiro.clienteNome}*! 🎉\n\nUma vaga foi liberada para *${formatarData(newData.data)}* às *${newData.horario}* com o barbeiro *${newData.profissional}*!\n\n🔗 Agende agora: https://alphabarbershop.vercel.app/agendamento.html?profissionalId=${newData.profissionalId}&data=${newData.data}\n\n⏱️ Você tem 15 minutos para confirmar a vaga.\n\n*Alpha BarberShop* - Mais que corte. Ritual do Reflexo. ✂️💈`;
+                                const mensagem = `🏢 STUDIO NOGUEIRA\n\nOlá, *${primeiro.clienteNome}*! 🎉\n\nUma vaga foi liberada para *${formatarData(newData.data)}* às *${newData.horario}* com o barbeiro *${newData.profissional}*!\n\n🔗 Agende agora: https://studionogueira.vercel.app/agendamento.html?profissionalId=${newData.profissionalId}&data=${newData.data}\n\n⏱️ Você tem 15 minutos para confirmar a vaga.\n\n*Studio Nogueira* - Mais de 10 anos transformando estilos. ✂️💈`;
                                 
                                 window.open(`https://wa.me/${telefoneLimpo}?text=${encodeURIComponent(mensagem)}`, '_blank');
                                 

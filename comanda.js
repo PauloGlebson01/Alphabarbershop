@@ -1,6 +1,7 @@
 // comanda.js - Versão Corrigida com FILTRO DE PERÍODO FUNCIONANDO
 // E SINCRONIZAÇÃO AUTOMÁTICA COM AGENDA + FUNÇÕES DE DIAGNÓSTICO
 // E VISUALIZAÇÃO DE GORJETA DOCUMENTAL + IMPRESSÃO DE DOCUMENTO NÃO FISCAL
+// CORREÇÃO v3: Sincronização de comandas apenas quando finalizadas
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { 
@@ -236,316 +237,16 @@ function dispararAtualizacaoAgenda() {
     } catch(e) {}
 }
 
-// ==================== FUNÇÃO PARA LIBERAR HORÁRIO NA AGENDA (CORRIGIDA) ====================
-
-async function liberarHorarioAgenda(comandaId, comandaData, motivo = "Cliente não compareceu") {
-    try {
-        console.log("🔓 ========== INICIANDO LIBERAÇÃO DE HORÁRIO ==========");
-        console.log("📋 Comanda ID:", comandaId);
-        console.log("📋 Dados da comanda:", {
-            agendamentoId: comandaData.agendamentoId,
-            clienteNome: comandaData.clienteNome,
-            status: comandaData.status,
-            dataAgendamento: comandaData.dataAgendamento
-        });
-        
-        // Se não tiver agendamentoId, tentar encontrar pelo cliente e data
-        if (!comandaData.agendamentoId) {
-            console.log("⚠️ Comanda sem agendamento vinculado, tentando encontrar automaticamente...");
-            mostrarToast("🔍 Tentando encontrar agendamento vinculado...", "sucesso");
-            
-            try {
-                // Tentar encontrar o agendamento pelo clienteId e data
-                const clienteId = comandaData.clienteId;
-                const dataAgendamento = comandaData.dataAgendamento || 
-                    (comandaData.dataCriacao?.toDate?.()?.toISOString()?.split('T')[0]) || 
-                    new Date().toISOString().split('T')[0];
-                
-                if (clienteId) {
-                    console.log(`🔍 Buscando agendamento para cliente ${clienteId} na data ${dataAgendamento}`);
-                    
-                    const agendamentosRef = collection(db, "agendamentos");
-                    const q = query(
-                        agendamentosRef,
-                        where("clienteId", "==", clienteId),
-                        where("data", "==", dataAgendamento)
-                    );
-                    const snapshot = await getDocs(q);
-                    
-                    if (!snapshot.empty) {
-                        // Encontrar o agendamento mais recente
-                        let agendamentoEncontrado = null;
-                        let dataMaisRecente = null;
-                        
-                        snapshot.forEach(doc => {
-                            const data = doc.data();
-                            if (data.createdAt) {
-                                const dataCriacao = data.createdAt.toDate ? data.createdAt.toDate() : new Date(data.createdAt);
-                                if (!dataMaisRecente || dataCriacao > dataMaisRecente) {
-                                    dataMaisRecente = dataCriacao;
-                                    agendamentoEncontrado = { id: doc.id, ...data };
-                                }
-                            } else if (!agendamentoEncontrado) {
-                                agendamentoEncontrado = { id: doc.id, ...data };
-                            }
-                        });
-                        
-                        if (agendamentoEncontrado) {
-                            console.log(`✅ Agendamento encontrado automaticamente: ${agendamentoEncontrado.id}`);
-                            comandaData.agendamentoId = agendamentoEncontrado.id;
-                            comandaData.dataAgendamento = agendamentoEncontrado.data;
-                            mostrarToast(`✅ Agendamento encontrado! Liberando horário...`, "sucesso");
-                        }
-                    } else {
-                        console.log("❌ Nenhum agendamento encontrado para este cliente e data");
-                        mostrarToast("⚠️ Não foi possível encontrar o agendamento vinculado.", "erro");
-                        return false;
-                    }
-                } else {
-                    console.log("❌ Cliente ID não disponível para busca automática");
-                    mostrarToast("⚠️ Esta comanda não possui agendamento vinculado.", "erro");
-                    return false;
-                }
-            } catch (buscaError) {
-                console.error("❌ Erro ao buscar agendamento automaticamente:", buscaError);
-                mostrarToast("⚠️ Erro ao buscar agendamento: " + buscaError.message, "erro");
-                return false;
-            }
-        }
-        
-        if (!comandaData.agendamentoId) {
-            console.log("❌ Comanda sem agendamento vinculado após tentativa de busca");
-            mostrarToast("⚠️ Esta comanda não possui agendamento vinculado.", "erro");
-            return false;
-        }
-        
-        console.log(`📋 Agendamento ID: ${comandaData.agendamentoId}`);
-        
-        const agendamentoRef = doc(db, "agendamentos", comandaData.agendamentoId);
-        console.log("📡 Buscando agendamento no Firestore...");
-        const agendamentoDoc = await getDoc(agendamentoRef);
-        
-        if (!agendamentoDoc.exists()) {
-            console.log("❌ Agendamento NÃO encontrado no Firestore:", comandaData.agendamentoId);
-            mostrarToast("⚠️ Agendamento não encontrado no sistema.", "erro");
-            return false;
-        }
-        
-        const agendamento = agendamentoDoc.data();
-        console.log("📋 Agendamento encontrado:", {
-            id: agendamentoDoc.id,
-            status: agendamento.status,
-            horarioLiberado: agendamento.horarioLiberado,
-            data: agendamento.data,
-            horario: agendamento.horario,
-            profissional: agendamento.profissional
-        });
-        
-        // Se o horário já estiver liberado, não fazer nada
-        if (agendamento.horarioLiberado === true) {
-            console.log("✅ Horário já está liberado!");
-            mostrarToast("✅ Horário já está disponível na agenda!", "sucesso");
-            return true;
-        }
-        
-        // Se o status já for cancelado ou ausente, apenas marcar como liberado
-        if (agendamento.status === "cancelado" || agendamento.status === "ausente") {
-            console.log(`📋 Agendamento já está com status ${agendamento.status}, apenas marcando como liberado...`);
-            await updateDoc(agendamentoRef, {
-                horarioLiberado: true,
-                dataLiberacao: Timestamp.now(),
-                liberadoPor: "comanda",
-                liberadoPorId: comandaId,
-                atualizadoEm: Timestamp.now()
-            });
-            console.log("✅ Horário liberado!");
-            mostrarToast("✅ Horário liberado na agenda!", "sucesso");
-            
-            // Disparar atualização
-            dispararAtualizacaoAgenda();
-            return true;
-        }
-        
-        const dataAgendamento = agendamento.data;
-        const horarioAgendamento = agendamento.horario;
-        const profissionalId = agendamento.profissionalId;
-        const profissionalNome = agendamento.profissional;
-        
-        console.log(`📅 Agendamento: ${dataAgendamento} às ${horarioAgendamento} - Profissional: ${profissionalNome}`);
-        
-        // Usar transação para garantir consistência
-        console.log("🔄 Iniciando transação...");
-        await runTransaction(db, async (transaction) => {
-            const agendamentoRefDoc = doc(db, "agendamentos", comandaData.agendamentoId);
-            const agendamentoDocAtual = await transaction.get(agendamentoRefDoc);
-            
-            if (!agendamentoDocAtual.exists()) {
-                throw new Error("Agendamento não existe mais!");
-            }
-            
-            const dadosAtuais = agendamentoDocAtual.data();
-            console.log("📋 Dados atuais do agendamento:", {
-                status: dadosAtuais.status,
-                horarioLiberado: dadosAtuais.horarioLiberado
-            });
-            
-            // ATUALIZAR COMPLETAMENTE O AGENDAMENTO
-            console.log("✏️ Atualizando agendamento...");
-            transaction.update(agendamentoRefDoc, {
-                status: "cancelado",
-                dataCancelamento: Timestamp.now(),
-                motivoCancelamento: motivo || "Cancelado via comanda - Horário liberado",
-                horarioLiberado: true,  // CAMPO CRUCIAL
-                dataLiberacao: Timestamp.now(),
-                liberadoPor: "comanda",
-                liberadoPorId: comandaId,
-                atualizadoEm: Timestamp.now()
-            });
-            console.log("✅ Transação concluída!");
-        });
-        
-        console.log(`✅ Agendamento ${comandaData.agendamentoId} marcado como CANCELADO`);
-        console.log(`📋 horarioLiberado = true, status = cancelado`);
-        
-        // VERIFICAR SE FOI ATUALIZADO
-        const verificarDoc = await getDoc(agendamentoRef);
-        const verificarData = verificarDoc.data();
-        console.log("🔍 Verificação após atualização:", {
-            status: verificarData.status,
-            horarioLiberado: verificarData.horarioLiberado
-        });
-        
-        // Disparar atualização da agenda com múltiplos métodos
-        dispararAtualizacaoAgenda();
-        
-        // Disparar evento com detalhes específicos
-        const event = new CustomEvent('horarioLiberado', { 
-            detail: { 
-                agendamentoId: comandaData.agendamentoId,
-                data: dataAgendamento,
-                horario: horarioAgendamento,
-                profissionalId: profissionalId,
-                profissionalNome: profissionalNome,
-                timestamp: Date.now(),
-                acao: "cancelado",
-                horarioLiberado: true
-            } 
-        });
-        window.dispatchEvent(event);
-        
-        // Tentar recarregar os horários disponíveis na agenda
-        if (typeof window.recarregarHorariosDisponiveis === 'function') {
-            setTimeout(() => {
-                window.recarregarHorariosDisponiveis(dataAgendamento, profissionalId);
-            }, 300);
-        }
-        
-        // Salvar informação no localStorage para sincronização entre abas
-        try {
-            const horarioLiberadoData = { 
-                agendamentoId: comandaData.agendamentoId,
-                data: dataAgendamento,
-                horario: horarioAgendamento,
-                profissionalId: profissionalId,
-                profissionalNome: profissionalNome,
-                timestamp: Date.now(),
-                acao: "cancelado",
-                horarioLiberado: true
-            };
-            localStorage.setItem('horarioLiberado', JSON.stringify(horarioLiberadoData));
-            localStorage.setItem('ultimoHorarioLiberado', JSON.stringify({
-                ...horarioLiberadoData,
-                timestamp: Date.now()
-            }));
-            localStorage.setItem('forcarAtualizacaoAgenda', JSON.stringify({ 
-                timestamp: Date.now(), 
-                action: 'liberar_horario',
-                data: dataAgendamento,
-                horario: horarioAgendamento,
-                profissionalId: profissionalId,
-                horarioLiberado: true
-            }));
-            console.log("💾 Dados salvos no localStorage");
-        } catch(e) {
-            console.error("❌ Erro ao salvar localStorage:", e);
-        }
-        
-        mostrarToast(`✅ Horário ${horarioAgendamento} do dia ${dataAgendamento} liberado na agenda!`, "sucesso");
-        
-        // Forçar atualização da agenda chamando diretamente a função se disponível
-        if (typeof window.atualizarHorarios === 'function') {
-            setTimeout(() => {
-                const dataInput = document.getElementById("data");
-                if (dataInput && dataInput.value === dataAgendamento) {
-                    window.atualizarHorarios();
-                }
-            }, 500);
-        }
-        
-        if (typeof window.carregarAgenda === 'function') {
-            setTimeout(() => window.carregarAgenda(), 500);
-        }
-        
-        console.log("🔓 ========== LIBERAÇÃO DE HORÁRIO CONCLUÍDA ==========");
-        return true;
-        
-    } catch (error) {
-        console.error("❌ ========== ERRO NA LIBERAÇÃO DE HORÁRIO ==========");
-        console.error("❌ Erro:", error);
-        console.error("❌ Stack:", error.stack);
-        mostrarToast(`❌ Erro ao liberar horário: ${error.message}`, "erro");
-        return false;
-    }
-}
-
-// ==================== FUNÇÃO PARA REATIVAR HORÁRIO NA AGENDA ====================
-
-async function reativarHorarioAgenda(comandaId, comandaData) {
-    try {
-        console.log("🔄 REATIVANDO HORÁRIO NA AGENDA para comanda:", comandaId);
-        
-        if (!comandaData.agendamentoId) {
-            console.log("⚠️ Comanda sem agendamento vinculado");
-            return false;
-        }
-        
-        const agendamentoRef = doc(db, "agendamentos", comandaData.agendamentoId);
-        const agendamentoDoc = await getDoc(agendamentoRef);
-        
-        if (!agendamentoDoc.exists()) {
-            console.log("⚠️ Agendamento não encontrado:", comandaData.agendamentoId);
-            return false;
-        }
-        
-        await updateDoc(agendamentoRef, {
-            status: "confirmado",
-            dataCancelamento: null,
-            motivoCancelamento: null,
-            horarioLiberado: false,
-            dataLiberacao: null,
-            liberadoPor: null,
-            liberadoPorId: null,
-            atualizadoEm: Timestamp.now()
-        });
-        
-        console.log(`✅ Agendamento ${comandaData.agendamentoId} reativado - horário reservado novamente!`);
-        
-        dispararAtualizacaoAgenda();
-        
-        mostrarToast("✅ Horário reativado na agenda!", "sucesso");
-        
-        return true;
-        
-    } catch (error) {
-        console.error("❌ Erro ao reativar horário na agenda:", error);
-        return false;
-    }
-}
-
-// ==================== FUNÇÃO PARA SINCRONIZAR AGENDAMENTO ====================
+// ==================== FUNÇÃO PARA SINCRONIZAR AGENDAMENTO COM COMANDA (CORRIGIDA) ====================
 
 async function sincronizarAgendamentoComComanda(comandaId, comandaData, novoStatusComanda) {
     try {
+        // ✅ SÓ SINCRONIZA SE A COMANDA FOI FINALIZADA
+        if (novoStatusComanda !== "finalizada" && novoStatusComanda !== "concluido") {
+            console.log(`⏭️ Comanda ${comandaId} não finalizada (status: ${novoStatusComanda}), pulando sincronização`);
+            return false;
+        }
+        
         if (!comandaData.agendamentoId) {
             console.log("📝 Comanda sem agendamento vinculado, pulando sincronização");
             return false;
@@ -562,55 +263,33 @@ async function sincronizarAgendamentoComComanda(comandaId, comandaData, novoStat
         }
         
         const agendamentoAtual = agendamentoDoc.data();
-        let novoStatusAgendamento = null;
         
-        if (novoStatusComanda === "finalizada") {
-            novoStatusAgendamento = "concluido";
-        } else if (novoStatusComanda === "cancelado") {
-            novoStatusAgendamento = "cancelado";
-        } else if (novoStatusComanda === "ausente") {
-            novoStatusAgendamento = "ausente";
-        } else if (novoStatusComanda === "aberta") {
-            if (agendamentoAtual.status === "ausente" || agendamentoAtual.status === "cancelado") {
-                novoStatusAgendamento = "confirmado";
-                console.log(`🔄 Reativando agendamento de ${agendamentoAtual.status} para confirmado`);
-            }
+        // Só atualiza se o agendamento NÃO estiver concluído
+        if (agendamentoAtual.status === "concluido") {
+            console.log(`⏭️ Agendamento ${comandaData.agendamentoId} já está concluído, pulando`);
+            return false;
         }
         
-        if (novoStatusAgendamento && agendamentoAtual.status !== novoStatusAgendamento) {
-            const updateData = {
-                status: novoStatusAgendamento,
-                atualizadoEm: Timestamp.now()
-            };
-            
-            if (novoStatusAgendamento === "concluido") {
-                updateData.dataConclusao = Timestamp.now();
-            } else if (novoStatusAgendamento === "cancelado") {
-                updateData.dataCancelamento = Timestamp.now();
-                updateData.motivoCancelamento = comandaData.justificativaCancelamento || "Cancelado via comanda";
-            } else if (novoStatusAgendamento === "ausente") {
-                updateData.dataAusencia = Timestamp.now();
-                updateData.motivoAusencia = comandaData.justificativaAusencia || "Cliente não compareceu";
-            } else if (novoStatusAgendamento === "confirmado") {
-                updateData.dataCancelamento = null;
-                updateData.motivoCancelamento = null;
-                updateData.dataAusencia = null;
-                updateData.motivoAusencia = null;
-                updateData.horarioLiberado = false;
-                updateData.dataLiberacao = null;
-                updateData.liberadoPor = null;
-                updateData.liberadoPorId = null;
-            }
-            
-            await updateDoc(agendamentoRef, updateData);
-            console.log(`✅ Agendamento ${comandaData.agendamentoId} atualizado para status: ${novoStatusAgendamento}`);
-            
-            dispararAtualizacaoAgenda();
-            
-            return true;
-        }
+        let novoStatusAgendamento = "concluido";
+        const updateData = {
+            status: novoStatusAgendamento,
+            dataConclusao: Timestamp.now(),
+            atualizadoEm: Timestamp.now()
+        };
         
-        return false;
+        await updateDoc(agendamentoRef, updateData);
+        console.log(`✅ Agendamento ${comandaData.agendamentoId} atualizado para status: ${novoStatusAgendamento}`);
+        
+        // ✅ MARCA COMANDA COMO SINCRONIZADA
+        await updateDoc(doc(db, "comandas", comandaId), {
+            sincronizadoComAgenda: true,
+            dataSincronizacao: Timestamp.now()
+        });
+        console.log(`✅ Comanda ${comandaId} marcada como sincronizada`);
+        
+        dispararAtualizacaoAgenda();
+        
+        return true;
         
     } catch (error) {
         console.error("❌ Erro ao sincronizar agendamento:", error);
@@ -1050,7 +729,7 @@ function dispararAtualizacaoPagamento(comandaId) {
     } catch(e) { console.warn("Erro ao salvar no localStorage:", e); }
 }
 
-// ==================== FUNÇÕES DE FILTRO E PERÍODO (CORRIGIDAS) ====================
+// ==================== FUNÇÕES DE FILTRO E PERÍODO ====================
 
 function getDateRange() {
     const hoje = new Date(); 
@@ -2367,7 +2046,8 @@ async function salvarComanda(finalizar = false) {
         numeroComanda: proximoNumero,
         dataCriacao: Timestamp.now(), 
         status: finalizar ? "finalizada" : "aberta",
-        updatedAt: Timestamp.now()
+        updatedAt: Timestamp.now(),
+        sincronizadoComAgenda: false
     };
     
     if (finalizar) comandaData.dataFinalizacao = Timestamp.now();
@@ -2398,6 +2078,13 @@ async function salvarComanda(finalizar = false) {
     
     if (finalizar) {
         const comandaSalva = { ...comandaData, id: comandaRef };
+        
+        // ✅ Sincronizar com agenda APENAS se for finalizada
+        const sincronizado = await sincronizarAgendamentoComComanda(comandaRef, comandaSalva, "finalizada");
+        if (sincronizado) {
+            console.log(`✅ Comanda ${comandaRef} sincronizada com agenda`);
+        }
+        
         await sincronizarPagamentoComFinanceiro(comandaRef, comandaSalva);
         mostrarToast(`✅ Comanda #${proximoNumero} finalizada com sucesso!`, "sucesso");
     } else {
@@ -2466,12 +2153,15 @@ async function finalizarComanda(id) {
         
         await sincronizarPagamentoComFinanceiro(id, comandaData);
         
+        // ✅ Sincronizar com agenda APENAS se for finalizada
         await sincronizarAgendamentoComComanda(id, comandaData, "finalizada");
         
         await updateDoc(doc(db, "comandas", id), { 
             status: "finalizada", 
             dataFinalizacao: Timestamp.now(), 
-            updatedAt: Timestamp.now() 
+            updatedAt: Timestamp.now(),
+            sincronizadoComAgenda: true,
+            dataSincronizacao: Timestamp.now()
         });
         
         console.log("✅ Comanda finalizada com sucesso!");
@@ -2506,7 +2196,7 @@ async function atualizarMetricas() {
     if (clientesAtendidosEl) clientesAtendidosEl.textContent = new Set(finalizadas.map(c => c.clienteId)).size;
 }
 
-// ==================== EDIÇÃO DE COMANDA ====================
+// ==================== EDIÇÃO DE COMANDA (CORRIGIDA) ====================
 
 async function abrirModalEditarComanda(id) {
     console.log("📝 ========== ABRINDO MODAL DE EDIÇÃO ==========");
@@ -2775,6 +2465,8 @@ function recalcularTotalComDesconto() {
 
 window.recalcularTotalComDesconto = recalcularTotalComDesconto;
 
+// ==================== SALVAR EDIÇÃO COMANDA (CORRIGIDA) ====================
+
 async function salvarEdicaoComanda() {
     if (!comandaEditando) {
         mostrarToast("Nenhuma comanda em edição", "erro");
@@ -2822,6 +2514,8 @@ async function salvarEdicaoComanda() {
         
         if (novoStatus === "finalizada") {
             updateData.dataFinalizacao = Timestamp.now();
+            // ✅ SÓ SINCRONIZA SE FOR FINALIZADA
+            updateData.sincronizadoComAgenda = false; // Será marcado como true após sincronizar
         } else if (novoStatus === "cancelado") {
             updateData.dataCancelamento = Timestamp.now();
         } else if (novoStatus === "ausente") {
@@ -2835,58 +2529,54 @@ async function salvarEdicaoComanda() {
     
     const comandaAtualizada = { ...comandaEditando, ...updateData };
     
-    if (novoStatus !== statusOriginal && (novoStatus === "finalizada" || novoStatus === "cancelado" || novoStatus === "ausente")) {
-        console.log(`🔄 Status da comanda mudou para ${novoStatus}, sincronizando com agendamento...`);
-        await sincronizarAgendamentoComComanda(comandaEditando.id, comandaAtualizada, novoStatus);
+    // ✅ SÓ DISPARA SINCRONIZAÇÃO SE FOR FINALIZADA
+    if (novoStatus !== statusOriginal && novoStatus === "finalizada") {
+        console.log(`🔄 Comanda finalizada via edição, sincronizando com agendamento...`);
         
-        if (novoStatus === "finalizada") {
-            for (const item of (comandaEditando.produtos || [])) {
-                if (!item.isPreLancamento && item.produtoId) {
-                    try {
-                        const produtoRef = doc(db, "produtos", item.produtoId);
-                        const produtoDoc = await getDoc(produtoRef);
-                        if (produtoDoc.exists()) {
-                            const produtoData = produtoDoc.data();
-                            const quantidadeSolicitada = item.quantidade || 1;
-                            const quantidadeAtual = produtoData.quantidade || 0;
-                            const novaQuantidade = Math.max(0, quantidadeAtual - quantidadeSolicitada);
-                            
-                            await updateDoc(produtoRef, { quantidade: novaQuantidade, updatedAt: Timestamp.now() });
-                            console.log(`📦 Estoque atualizado: ${item.nome} - ${quantidadeAtual} → ${novaQuantidade}`);
-                        }
-                    } catch (err) {
-                        console.error(`Erro ao atualizar estoque para ${item.nome}:`, err);
-                    }
-                }
-            }
-            
-            if (comandaEditando.clienteId && comandaEditando.total > 0) {
-                await adicionarPontosFidelidade(comandaEditando.clienteId, comandaEditando.clienteNome, comandaEditando.total, "servico");
-            }
-            
-            await sincronizarPagamentoComFinanceiro(comandaEditando.id, comandaAtualizada);
+        // Sincronizar com agendamento
+        const sincronizado = await sincronizarAgendamentoComComanda(comandaEditando.id, comandaAtualizada, "finalizada");
+        
+        if (sincronizado) {
+            await updateDoc(doc(db, "comandas", comandaEditando.id), {
+                sincronizadoComAgenda: true,
+                dataSincronizacao: Timestamp.now()
+            });
+            console.log(`✅ Comanda ${comandaEditando.id} marcada como sincronizada`);
         }
         
-        if (novoStatus === "finalizada") {
-            for (const item of (comandaEditando.produtos || [])) {
-                if (item.isPreLancamento && item.lembreteId) {
-                    try {
-                        await updateDoc(doc(db, "lembretes_comanda", item.lembreteId), { 
-                            status: "entregue", 
-                            dataEntrega: Timestamp.now(),
-                            comandaFinalizadaId: comandaEditando.id
-                        });
-                        console.log(`✅ Pré-lançamento "${item.nome}" marcado como entregue`);
-                    } catch (err) {
-                        console.error(`Erro ao marcar pré-lançamento como entregue:`, err);
+        // Processar produtos e estoque
+        for (const item of (comandaEditando.produtos || [])) {
+            if (!item.isPreLancamento && item.produtoId) {
+                try {
+                    const produtoRef = doc(db, "produtos", item.produtoId);
+                    const produtoDoc = await getDoc(produtoRef);
+                    if (produtoDoc.exists()) {
+                        const produtoData = produtoDoc.data();
+                        const quantidadeSolicitada = item.quantidade || 1;
+                        const quantidadeAtual = produtoData.quantidade || 0;
+                        const novaQuantidade = Math.max(0, quantidadeAtual - quantidadeSolicitada);
+                        
+                        await updateDoc(produtoRef, { quantidade: novaQuantidade, updatedAt: Timestamp.now() });
+                        console.log(`📦 Estoque atualizado: ${item.nome} - ${quantidadeAtual} → ${novaQuantidade}`);
                     }
+                } catch (err) {
+                    console.error(`Erro ao atualizar estoque para ${item.nome}:`, err);
                 }
             }
         }
+        
+        if (comandaEditando.clienteId && comandaEditando.total > 0) {
+            await adicionarPontosFidelidade(comandaEditando.clienteId, comandaEditando.clienteNome, comandaEditando.total, "servico");
+        }
+        
+        await sincronizarPagamentoComFinanceiro(comandaEditando.id, comandaAtualizada);
+        
+        mostrarToast("✅ Comanda finalizada e sincronizada com sucesso!", "sucesso");
+        
+    } else {
+        mostrarToast("Comanda atualizada com sucesso!", "sucesso");
     }
     
-    dispararAtualizacaoPagamento(comandaEditando.id);
-    mostrarToast("Comanda atualizada com sucesso!");
     fecharModalEditar();
     
     if (!filtrandoComandaEspecifica && typeof aplicarFiltros === 'function') {
@@ -2895,7 +2585,10 @@ async function salvarEdicaoComanda() {
         setTimeout(() => filtrarPorIdComanda(comandaEditando.id), 1000);
     }
     
-    dispararAtualizacaoAgenda();
+    // Disparar atualização da agenda APENAS se for finalizada
+    if (novoStatus === "finalizada") {
+        dispararAtualizacaoAgenda();
+    }
 }
 
 // ==================== FUNÇÕES DE DESCONTO ====================
@@ -3045,165 +2738,6 @@ function abrirModalProgramasDesconto() {
     const grid = document.getElementById("programasDescontoGrid");
     if (grid) grid.innerHTML = '<div class="loading-comandas" style="text-align: center; padding: 40px;"><i class="fa-solid fa-spinner fa-spin"></i> Carregando programas...</div>';
     carregarProgramasAtivos().then(programas => renderizarProgramasDesconto(programas)).catch(err => { if (grid) grid.innerHTML = '<div class="empty-comandas" style="color:#ef4444;"><i class="fa-solid fa-exclamation-triangle"></i><p>Erro ao carregar programas</p></div>'; });
-}
-
-function configurarEventosDesconto() {
-    const btnAplicarDescontoRapido = document.getElementById("btnAplicarDescontoRapido");
-    const btnProgramasDesconto = document.getElementById("btnProgramasDesconto");
-    const btnConfirmarDesconto = document.getElementById("btnConfirmarDesconto");
-    const btnRemoverDesconto = document.getElementById("btnRemoverDesconto");
-    const btnSalvarPrograma = document.getElementById("btnSalvarPrograma");
-    const novoProgramaHorario = document.getElementById("novoProgramaHorario");
-    if (btnProgramasDesconto) {
-        const novoBtn = btnProgramasDesconto.cloneNode(true);
-        btnProgramasDesconto.parentNode.replaceChild(novoBtn, btnProgramasDesconto);
-        novoBtn.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); abrirModalProgramasDesconto(); });
-    }
-    if (btnAplicarDescontoRapido) btnAplicarDescontoRapido.addEventListener("click", toggleDescontoForm);
-    if (btnConfirmarDesconto) btnConfirmarDesconto.addEventListener("click", aplicarDescontoManual);
-    if (btnRemoverDesconto) btnRemoverDesconto.addEventListener("click", removerDesconto);
-    if (btnSalvarPrograma) btnSalvarPrograma.addEventListener("click", salvarProgramaDesconto);
-    if (novoProgramaHorario) novoProgramaHorario.addEventListener("change", (e) => { const div = document.getElementById("horarioPersonalizado"); if (div) div.style.display = e.target.value === "personalizado" ? "block" : "none"; });
-    document.querySelectorAll(".desconto-tipo-btn").forEach(btn => { btn.onclick = () => { document.querySelectorAll(".desconto-tipo-btn").forEach(b => b.classList.remove("active")); btn.classList.add("active"); }; });
-    document.querySelectorAll(".modal-close-comanda, .btn-cancel-comanda").forEach(btn => btn.addEventListener("click", fecharModalComanda));
-    document.querySelectorAll(".modal-close-detalhes, .btn-cancel-detalhes").forEach(btn => btn.addEventListener("click", fecharModalDetalhes));
-    document.querySelectorAll(".modal-close-editar, .btn-cancel-editar").forEach(btn => btn.addEventListener("click", fecharModalEditar));
-    document.querySelectorAll(".modal-close-programas, .btn-cancel-programas").forEach(btn => btn.addEventListener("click", fecharModalProgramas));
-    document.querySelectorAll(".modal-close-ausencia, .btn-cancel-ausencia").forEach(btn => { btn.addEventListener("click", fecharModalJustificarAusencia); });
-    document.querySelectorAll(".modal-close-reativar, .btn-cancel-reativar").forEach(btn => { btn.addEventListener("click", fecharModalReativarComanda); });
-    document.querySelectorAll(".modal-close-cancelamento, .btn-cancel-cancelamento").forEach(btn => { btn.addEventListener("click", fecharModalJustificarCancelamento); });
-    document.querySelectorAll(".modal-close-reativar-cancelada, .btn-cancel-reativar-cancelada").forEach(btn => { btn.addEventListener("click", fecharModalReativarComandaCancelada); });
-    const btnConfirmarAusencia = document.getElementById("btnConfirmarAusencia");
-    if (btnConfirmarAusencia) btnConfirmarAusencia.addEventListener("click", marcarComoAusente);
-    const btnConfirmarReativar = document.getElementById("btnConfirmarReativar");
-    if (btnConfirmarReativar) btnConfirmarReativar.addEventListener("click", reativarComanda);
-    const btnConfirmarCancelamento = document.getElementById("btnConfirmarCancelamento");
-    if (btnConfirmarCancelamento) btnConfirmarCancelamento.addEventListener("click", marcarComoCancelado);
-    const btnConfirmarReativarCancelada = document.getElementById("btnConfirmarReativarCancelada");
-    if (btnConfirmarReativarCancelada) btnConfirmarReativarCancelada.addEventListener("click", reativarComandaCancelada);
-    window.addEventListener("click", (e) => { 
-        if (e.target === modalComanda) fecharModalComanda(); 
-        if (e.target === modalDetalhes) fecharModalDetalhes(); 
-        if (e.target === modalEditarComanda) fecharModalEditar(); 
-        const modalProg = document.getElementById("modalProgramasDesconto"); 
-        if (e.target === modalProg) fecharModalProgramas();
-        const modalAusencia = document.getElementById("modalJustificarAusencia");
-        if (e.target === modalAusencia) fecharModalJustificarAusencia();
-        const modalReativar = document.getElementById("modalReativarComanda");
-        if (e.target === modalReativar) fecharModalReativarComanda();
-        const modalCancelamento = document.getElementById("modalJustificarCancelamento");
-        if (e.target === modalCancelamento) fecharModalJustificarCancelamento();
-        const modalReativarCancelada = document.getElementById("modalReativarComandaCancelada");
-        if (e.target === modalReativarCancelada) fecharModalReativarComandaCancelada();
-    });
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape") { fecharModalComanda(); fecharModalDetalhes(); fecharModalEditar(); fecharModalProgramas(); fecharModalJustificarAusencia(); fecharModalReativarComanda(); fecharModalJustificarCancelamento(); fecharModalReativarComandaCancelada(); } });
-    const btnImprimirComanda = document.getElementById("btnImprimirComanda");
-    if (btnImprimirComanda) {
-        const novoBtnImprimir = btnImprimirComanda.cloneNode(true);
-        btnImprimirComanda.parentNode.replaceChild(novoBtnImprimir, btnImprimirComanda);
-        novoBtnImprimir.addEventListener("click", function() {
-            const modalDetalhes = document.getElementById("modalDetalhesComanda");
-            if (modalDetalhes && modalDetalhes.classList.contains("active")) {
-                const cardAtivo = document.querySelector('.comanda-card[data-id]');
-                if (cardAtivo) {
-                    const comandaId = cardAtivo.dataset.id;
-                    imprimirDocumentoNaoFiscal(comandaId);
-                    return;
-                }
-            }
-            if (comandaEditando && comandaEditando.id) {
-                imprimirDocumentoNaoFiscal(comandaEditando.id);
-                return;
-            }
-            mostrarToast('Selecione uma comanda para imprimir', 'erro');
-        });
-    }
-}
-
-function setupEventListeners() {
-    const btnNovaComanda = document.getElementById("btnNovaComanda");
-    if (btnNovaComanda) btnNovaComanda.addEventListener("click", abrirNovaComanda);
-    if (btnSalvarComanda) btnSalvarComanda.addEventListener("click", () => salvarComanda(false));
-    if (btnFinalizarComanda) btnFinalizarComanda.addEventListener("click", () => salvarComanda(true));
-    if (btnAdicionarServico) btnAdicionarServico.addEventListener("click", () => adicionarServicoComanda());
-    if (filterStatus) {
-        filterStatus.value = currentFilter;
-        filterStatus.addEventListener("change", e => { 
-            currentFilter = e.target.value; 
-            console.log("📌 Filtro de status alterado para:", currentFilter); 
-            aplicarFiltros(); 
-        });
-    }
-    if (filterBarbeiro) {
-        filterBarbeiro.addEventListener("change", e => { 
-            currentBarbeiroFilter = e.target.value; 
-            console.log("📌 Filtro barbeiro alterado para:", currentBarbeiroFilter || "Todos"); 
-            aplicarFiltros(); 
-        });
-    }
-    if (searchInput) {
-        searchInput.addEventListener("input", e => { 
-            currentSearch = e.target.value; 
-            console.log("📌 Busca alterada para:", currentSearch); 
-            aplicarFiltros(); 
-        });
-    }
-    if (filterPeriodo) {
-        filterPeriodo.value = currentPeriodo;
-        filterPeriodo.addEventListener("change", e => { 
-            currentPeriodo = e.target.value; 
-            console.log("📌 Período alterado para:", currentPeriodo); 
-            if (periodoPersonalizadoDiv) {
-                periodoPersonalizadoDiv.style.display = currentPeriodo === "personalizado" ? "flex" : "none";
-            }
-            aplicarFiltros(); 
-            atualizarMetricas(); 
-        });
-    }
-    if (dataInicioPersonalizadaInput) {
-        dataInicioPersonalizadaInput.addEventListener("change", e => { 
-            dataInicioPersonalizada = e.target.value; 
-            if (currentPeriodo === "personalizado") aplicarFiltros(); 
-        });
-    }
-    if (dataFimPersonalizadaInput) {
-        dataFimPersonalizadaInput.addEventListener("change", e => { 
-            dataFimPersonalizada = e.target.value; 
-            if (currentPeriodo === "personalizado") aplicarFiltros(); 
-        });
-    }
-    if (btnLimparFiltros) {
-        btnLimparFiltros.addEventListener("click", () => { 
-            if(filterStatus) filterStatus.value = "todas"; 
-            if(filterBarbeiro) filterBarbeiro.value = ""; 
-            if(searchInput) searchInput.value = ""; 
-            if(filterPeriodo) filterPeriodo.value = "hoje"; 
-            if(periodoPersonalizadoDiv) periodoPersonalizadoDiv.style.display = "none"; 
-            currentFilter = "todas"; 
-            currentBarbeiroFilter = ""; 
-            currentSearch = ""; 
-            currentPeriodo = "hoje"; 
-            dataInicioPersonalizada = "";
-            dataFimPersonalizada = "";
-            console.log("📌 Filtros limpos");
-            aplicarFiltros(); 
-            atualizarMetricas(); 
-        });
-    }
-    const btnAdicionarItemComanda = document.getElementById("btnAdicionarItemComanda");
-    const btnSalvarEdicaoComanda = document.getElementById("btnSalvarEdicaoComanda");
-    const tipoItemSelect = document.getElementById("tipoItemSelect");
-    if (btnAdicionarItemComanda) btnAdicionarItemComanda.addEventListener("click", adicionarItemNaComanda);
-    if (btnSalvarEdicaoComanda) btnSalvarEdicaoComanda.addEventListener("click", salvarEdicaoComanda);
-    if (tipoItemSelect) { 
-        tipoItemSelect.addEventListener("change", e => { 
-            const servicoSelectGroup = document.getElementById("servicoSelectGroup"); 
-            const produtoSelectGroup = document.getElementById("produtoSelectGroup"); 
-            if (servicoSelectGroup) servicoSelectGroup.style.display = e.target.value === "servico" ? "block" : "none"; 
-            if (produtoSelectGroup) produtoSelectGroup.style.display = e.target.value === "produto" ? "block" : "none"; 
-        }); 
-    }
-    configurarEventosDesconto();
 }
 
 // ==================== FUNÇÃO DE IMPRESSÃO DE DOCUMENTO NÃO FISCAL ====================
@@ -3386,8 +2920,8 @@ function imprimirDocumentoNaoFiscal(comandaId) {
 <body>
     <div class="documento" id="documentoImprimir">
         <div class="header">
-            <div class="logo-text">Studio <span>Nogueira</span></div>
-            <div class="subtitulo">Barbearia &amp; Estilo</div>
+            <div class="logo-text">Alpha <span>Barbershop</span></div>
+            <div class="subtitulo">💈 Mais que corte. Ritual do Reflexo</div>
             <div class="tipo-documento">📄 Documento Não Fiscal - Comanda de Atendimento</div>
         </div>
 
@@ -3483,7 +3017,7 @@ function imprimirDocumentoNaoFiscal(comandaId) {
 
         <div class="acoes no-print">
             <button class="btn-print" onclick="window.print()">
-                <i class="fa-solid fa-print"></i> Imprimir Recibo / Salvar PDF
+                <i class="fa-solid fa-print"></i> Imprimir / Salvar PDF
             </button>
         </div>
     </div>
@@ -3525,6 +3059,173 @@ function imprimirDocumentoNaoFiscal(comandaId) {
 }
 
 window.imprimirDocumentoNaoFiscal = imprimirDocumentoNaoFiscal;
+
+// ==================== CONFIGURAÇÃO DO BOTÃO DE IMPRESSÃO ====================
+
+function configurarBotaoImpressao() {
+    const btnImprimirComanda = document.getElementById("btnImprimirComanda");
+    if (btnImprimirComanda) {
+        const novoBtnImprimir = btnImprimirComanda.cloneNode(true);
+        btnImprimirComanda.parentNode.replaceChild(novoBtnImprimir, btnImprimirComanda);
+        novoBtnImprimir.addEventListener("click", function() {
+            const modalDetalhes = document.getElementById("modalDetalhesComanda");
+            if (modalDetalhes && modalDetalhes.classList.contains("active")) {
+                const cardAtivo = document.querySelector('.comanda-card[data-id]');
+                if (cardAtivo) {
+                    const comandaId = cardAtivo.dataset.id;
+                    imprimirDocumentoNaoFiscal(comandaId);
+                    return;
+                }
+            }
+            if (comandaEditando && comandaEditando.id) {
+                imprimirDocumentoNaoFiscal(comandaEditando.id);
+                return;
+            }
+            mostrarToast('Selecione uma comanda para imprimir', 'erro');
+        });
+    }
+}
+
+// ==================== CONFIGURAÇÃO DE EVENTOS ====================
+
+function configurarEventosDesconto() {
+    const btnAplicarDescontoRapido = document.getElementById("btnAplicarDescontoRapido");
+    const btnProgramasDesconto = document.getElementById("btnProgramasDesconto");
+    const btnConfirmarDesconto = document.getElementById("btnConfirmarDesconto");
+    const btnRemoverDesconto = document.getElementById("btnRemoverDesconto");
+    const btnSalvarPrograma = document.getElementById("btnSalvarPrograma");
+    const novoProgramaHorario = document.getElementById("novoProgramaHorario");
+    if (btnProgramasDesconto) {
+        const novoBtn = btnProgramasDesconto.cloneNode(true);
+        btnProgramasDesconto.parentNode.replaceChild(novoBtn, btnProgramasDesconto);
+        novoBtn.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); abrirModalProgramasDesconto(); });
+    }
+    if (btnAplicarDescontoRapido) btnAplicarDescontoRapido.addEventListener("click", toggleDescontoForm);
+    if (btnConfirmarDesconto) btnConfirmarDesconto.addEventListener("click", aplicarDescontoManual);
+    if (btnRemoverDesconto) btnRemoverDesconto.addEventListener("click", removerDesconto);
+    if (btnSalvarPrograma) btnSalvarPrograma.addEventListener("click", salvarProgramaDesconto);
+    if (novoProgramaHorario) novoProgramaHorario.addEventListener("change", (e) => { const div = document.getElementById("horarioPersonalizado"); if (div) div.style.display = e.target.value === "personalizado" ? "block" : "none"; });
+    document.querySelectorAll(".desconto-tipo-btn").forEach(btn => { btn.onclick = () => { document.querySelectorAll(".desconto-tipo-btn").forEach(b => b.classList.remove("active")); btn.classList.add("active"); }; });
+    document.querySelectorAll(".modal-close-comanda, .btn-cancel-comanda").forEach(btn => btn.addEventListener("click", fecharModalComanda));
+    document.querySelectorAll(".modal-close-detalhes, .btn-cancel-detalhes").forEach(btn => btn.addEventListener("click", fecharModalDetalhes));
+    document.querySelectorAll(".modal-close-editar, .btn-cancel-editar").forEach(btn => btn.addEventListener("click", fecharModalEditar));
+    document.querySelectorAll(".modal-close-programas, .btn-cancel-programas").forEach(btn => btn.addEventListener("click", fecharModalProgramas));
+    document.querySelectorAll(".modal-close-ausencia, .btn-cancel-ausencia").forEach(btn => { btn.addEventListener("click", fecharModalJustificarAusencia); });
+    document.querySelectorAll(".modal-close-reativar, .btn-cancel-reativar").forEach(btn => { btn.addEventListener("click", fecharModalReativarComanda); });
+    document.querySelectorAll(".modal-close-cancelamento, .btn-cancel-cancelamento").forEach(btn => { btn.addEventListener("click", fecharModalJustificarCancelamento); });
+    document.querySelectorAll(".modal-close-reativar-cancelada, .btn-cancel-reativar-cancelada").forEach(btn => { btn.addEventListener("click", fecharModalReativarComandaCancelada); });
+    const btnConfirmarAusencia = document.getElementById("btnConfirmarAusencia");
+    if (btnConfirmarAusencia) btnConfirmarAusencia.addEventListener("click", marcarComoAusente);
+    const btnConfirmarReativar = document.getElementById("btnConfirmarReativar");
+    if (btnConfirmarReativar) btnConfirmarReativar.addEventListener("click", reativarComanda);
+    const btnConfirmarCancelamento = document.getElementById("btnConfirmarCancelamento");
+    if (btnConfirmarCancelamento) btnConfirmarCancelamento.addEventListener("click", marcarComoCancelado);
+    const btnConfirmarReativarCancelada = document.getElementById("btnConfirmarReativarCancelada");
+    if (btnConfirmarReativarCancelada) btnConfirmarReativarCancelada.addEventListener("click", reativarComandaCancelada);
+    window.addEventListener("click", (e) => { 
+        if (e.target === modalComanda) fecharModalComanda(); 
+        if (e.target === modalDetalhes) fecharModalDetalhes(); 
+        if (e.target === modalEditarComanda) fecharModalEditar(); 
+        const modalProg = document.getElementById("modalProgramasDesconto"); 
+        if (e.target === modalProg) fecharModalProgramas();
+        const modalAusencia = document.getElementById("modalJustificarAusencia");
+        if (e.target === modalAusencia) fecharModalJustificarAusencia();
+        const modalReativar = document.getElementById("modalReativarComanda");
+        if (e.target === modalReativar) fecharModalReativarComanda();
+        const modalCancelamento = document.getElementById("modalJustificarCancelamento");
+        if (e.target === modalCancelamento) fecharModalJustificarCancelamento();
+        const modalReativarCancelada = document.getElementById("modalReativarComandaCancelada");
+        if (e.target === modalReativarCancelada) fecharModalReativarComandaCancelada();
+    });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") { fecharModalComanda(); fecharModalDetalhes(); fecharModalEditar(); fecharModalProgramas(); fecharModalJustificarAusencia(); fecharModalReativarComanda(); fecharModalJustificarCancelamento(); fecharModalReativarComandaCancelada(); } });
+    configurarBotaoImpressao();
+}
+
+function setupEventListeners() {
+    const btnNovaComanda = document.getElementById("btnNovaComanda");
+    if (btnNovaComanda) btnNovaComanda.addEventListener("click", abrirNovaComanda);
+    if (btnSalvarComanda) btnSalvarComanda.addEventListener("click", () => salvarComanda(false));
+    if (btnFinalizarComanda) btnFinalizarComanda.addEventListener("click", () => salvarComanda(true));
+    if (btnAdicionarServico) btnAdicionarServico.addEventListener("click", () => adicionarServicoComanda());
+    if (filterStatus) {
+        filterStatus.value = currentFilter;
+        filterStatus.addEventListener("change", e => { 
+            currentFilter = e.target.value; 
+            console.log("📌 Filtro de status alterado para:", currentFilter); 
+            aplicarFiltros(); 
+        });
+    }
+    if (filterBarbeiro) {
+        filterBarbeiro.addEventListener("change", e => { 
+            currentBarbeiroFilter = e.target.value; 
+            console.log("📌 Filtro barbeiro alterado para:", currentBarbeiroFilter || "Todos"); 
+            aplicarFiltros(); 
+        });
+    }
+    if (searchInput) {
+        searchInput.addEventListener("input", e => { 
+            currentSearch = e.target.value; 
+            console.log("📌 Busca alterada para:", currentSearch); 
+            aplicarFiltros(); 
+        });
+    }
+    if (filterPeriodo) {
+        filterPeriodo.value = currentPeriodo;
+        filterPeriodo.addEventListener("change", e => { 
+            currentPeriodo = e.target.value; 
+            console.log("📌 Período alterado para:", currentPeriodo); 
+            if (periodoPersonalizadoDiv) {
+                periodoPersonalizadoDiv.style.display = currentPeriodo === "personalizado" ? "flex" : "none";
+            }
+            aplicarFiltros(); 
+            atualizarMetricas(); 
+        });
+    }
+    if (dataInicioPersonalizadaInput) {
+        dataInicioPersonalizadaInput.addEventListener("change", e => { 
+            dataInicioPersonalizada = e.target.value; 
+            if (currentPeriodo === "personalizado") aplicarFiltros(); 
+        });
+    }
+    if (dataFimPersonalizadaInput) {
+        dataFimPersonalizadaInput.addEventListener("change", e => { 
+            dataFimPersonalizada = e.target.value; 
+            if (currentPeriodo === "personalizado") aplicarFiltros(); 
+        });
+    }
+    if (btnLimparFiltros) {
+        btnLimparFiltros.addEventListener("click", () => { 
+            if(filterStatus) filterStatus.value = "todas"; 
+            if(filterBarbeiro) filterBarbeiro.value = ""; 
+            if(searchInput) searchInput.value = ""; 
+            if(filterPeriodo) filterPeriodo.value = "hoje"; 
+            if(periodoPersonalizadoDiv) periodoPersonalizadoDiv.style.display = "none"; 
+            currentFilter = "todas"; 
+            currentBarbeiroFilter = ""; 
+            currentSearch = ""; 
+            currentPeriodo = "hoje"; 
+            dataInicioPersonalizada = "";
+            dataFimPersonalizada = "";
+            console.log("📌 Filtros limpos");
+            aplicarFiltros(); 
+            atualizarMetricas(); 
+        });
+    }
+    const btnAdicionarItemComanda = document.getElementById("btnAdicionarItemComanda");
+    const btnSalvarEdicaoComanda = document.getElementById("btnSalvarEdicaoComanda");
+    const tipoItemSelect = document.getElementById("tipoItemSelect");
+    if (btnAdicionarItemComanda) btnAdicionarItemComanda.addEventListener("click", adicionarItemNaComanda);
+    if (btnSalvarEdicaoComanda) btnSalvarEdicaoComanda.addEventListener("click", salvarEdicaoComanda);
+    if (tipoItemSelect) { 
+        tipoItemSelect.addEventListener("change", e => { 
+            const servicoSelectGroup = document.getElementById("servicoSelectGroup"); 
+            const produtoSelectGroup = document.getElementById("produtoSelectGroup"); 
+            if (servicoSelectGroup) servicoSelectGroup.style.display = e.target.value === "servico" ? "block" : "none"; 
+            if (produtoSelectGroup) produtoSelectGroup.style.display = e.target.value === "produto" ? "block" : "none"; 
+        }); 
+    }
+    configurarEventosDesconto();
+}
 
 // ==================== LISTENERS PARA HORÁRIOS LIBERADOS ====================
 
@@ -3975,3 +3676,4 @@ console.log("   await corrigirHorarioLiberado('2026-06-15', '08:20')");
 console.log("   await listarAgendamentosPorData('2026-06-15')");
 console.log("   await corrigirTodosHorariosDia('2026-06-15')");
 console.log("🖨️ Função de impressão: imprimirDocumentoNaoFiscal('comandaId')");
+console.log("✅ CORREÇÃO v3: Sincronização de comandas apenas quando finalizadas!");

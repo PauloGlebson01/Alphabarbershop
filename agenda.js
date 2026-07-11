@@ -4,6 +4,7 @@
 // VERSÃO: Layout Horizontal em Tabela com Dia da Semana Corrigido
 // CORREÇÃO v2: Removidos botões "Ausente" e "Cancelar" - gestão feita apenas na comanda
 // NOVIDADE: Lista de Espera integrada com notificação automática - SEM ÍNDICES COMPOSTOS
+// CORREÇÃO v3: Sincronização de comandas apenas quando finalizadas
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
@@ -188,7 +189,7 @@ function gerarMensagemLembrete(nomeCliente, data, horario, profissional, servico
         : 'Atendimento na barbearia';
     
     if (tipo === 'vespera') {
-        return `*🏢 STUDIO NOGUEIRA* - *LEMBRETE DE AGENDAMENTO* ⏰
+        return `*🏢 ALPHA BARBERSHOP* - *LEMBRETE DE AGENDAMENTO* ⏰
 
 Olá, *${nomeCliente}*! ✂️💈
 
@@ -210,11 +211,11 @@ ${servicosTexto}
 📞 *Dúvidas ou alterações?*
 Entre em contato conosco: (83) 9 8661-7303
 
-*Studio Nogueira* - Mais de 10 anos transformando estilos. ✂️💈
+*Alpha BarberShop* - Mais que corte. Ritual do Reflexo ✂️💈
 
 _Esta é uma mensagem automática. Por favor, não responda._`;
     } else {
-        return `*🏢 STUDIO NOGUEIRA* - *LEMBRETE DO DIA!* 🔔
+        return `*🏢 ALPHA BARBERSHOP* - *LEMBRETE DO DIA!* 🔔
 
 Olá, *${nomeCliente}*! ✂️💈
 
@@ -234,7 +235,7 @@ está confirmado?`;
 }
 
 function gerarMensagemConfirmacao(nomeCliente, data, horario, profissional) {
-    return `*🏢 STUDIO NOGUEIRA* - *CONFIRMAÇÃO DE AGENDAMENTO* ✅
+    return `*🏢 ALPHA BARBERSHOP* - *CONFIRMAÇÃO DE AGENDAMENTO* ✅
 
 Olá, *${nomeCliente}*!
 
@@ -246,7 +247,7 @@ Seu agendamento foi confirmado com sucesso!
 
 📱 *Você receberá um lembrete um dia antes do seu horário.*
 
-*Studio Nogueira* - Mais de 10 anos transformando estilos. ✂️💈
+*Alpha BarberShop* - Mais que corte. Ritual do Reflexo. ✂️💈
 
 _Esta é uma mensagem automática._`;
 }
@@ -294,7 +295,7 @@ async function enviarLembreteWhatsApp(agendamento, tipo = 'dia') {
         const nomeCliente = agendamento.cliente || agendamento.nome || agendamento.clienteNome || 'Cliente';
         const data = formatarData(agendamento.data);
         const horario = formatarHorario(agendamento.horario);
-        const profissional = agendamento.profissional || agendamento.barbeiroNome || 'Barbeiro Studio Nogueira';
+        const profissional = agendamento.profissional || agendamento.barbeiroNome || 'Barbeiro Alpha BarberShop';
         
         let servicos = [];
         let valorTotal = agendamento.valor || agendamento.valorTotal || 0;
@@ -681,10 +682,19 @@ function extrairItensDoAgendamento(agendamento) {
     return { itens, valorTotal };
 }
 
-// ==================== SINCRONIZAR COMANDA COM AGENDAMENTO ====================
+// ==================== SINCRONIZAR COMANDA COM AGENDAMENTO (CORRIGIDA) ====================
 
 async function sincronizarComandaComAgendamento(comandaId, comandaData) {
-    if (!comandaData.agendamentoId) return;
+    // ✅ SÓ SINCRONIZA SE A COMANDA FOI FINALIZADA
+    if (comandaData.status !== "finalizada" && comandaData.status !== "concluido") {
+        console.log(`⏭️ Comanda ${comandaId} não finalizada (status: ${comandaData.status}), pulando sincronização`);
+        return false;
+    }
+    
+    if (!comandaData.agendamentoId) {
+        console.log(`⏭️ Comanda ${comandaId} sem agendamentoId, pulando`);
+        return false;
+    }
 
     try {
         const agendamentoRef = doc(db, "agendamentos", comandaData.agendamentoId);
@@ -693,19 +703,29 @@ async function sincronizarComandaComAgendamento(comandaId, comandaData) {
         if (agendamentoDoc.exists()) {
             const agendamentoAtual = agendamentoDoc.data();
 
-            const precisaAtualizar = JSON.stringify(agendamentoAtual.servicos) !== JSON.stringify(comandaData.servicos) ||
-                JSON.stringify(agendamentoAtual.pacotes) !== JSON.stringify(comandaData.pacotes) ||
-                agendamentoAtual.total !== comandaData.total;
+            // Só atualiza se o agendamento NÃO estiver concluído
+            if (agendamentoAtual.status === "concluido") {
+                console.log(`⏭️ Agendamento ${comandaData.agendamentoId} já está concluído, pulando`);
+                return false;
+            }
+
+            const precisaAtualizar = 
+                JSON.stringify(agendamentoAtual.servicos || []) !== JSON.stringify(comandaData.servicos || []) ||
+                JSON.stringify(agendamentoAtual.pacotes || []) !== JSON.stringify(comandaData.pacotes || []) ||
+                agendamentoAtual.valor !== comandaData.total;
 
             if (precisaAtualizar) {
                 await updateDoc(agendamentoRef, {
+                    status: "concluido",
+                    dataConclusao: Timestamp.now(),
                     servicos: comandaData.servicos || [],
                     pacotes: comandaData.pacotes || [],
+                    produtos: comandaData.produtos || [],
                     valor: comandaData.total,
                     total: comandaData.total,
                     atualizadoEm: Timestamp.now()
                 });
-                console.log(`✅ Agendamento ${comandaData.agendamentoId} atualizado via comanda`);
+                console.log(`✅ Agendamento ${comandaData.agendamentoId} concluído via comanda ${comandaId}`);
                 return true;
             }
         }
@@ -716,26 +736,31 @@ async function sincronizarComandaComAgendamento(comandaId, comandaData) {
     }
 }
 
-// ==================== LISTENER DE COMANDAS ====================
+// ==================== LISTENER DE COMANDAS (CORRIGIDO) ====================
 
 function iniciarListenerComandas() {
     if (unsubscribeComandas) unsubscribeComandas();
 
     unsubscribeComandas = onSnapshot(collection(db, "comandas"), async (snapshot) => {
-        let precisaAtualizar = false;
-
         for (const change of snapshot.docChanges()) {
             const comandaData = { id: change.doc.id, ...change.doc.data() };
 
-            if (change.type === "modified") {
+            // ✅ VERIFICA SE JÁ FOI SINCRONIZADO
+            if (change.type === "modified" && 
+                (comandaData.status === "finalizada" || comandaData.status === "concluido") && 
+                !comandaData.sincronizadoComAgenda) {
+                
+                console.log(`🔄 Comanda ${change.doc.id} finalizada, sincronizando com agenda...`);
                 const atualizado = await sincronizarComandaComAgendamento(change.doc.id, comandaData);
-                if (atualizado) precisaAtualizar = true;
+                
+                if (atualizado) {
+                    await updateDoc(doc(db, "comandas", change.doc.id), {
+                        sincronizadoComAgenda: true,
+                        dataSincronizacao: Timestamp.now()
+                    });
+                    console.log(`✅ Comanda ${change.doc.id} marcada como sincronizada`);
+                }
             }
-        }
-
-        if (precisaAtualizar && typeof aplicarFiltro === 'function') {
-            console.log("🔄 Atualizando agenda devido a mudanças na comanda...");
-            aplicarFiltro();
         }
     }, (error) => {
         console.error("Erro no listener de comandas:", error);
@@ -871,7 +896,8 @@ async function criarComandaDoAgendamento(agendamento) {
             horarioAgendamento: agendamento.horario,
             dataCriacao: Timestamp.now(),
             updatedAt: Timestamp.now(),
-            origem: "agendamento"
+            origem: "agendamento",
+            sincronizadoComAgenda: false
         };
 
         const comandaRef = await addDoc(collection(db, "comandas"), comandaData);
@@ -1041,9 +1067,11 @@ async function concluirAgendamento(id, agendamento) {
             await updateDoc(doc(db, "comandas", comandaId), {
                 status: "finalizada",
                 dataFinalizacao: Timestamp.now(),
-                updatedAt: Timestamp.now()
+                updatedAt: Timestamp.now(),
+                sincronizadoComAgenda: true,
+                dataSincronizacao: Timestamp.now()
             });
-            console.log(`✅ Comanda ${comandaId} atualizada para status "finalizada"`);
+            console.log(`✅ Comanda ${comandaId} atualizada para status "finalizada" e marcada como sincronizada`);
         } else {
             console.log("⚠️ Nenhuma comanda encontrada para este agendamento");
         }
@@ -1110,7 +1138,7 @@ async function concluirAgendamento(id, agendamento) {
             console.error("❌ Erro ao criar avaliação:", error);
         }
         
-        const baseUrl = "https://studionogueira.vercel.app";
+        const baseUrl = "https://alphabarbershop.vercel.app";
         const clienteEncoded = encodeURIComponent(nomeCliente);
         const servicoEncoded = encodeURIComponent(servicoNome);
         const avaliacaoUrl = `${baseUrl}/avaliacao.html?agendamentoId=${id}&cliente=${clienteEncoded}&servico=${servicoEncoded}`;
@@ -1132,7 +1160,7 @@ async function concluirAgendamento(id, agendamento) {
         if (telefone) {
             const telefoneLimpo = telefone.toString().replace(/\D/g, "");
             if (telefoneLimpo.length >= 10 && telefoneLimpo.length <= 11) {
-                const mensagem = `*🏢 STUDIO NOGUEIRA* - *ATENDIMENTO REALIZADO!* ✅\n\nOlá, *${nomeCliente}*!\n\nSeu atendimento foi *REALIZADO COM SUCESSO*! ✂️💈\n\n👨‍🦱 *Barbeiro:* ${profissionalNome}\n✂️ *Serviço:* ${servicoNome}\n💰 *Valor:* ${formatarMoeda(valorTotal)}\n\n⭐ *AVALIE NOSSO ATENDIMENTO!* ⭐\nSua opinião é muito importante para nós!\n🔗 ${avaliacaoUrl}\n\n💝 *Programa Fidelidade:* Acumule pontos e ganhe recompensas!\n\n*Studio Nogueira* - Mais de 10 anos transformando estilos. ✂️💈`;
+                const mensagem = `*🏢 ALPHA BARBERSHOP* - *ATENDIMENTO REALIZADO!* ✅\n\nOlá, *${nomeCliente}*!\n\nSeu atendimento foi *REALIZADO COM SUCESSO*! ✂️💈\n\n👨‍🦱 *Barbeiro:* ${profissionalNome}\n✂️ *Serviço:* ${servicoNome}\n💰 *Valor:* ${formatarMoeda(valorTotal)}\n\n⭐ *AVALIE NOSSO ATENDIMENTO!* ⭐\nSua opinião é muito importante para nós!\n🔗 ${avaliacaoUrl}\n\n💝 *Programa Fidelidade:* Acumule pontos e ganhe recompensas!\n\n*Alpha BarberShop* - Mais que corte. Ritual do Reflexo ✂️💈`;
                 
                 window.open(`https://wa.me/55${telefoneLimpo}?text=${encodeURIComponent(mensagem)}`, '_blank');
                 mostrarToast(`🎉 Atendimento concluído! Link de avaliação enviado para o cliente.`, "sucesso");
@@ -1707,7 +1735,7 @@ function renderizarListaEspera() {
                     return;
                 }
                 
-                const mensagem = `🏢 STUDIO NOGUEIRA\n\nOlá, *${nome}*! 🎉\n\nUma vaga foi liberada para *${formatarData(data)}* com o barbeiro *${profissional}*!\n\n🔗 Agende agora: https://studionogueira.vercel.app/agendamento.html\n\n⏱️ Você tem 15 minutos para confirmar a vaga.\n\n*Studio Nogueira* - Mais de 10 anos transformando estilos. ✂️💈`;
+                const mensagem = `🏢 ALPHA BARBERSHOP\n\nOlá, *${nome}*! 🎉\n\nUma vaga foi liberada para *${formatarData(data)}* com o barbeiro *${profissional}*!\n\n🔗 Agende agora: https://alphabarbershop.vercel.app/agendamento.html\n\n⏱️ Você tem 15 minutos para confirmar a vaga.\n\n*Alpha BarberShop* - Mais que corte. Ritual do Reflexo ✂️💈`;
                 
                 window.open(`https://wa.me/${telefoneLimpo}?text=${encodeURIComponent(mensagem)}`, '_blank');
                 
@@ -1758,7 +1786,7 @@ function renderizarListaEspera() {
                     <i class="fa-solid fa-lightbulb"></i>
                     Crie o índice necessário clicando no link abaixo:
                 </p>
-                <a href="https://console.firebase.google.com/v1/r/project/studio-nogueira-e07bb/firestore/indexes?create_composite=Clhwcm9qZWN0cy9zdHVkaW8tbm9ndWVpcmEtZTA3YmIvZGF0YWJhc2VzLyhkZWZhdWx0KS9jb2xsZWN0aW9uR3JvdXBzL2xpc3RhX2VzcGVyYS9pbmRleGVzL18QARoKCgZzdGF0dXMQA RoPCgtkYXRhRW50cmFkYREBGgwKCF9fbmFtZV9fEAE" 
+                <a href="https://console.firebase.google.com/v1/r/project/alpha-barbershop-e07bb/firestore/indexes?create_composite=Clhwcm9qZWN0cy9zdHVkaW8tbm9ndWVpcmEtZTA3YmIvZGF0YWJhc2VzLyhkZWZhdWx0KS9jb2xsZWN0aW9uR3JvdXBzL2xpc3RhX2VzcGVyYS9pbmRleGVzL18QARoKCgZzdGF0dXMQA RoPCgtkYXRhRW50cmFkYREBGgwKCF9fbmFtZV9fEAE" 
                    target="_blank" style="color: #2199EF; text-decoration: underline;">
                     🔗 Criar índice para lista_espera
                 </a>
@@ -1820,7 +1848,7 @@ function iniciarDetectorHorariosLiberados() {
                             
                             const telefoneLimpo = limparTelefone(primeiro.telefone);
                             if (telefoneLimpo) {
-                                const mensagem = `🏢 STUDIO NOGUEIRA\n\nOlá, *${primeiro.clienteNome}*! 🎉\n\nUma vaga foi liberada para *${formatarData(newData.data)}* às *${newData.horario}* com o barbeiro *${newData.profissional}*!\n\n🔗 Agende agora: https://studionogueira.vercel.app/agendamento.html?profissionalId=${newData.profissionalId}&data=${newData.data}\n\n⏱️ Você tem 15 minutos para confirmar a vaga.\n\n*Studio Nogueira* - Mais de 10 anos transformando estilos. ✂️💈`;
+                                const mensagem = `🏢 ALPHA BARBERSHOP\n\nOlá, *${primeiro.clienteNome}*! 🎉\n\nUma vaga foi liberada para *${formatarData(newData.data)}* às *${newData.horario}* com o barbeiro *${newData.profissional}*!\n\n🔗 Agende agora: https://alphabarbershop.vercel.app/agendamento.html?profissionalId=${newData.profissionalId}&data=${newData.data}\n\n⏱️ Você tem 15 minutos para confirmar a vaga.\n\n*Alpha BarberShop* - Mais que corte. Ritual do Reflexo ✂️💈`;
                                 
                                 window.open(`https://wa.me/${telefoneLimpo}?text=${encodeURIComponent(mensagem)}`, '_blank');
                                 
@@ -1864,6 +1892,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("📅 Agenda.js iniciado - Versão com LEMBRETES WHATSAPP, LAYOUT HORIZONTAL E DIA DA SEMANA CORRIGIDO");
     console.log("ℹ️ Botões 'Ausente' e 'Cancelar' removidos - gestão apenas na comanda");
     console.log("⏳ LISTA DE ESPERA integrada - SEM ÍNDICES COMPOSTOS!");
+    console.log("🔒 CORREÇÃO v3: Sincronização de comandas apenas quando finalizadas");
     
     if (dataInicio) dataInicio.value = '';
     if (dataFim) dataFim.value = '';
@@ -1911,3 +1940,4 @@ if (logoutBtn) logoutBtn.onclick = async () => { await signOut(auth); window.loc
 
 console.log("✅ Agenda.js carregado - Layout horizontal em tabela com dia da semana corrigido!");
 console.log("✅ Lista de Espera integrada com notificação automática - SEM ÍNDICES COMPOSTOS!");
+console.log("✅ CORREÇÃO: Comandas só sincronizam com agenda quando finalizadas!");

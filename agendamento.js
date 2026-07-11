@@ -1,7 +1,8 @@
-// agendamento.js - Versão CORRIGIDA com VERIFICAÇÃO DE HORÁRIOS LIBERADOS
+// agendamento.js - Versão CORRIGIDA com HORÁRIOS DINÂMICOS DO FIREBASE
 // Agendamentos com status CANCELADO ou AUSENTE ou horarioLiberado=true NÃO bloqueiam mais os horários
 // CORREÇÃO: Agendamentos CONFIRMADOS e CONCLUIDOS ocupam horário (pagamento finalizado)
 // NOVIDADE: Lista de Espera integrada com botão e modais
+// 🆕 HORÁRIOS DINÂMICOS: Sincronizados com as configurações do admin
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { 
@@ -72,31 +73,20 @@ const listaProfissionalDisplay = document.getElementById("listaProfissionalDispl
 const listaServicosDisplay = document.getElementById("listaServicosDisplay");
 const listaClienteDisplay = document.getElementById("listaClienteDisplay");
 
-// Variáveis de controle
-let clienteSelecionadoParaAgendamento = null;
-let agendamentoEmAndamento = false;
+// ==================== HORÁRIOS DINÂMICOS ====================
 
-// ==================== HORÁRIOS POR DIA DA SEMANA ====================
-const horariosSegundaQuarta = [
-    "08:20", "09:00", "09:40", "10:20", "11:00", "11:40",
-    "14:00", "14:40", "15:20", "16:00", "16:40", "17:20", "18:00", "18:40"
-];
-
-const horariosQuintaSabado = [
-    "08:00", "08:40", "09:20", "10:00", "10:40",
-    "14:00", "14:40", "15:20", "16:00", "17:20", "18:00", "18:40"
-];
-
+let intervaloConfigurado = 10;
+let horarioAbertura = "09:00";
+let horarioFechamento = "20:00";
+let horariosDisponiveis = [];
 const HORARIO_LIMITE = "20:00";
 
-let camposPreenchidos = { nome: false, telefone: false, profissional: false, data: false, servicos: false };
-let usuarioAutenticado = false;
-let servicosDisponiveis = [];
-let pacoteAtual = null;
+function validarHorario(horario) {
+    const regex = /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/;
+    return regex.test(horario);
+}
 
-// ==================== FUNÇÕES DE UTILIDADE ====================
-
-function horarioParaMinutos(horario) {
+function converterHorarioParaMinutos(horario) {
     if (!horario) return 0;
     const [horas, minutos] = horario.split(':').map(Number);
     return horas * 60 + minutos;
@@ -106,6 +96,124 @@ function minutosParaHorario(minutos) {
     const horas = Math.floor(minutos / 60);
     const mins = minutos % 60;
     return `${String(horas).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
+}
+
+function gerarHorariosDinamicos(intervalo, abertura, fechamento) {
+    const horarios = [];
+    const inicio = converterHorarioParaMinutos(abertura);
+    const fim = converterHorarioParaMinutos(fechamento);
+    
+    if (inicio >= fim) {
+        console.warn(`⚠️ Horário de abertura (${abertura}) deve ser menor que fechamento (${fechamento})`);
+        return [];
+    }
+    
+    for (let i = inicio; i < fim; i += intervalo) {
+        horarios.push(minutosParaHorario(i));
+    }
+    
+    return horarios;
+}
+
+async function carregarConfiguracoesHorarios() {
+    try {
+        const configRef = doc(db, "configuracoes", "horarios");
+        const configSnap = await getDoc(configRef);
+        
+        let alterado = false;
+        
+        if (configSnap.exists()) {
+            const data = configSnap.data();
+            
+            // Carregar horário de abertura e fechamento
+            if (data.semana) {
+                const partes = data.semana.split('-').map(s => s.trim());
+                if (partes.length === 2) {
+                    const abertura = partes[0];
+                    const fechamento = partes[1];
+                    
+                    if (validarHorario(abertura) && validarHorario(fechamento)) {
+                        if (horarioAbertura !== abertura || horarioFechamento !== fechamento) {
+                            horarioAbertura = abertura;
+                            horarioFechamento = fechamento;
+                            alterado = true;
+                            console.log(`📋 Horário de funcionamento carregado: ${horarioAbertura} - ${horarioFechamento}`);
+                        }
+                    }
+                }
+            }
+            
+            // Carregar intervalo
+            if (data.intervalo && data.intervalo !== intervaloConfigurado) {
+                intervaloConfigurado = data.intervalo;
+                alterado = true;
+                console.log(`📋 Intervalo carregado: ${intervaloConfigurado} minutos`);
+            }
+        }
+        
+        if (alterado) {
+            horariosDisponiveis = gerarHorariosDinamicos(intervaloConfigurado, horarioAbertura, horarioFechamento);
+            console.log(`📋 Horários gerados: ${horariosDisponiveis.length} horários (${horarioAbertura} - ${horarioFechamento})`);
+        } else if (horariosDisponiveis.length === 0) {
+            horariosDisponiveis = gerarHorariosDinamicos(intervaloConfigurado, horarioAbertura, horarioFechamento);
+        }
+        
+        return true;
+        
+    } catch (error) {
+        console.error("Erro ao carregar configurações de horário:", error);
+        horariosDisponiveis = gerarHorariosDinamicos(intervaloConfigurado, horarioAbertura, horarioFechamento);
+        return false;
+    }
+}
+
+// Escutar mudanças nas configurações de horário
+window.addEventListener('configuracoesHorariosAlteradas', (event) => {
+    console.log(`🔄 Configurações de horário alteradas no agendamento:`, event.detail);
+    
+    let alterado = false;
+    
+    if (event.detail.abertura && event.detail.abertura !== horarioAbertura) {
+        horarioAbertura = event.detail.abertura;
+        alterado = true;
+    }
+    if (event.detail.fechamento && event.detail.fechamento !== horarioFechamento) {
+        horarioFechamento = event.detail.fechamento;
+        alterado = true;
+    }
+    if (event.detail.intervalo && event.detail.intervalo !== intervaloConfigurado) {
+        intervaloConfigurado = event.detail.intervalo;
+        alterado = true;
+    }
+    
+    if (alterado) {
+        horariosDisponiveis = gerarHorariosDinamicos(intervaloConfigurado, horarioAbertura, horarioFechamento);
+        console.log(`📋 Horários atualizados: ${horariosDisponiveis.length} horários`);
+        // Recarregar horários se a data já estiver selecionada
+        if (verificarCamposPreenchidos()) {
+            atualizarHorarios();
+        }
+    }
+});
+
+// Escutar mudanças no intervalo
+window.addEventListener('intervaloAlterado', (event) => {
+    console.log(`🔄 Intervalo alterado no agendamento: ${event.detail.intervalo} minutos`);
+    if (event.detail.intervalo !== intervaloConfigurado) {
+        intervaloConfigurado = event.detail.intervalo;
+        horariosDisponiveis = gerarHorariosDinamicos(intervaloConfigurado, horarioAbertura, horarioFechamento);
+        if (verificarCamposPreenchidos()) {
+            atualizarHorarios();
+        }
+    }
+});
+
+// ==================== FUNÇÕES DE UTILIDADE ====================
+
+function horarioParaMinutos(horario) {
+    if (!horario) return 0;
+    const [horas, minutos] = horario.split(':').map(Number);
+    return horas * 60 + minutos;
 }
 
 function calcularDuracaoTotal() {
@@ -265,6 +373,7 @@ function aplicarDescontoAniversario() {
 }
 
 // ==================== FUNÇÃO PARA BUSCAR CLIENTES POR TELEFONE ====================
+
 async function buscarTodosClientesPorTelefone(telefone) {
     if (!telefone) return [];
     
@@ -349,6 +458,7 @@ async function buscarClientePorTelefoneENome(telefone, nome) {
 }
 
 // ==================== FUNÇÃO PARA PROCESSAR CLIENTE ====================
+
 let debounceTimeout = null;
 
 async function processarTelefoneCliente(telefone) {
@@ -417,6 +527,7 @@ async function processarTelefoneCliente(telefone) {
 }
 
 // ==================== FUNÇÃO PARA BUSCAR BLOQUEIOS ====================
+
 async function buscarBloqueios(data, profissionalId = null) {
     if (!data) return [];
     
@@ -541,6 +652,7 @@ async function isHorarioBloqueado(data, horario, profissionalId) {
 }
 
 // ==================== FUNÇÃO PARA PROCESSAR SERVIÇO DA URL ====================
+
 async function processarServicoUrl() {
     const urlParams = new URLSearchParams(window.location.search);
     const servicoNome = urlParams.get('servico');
@@ -614,6 +726,7 @@ async function processarServicoUrl() {
 }
 
 // ==================== EXIBIR INFORMAÇÕES DO PACOTE ====================
+
 function exibirInfoPacote(pacote) {
     const infoPacoteDiv = document.getElementById('infoPacote');
     if (!infoPacoteDiv) return;
@@ -646,6 +759,7 @@ function exibirInfoPacote(pacote) {
 }
 
 // ==================== RECEBER PARÂMETROS DA URL ====================
+
 function getUrlParams() {
     const urlParams = new URLSearchParams(window.location.search);
     return {
@@ -825,6 +939,7 @@ function processarParametrosProfissional() {
 }
 
 // ==================== CARREGAR SERVIÇOS ====================
+
 async function carregarServicosFirebase() {
     try {
         const servicosRef = collection(db, "servicos");
@@ -893,6 +1008,7 @@ async function carregarProfissionais() {
 }
 
 // ==================== FUNÇÕES DE SERVIÇOS ====================
+
 function recriarSelectsServicos() {
     document.querySelectorAll('.servico-item .servico-select').forEach(select => {
         popularSelectServico(select);
@@ -1023,6 +1139,7 @@ function configurarEventosServicos() {
 }
 
 // ==================== FUNÇÃO DE CLIENTE ====================
+
 async function salvarOuAtualizarCliente(dadosCliente) {
     try {
         const { nome, telefone, email, dataNascimento } = dadosCliente;
@@ -1122,6 +1239,7 @@ async function salvarOuAtualizarCliente(dadosCliente) {
 }
 
 // ==================== FUNÇÕES DE AGENDAMENTO ====================
+
 function mostrarMensagem(texto, tipo = 'sucesso') {
     if (!mensagemDiv) return;
     mensagemDiv.textContent = texto;
@@ -1141,27 +1259,25 @@ function getNomeDiaSemana(dataStr) {
     return dias[getDiaSemana(dataStr)];
 }
 
+// ==================== FUNÇÃO GET HORÁRIOS POR DIA (CORRIGIDA) ====================
+
 function getHorariosPorDia(dataStr) {
     const diaSemana = getDiaSemana(dataStr);
     
-    if (diaSemana >= 1 && diaSemana <= 3) {
-        return { 
-            horarios: horariosSegundaQuarta,
-            descricao: "Segunda à Quarta"
-        };
-    }
-    else if (diaSemana >= 4 && diaSemana <= 6) {
-        return { 
-            horarios: horariosQuintaSabado,
-            descricao: "Quinta à Sábado"
-        };
-    }
-    else {
+    if (diaSemana === 0) {
         return { 
             horarios: [],
-            descricao: "Domingo"
+            descricao: "Domingo - Fechado",
+            temAtendimento: false
         };
     }
+    
+    // Usa os horários dinâmicos carregados do Firebase
+    return { 
+        horarios: [...horariosDisponiveis],
+        descricao: `Segunda à Sábado (${horarioAbertura} - ${horarioFechamento})`,
+        temAtendimento: true
+    };
 }
 
 function getInfoAtendimentoPorDia(dataStr) {
@@ -1174,12 +1290,11 @@ function getInfoAtendimentoPorDia(dataStr) {
         };
     }
     
-    const horariosInfo = getHorariosPorDia(dataStr);
-    
+    // Usa os horários dinâmicos
     return { 
         temAtendimento: true, 
-        horarios: horariosInfo.horarios,
-        mensagem: `Horários - ${horariosInfo.descricao}`
+        horarios: [...horariosDisponiveis],
+        mensagem: `Horários - Segunda à Sábado (${horarioAbertura} - ${horarioFechamento})`
     };
 }
 
@@ -1335,6 +1450,7 @@ function adicionarEventoBotaoListaEspera() {
 }
 
 // ==================== ATUALIZAR HORÁRIOS (CORRIGIDO) ====================
+
 async function atualizarHorarios() {
     const data = dataInput.value;
     const profissionalId = profissionalSelect?.value;
@@ -1466,18 +1582,21 @@ async function atualizarHorarios() {
         
         console.log(`📊 Horários efetivamente ocupados: ${horariosOcupados.length}`);
         
-        const limiteMinutos = horarioParaMinutos(HORARIO_LIMITE);
-        const horariosDisponiveis = [];
+        const limiteMinutos = converterHorarioParaMinutos(HORARIO_LIMITE);
+        const horariosDisponiveisFiltrados = [];
         const horariosIndisponiveis = [];
         
-        for (const horarioBase of infoAtendimento.horarios) {
+        // Usa os horários dinâmicos
+        const horariosDoDia = infoAtendimento.horarios;
+        
+        for (const horarioBase of horariosDoDia) {
             if (horariosBloqueadosManualmente.has(horarioBase)) {
                 console.log(`   🔒 BLOQUEADO (manual): ${horarioBase}`);
                 horariosIndisponiveis.push(horarioBase);
                 continue;
             }
             
-            const inicioMinutos = horarioParaMinutos(horarioBase);
+            const inicioMinutos = converterHorarioParaMinutos(horarioBase);
             const fimMinutos = inicioMinutos + duracaoTotal;
             
             if (fimMinutos > limiteMinutos) {
@@ -1487,7 +1606,7 @@ async function atualizarHorarios() {
             
             let conflito = false;
             for (const ocupado of horariosOcupados) {
-                const ocupadoInicio = horarioParaMinutos(ocupado.horario);
+                const ocupadoInicio = converterHorarioParaMinutos(ocupado.horario);
                 const ocupadoFim = ocupadoInicio + (ocupado.duracaoTotal || 60);
                 if (inicioMinutos < ocupadoFim && fimMinutos > ocupadoInicio) {
                     conflito = true;
@@ -1498,15 +1617,15 @@ async function atualizarHorarios() {
             if (conflito) {
                 horariosIndisponiveis.push(horarioBase);
             } else {
-                horariosDisponiveis.push(horarioBase);
+                horariosDisponiveisFiltrados.push(horarioBase);
             }
         }
         
-        console.log(`✅ Horários disponíveis: ${horariosDisponiveis.length}`);
-        console.log(`   Disponíveis: ${horariosDisponiveis.join(', ')}`);
+        console.log(`✅ Horários disponíveis: ${horariosDisponiveisFiltrados.length}`);
+        console.log(`   Disponíveis: ${horariosDisponiveisFiltrados.join(', ')}`);
         console.log(`   Indisponíveis: ${horariosIndisponiveis.join(', ')}`);
         
-        renderizarHorarios(horariosDisponiveis, horariosIndisponiveis, infoAtendimento, duracaoTotal);
+        renderizarHorarios(horariosDisponiveisFiltrados, horariosIndisponiveis, infoAtendimento, duracaoTotal);
         
     } catch (error) {
         console.error("❌ Erro ao buscar horários:", error);
@@ -1515,7 +1634,8 @@ async function atualizarHorarios() {
 }
 
 // ==================== RENDERIZAR HORÁRIOS (CORRIGIDO COM BOTÃO LISTA DE ESPERA) ====================
-function renderizarHorarios(horariosDisponiveis = [], horariosIndisponiveis = [], infoAtendimento, duracaoTotal) {
+
+function renderizarHorarios(horariosDisponiveisFiltrados = [], horariosIndisponiveis = [], infoAtendimento, duracaoTotal) {
     const nomeDia = getNomeDiaSemana(dataInput.value);
     
     horariosDiv.innerHTML = '';
@@ -1535,7 +1655,7 @@ function renderizarHorarios(horariosDisponiveis = [], horariosIndisponiveis = []
     horariosDiv.appendChild(infoHeader);
     
     // ========== CORREÇÃO: BOTÃO DA LISTA DE ESPERA QUANDO NÃO HÁ HORÁRIOS ==========
-    if (horariosDisponiveis.length === 0) {
+    if (horariosDisponiveisFiltrados.length === 0) {
         const avisoDiv = document.createElement('div');
         avisoDiv.className = 'aviso-campos';
         avisoDiv.innerHTML = `
@@ -1563,7 +1683,7 @@ function renderizarHorarios(horariosDisponiveis = [], horariosIndisponiveis = []
     const containerBotoes = document.createElement('div');
     containerBotoes.className = 'botoes-horarios';
     
-    horariosDisponiveis.forEach(hora => {
+    horariosDisponiveisFiltrados.forEach(hora => {
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "horario-btn";
@@ -1620,9 +1740,11 @@ async function criarComanda(agendamentoId, dadosAgendamento) {
 }
 
 // ==================== AUTENTICAÇÃO ====================
+
 function autenticar(tentativa = 1) {
     signInAnonymously(auth).then(async () => {
         usuarioAutenticado = true;
+        await carregarConfiguracoesHorarios();
         await carregarProfissionais();
         await carregarServicosFirebase();
         verificarCamposPreenchidos();
@@ -1637,11 +1759,21 @@ autenticar();
 onAuthStateChanged(auth, async (user) => {
     if (user && !usuarioAutenticado) {
         usuarioAutenticado = true;
+        await carregarConfiguracoesHorarios();
         await carregarProfissionais();
         await carregarServicosFirebase();
         verificarCamposPreenchidos();
     }
 });
+
+// ==================== VARIÁVEIS DE CONTROLE ====================
+
+let clienteSelecionadoParaAgendamento = null;
+let agendamentoEmAndamento = false;
+let camposPreenchidos = { nome: false, telefone: false, profissional: false, data: false, servicos: false };
+let usuarioAutenticado = false;
+let servicosDisponiveis = [];
+let pacoteAtual = null;
 
 // ==================== EVENTOS DA LISTA DE ESPERA ====================
 
@@ -1746,6 +1878,7 @@ window.addEventListener("click", (e) => {
 });
 
 // ==================== SUBMIT DO FORMULÁRIO ====================
+
 if (form) {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -1877,7 +2010,7 @@ if (form) {
         if (!data) { mostrarMensagem("Selecione uma data.", "erro"); return; }
         if (!horario) { mostrarMensagem("Selecione um horário.", "erro"); return; }
         
-        const inicioMinutos = horarioParaMinutos(horario);
+        const inicioMinutos = converterHorarioParaMinutos(horario);
         const fimMinutos = inicioMinutos + duracaoTotal;
         const horarioFim = minutosParaHorario(fimMinutos);
         
@@ -1953,6 +2086,7 @@ if (form) {
 }
 
 // ==================== EVENT LISTENERS ====================
+
 if (nomeInput) nomeInput.addEventListener('input', verificarCamposPreenchidos);
 if (profissionalSelect) profissionalSelect.addEventListener('change', () => {
     horarioHidden.value = '';
@@ -2013,6 +2147,7 @@ configurarEventosServicos();
 calcularValorTotal();
 
 // ==================== LISTENERS PARA HORÁRIOS LIBERADOS ====================
+
 window.recarregarHorariosDisponiveis = function(data, profissionalId) {
     console.log("🔄 Agenda: Recarregando horários para:", data, profissionalId);
     
@@ -2096,8 +2231,7 @@ document.addEventListener('visibilitychange', () => {
 });
 
 console.log("✅ agendamento.js carregado com sucesso!");
-console.log("📋 Horários Segunda à Quarta:", horariosSegundaQuarta);
-console.log("📋 Horários Quinta à Sábado:", horariosQuintaSabado);
+console.log(`📋 Horários dinâmicos: ${horariosDisponiveis.length} horários (${horarioAbertura} - ${horarioFechamento})`);
 console.log("🔒 Sistema de bloqueios integrado!");
 console.log("👨‍👦 MODAL para seleção de múltiplos clientes com mesmo telefone!");
 console.log("✅ FILTRO DE HORÁRIOS: Ignora agendamentos com status ausente/cancelado/aguardando_pagamento/pendente!");
@@ -2105,3 +2239,4 @@ console.log("🔓 HORÁRIOS LIBERADOS: Agendamentos com horarioLiberado=true NÃ
 console.log("✅ APENAS agendamentos CONFIRMADOS e CONCLUIDOS (pagamento finalizado) ocupam horário!");
 console.log("⏳ LISTA DE ESPERA: Funcionalidade integrada com botão e modais!");
 console.log("🔄 Função forcarRecarregamentoHorarios() disponível para debug!");
+console.log("🎯 HORÁRIOS SINCronIZADOS com as configurações do admin!");

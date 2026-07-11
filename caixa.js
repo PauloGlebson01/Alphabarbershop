@@ -306,7 +306,7 @@ function carregarMovimentacoes() {
             });
             console.log(`✅ ${movimentacoes.length} movimentações carregadas`);
             
-            // ✅ CORREÇÃO: Aplicar filtro padrão para mostrar apenas o dia atual
+            // Aplicar filtro padrão para mostrar apenas o dia atual
             aplicarFiltrosPadrao();
             atualizarEstatisticas();
         }, (error) => {
@@ -325,7 +325,7 @@ function carregarMovimentacoes() {
     }
 }
 
-// ✅ NOVA FUNÇÃO: Aplicar filtro padrão (apenas o dia atual)
+// FUNÇÃO: Aplicar filtro padrão (apenas o dia atual)
 function aplicarFiltrosPadrao() {
     const hoje = new Date().toISOString().split('T')[0];
     
@@ -1403,7 +1403,8 @@ async function finalizarAtendimento() {
                 observacoes: observacoes,
                 status: "finalizada",
                 dataFinalizacao: Timestamp.now(),
-                updatedAt: Timestamp.now()
+                updatedAt: Timestamp.now(),
+                sincronizadoComAgenda: false
             };
             
             await updateDoc(doc(db, "comandas", comandaExistente.id), comandaUpdateData);
@@ -1430,6 +1431,13 @@ async function finalizarAtendimento() {
                                 parcelas: formaPagamento === 'cartao_credito' ? parcelas : 1
                             });
                             console.log(`✅ Agendamento ${agendamentoId} atualizado para status "concluido"`);
+                            
+                            // ✅ MARCA COMANDA COMO SINCRONIZADA
+                            await updateDoc(doc(db, "comandas", comandaExistente.id), {
+                                sincronizadoComAgenda: true,
+                                dataSincronizacao: Timestamp.now()
+                            });
+                            console.log(`✅ Comanda ${comandaExistente.id} marcada como sincronizada`);
                             
                             // Disparar evento para atualizar a agenda
                             const event = new CustomEvent('agendaAtualizada', { 
@@ -2041,7 +2049,7 @@ function limparFiltros() {
     if (filterCategoria) filterCategoria.value = '';
     filtrosAtivos = { dataInicio: null, dataFim: null, tipo: null, categoria: null };
     
-    // ✅ CORREÇÃO: Ao limpar os filtros, voltar a mostrar apenas o dia atual
+    // Ao limpar os filtros, voltar a mostrar apenas o dia atual
     const hoje = new Date().toISOString().split('T')[0];
     filtrosAtivos.dataInicio = hoje;
     filtrosAtivos.dataFim = hoje;

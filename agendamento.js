@@ -3,6 +3,7 @@
 // CORREÇÃO: Agendamentos CONFIRMADOS e CONCLUIDOS ocupam horário (pagamento finalizado)
 // NOVIDADE: Lista de Espera integrada com botão e modais
 // 🆕 HORÁRIOS DINÂMICOS: Sincronizados com as configurações do admin
+// 🔧 CORREÇÃO v2: Verificação de horários ocupados aprimorada
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { 
@@ -2240,3 +2241,4 @@ console.log("✅ APENAS agendamentos CONFIRMADOS e CONCLUIDOS (pagamento finaliz
 console.log("⏳ LISTA DE ESPERA: Funcionalidade integrada com botão e modais!");
 console.log("🔄 Função forcarRecarregamentoHorarios() disponível para debug!");
 console.log("🎯 HORÁRIOS SINCronIZADOS com as configurações do admin!");
+console.log("🔧 CORREÇÃO v2: Verificação de horários ocupados aprimorada!");
